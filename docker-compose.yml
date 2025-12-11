@@ -1,0 +1,102 @@
+services:
+  # FastAPI 애플리케이션
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: wsoptv-v2-app
+    ports:
+      - "8002:8000"
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - DATABASE_URL=postgresql://wsoptv:wsoptv@postgres:5432/wsoptv
+      - MEILISEARCH_URL=http://meilisearch:7700
+      - MEILISEARCH_API_KEY=masterKey
+      - NAS_MOUNT_PATH=/mnt/nas
+      - SSD_CACHE_PATH=/mnt/ssd
+    volumes:
+      - ./src:/app/src:ro
+      - wsoptv-v2-nas-data:/mnt/nas
+      - wsoptv-v2-ssd-cache:/mnt/ssd
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      meilisearch:
+        condition: service_started
+    networks:
+      - wsoptv-v2-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Redis - L1 Cache
+  redis:
+    image: redis:7-alpine
+    container_name: wsoptv-v2-redis
+    ports:
+      - "6380:6379"
+    volumes:
+      - wsoptv-v2-redis-data:/data
+    networks:
+      - wsoptv-v2-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+
+  # PostgreSQL - 메타데이터 저장소
+  postgres:
+    image: postgres:16-alpine
+    container_name: wsoptv-v2-postgres
+    ports:
+      - "5434:5432"
+    environment:
+      - POSTGRES_USER=wsoptv
+      - POSTGRES_PASSWORD=wsoptv
+      - POSTGRES_DB=wsoptv
+    volumes:
+      - wsoptv-v2-postgres-data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    networks:
+      - wsoptv-v2-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U wsoptv -d wsoptv"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # MeiliSearch - 검색 엔진
+  meilisearch:
+    image: getmeili/meilisearch:v1.6
+    container_name: wsoptv-v2-meilisearch
+    ports:
+      - "7701:7700"
+    environment:
+      - MEILI_MASTER_KEY=masterKey
+      - MEILI_ENV=development
+    volumes:
+      - wsoptv-v2-meilisearch-data:/meili_data
+    networks:
+      - wsoptv-v2-network
+    restart: unless-stopped
+
+networks:
+  wsoptv-v2-network:
+    driver: bridge
+
+volumes:
+  wsoptv-v2-redis-data:
+  wsoptv-v2-postgres-data:
+  wsoptv-v2-meilisearch-data:
+  wsoptv-v2-nas-data:
+  wsoptv-v2-ssd-cache:
