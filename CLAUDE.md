@@ -10,95 +10,99 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **GitHub**: https://github.com/garimto81/wsoptv_v2
 
-**Last Commit**: `def1c47` (2024-12-11)
-
 | Layer | Technology |
 |-------|------------|
-| Frontend | Next.js 14, TypeScript, Tailwind CSS |
-| Backend | FastAPI, Python 3.12 |
-| Database | PostgreSQL 16 (Docker: port 5435) |
+| Frontend | Next.js 14, TypeScript, Tailwind CSS, shadcn/ui |
+| Backend | FastAPI, Python 3.12, Block Architecture |
+| Database | PostgreSQL 16 (Docker: port 5434) |
 | Cache | Redis 7 (L1), Local SSD (L2) |
+| Search | MeiliSearch v1.6 |
 | Storage | NAS (SMB, `10.10.100.122`) |
-
----
-
-## Session Resume - 다음 세션에서 이어갈 작업
-
-### 현재 상태 (2024-12-11)
-
-**완료된 작업:**
-- Netflix 스타일 다크 테마 UI 구현
-- Auth 시스템 (로그인/회원가입)
-- Catalog 페이지 (카테고리 필터: WSOP, HCL, GGMillions, GOG, MPP, PAD)
-- Video Player (진행률 추적)
-- Docker 설정 완료
-- Git 초기 커밋 및 GitHub 푸시 완료
-
-**해결 필요한 이슈:**
-
-| 이슈 | 상태 | 설명 |
-|------|------|------|
-| CORS 에러 | **미해결** | Catalog 페이지에서 "Failed to load video catalog" 에러 |
-| | | OPTIONS 요청이 400 Bad Request 반환 |
-| | | 백엔드 CORS 미들웨어 수정 필요 |
-
-### CORS 에러 해결 방법
-
-**문제 위치**: `D:\AI\claude01\wsoptv_v2_db\backend\src\main.py` (Docker 백엔드)
-
-**증상**:
-```
-OPTIONS /api/v1/nas/files/videos HTTP/1.1" 400 Bad Request
-```
-
-**해결 옵션**:
-1. Docker 백엔드의 CORS 설정 수정 (`allow_origins=["*"]`, `allow_methods=["*"]`)
-2. Next.js API Route로 프록시 구현 (`/api/proxy/catalog`)
-
-### 관련 파일 및 포트
-
-| 서비스 | 경로/포트 | 설명 |
-|--------|-----------|------|
-| Frontend (Dev) | `localhost:3001` (Docker) / `3000+` (Local) | Next.js |
-| Backend | `localhost:8004` | FastAPI (Docker) |
-| PostgreSQL | `localhost:5435` | Docker |
-| API URL 설정 | `frontend/.env.local` | `NEXT_PUBLIC_CATALOG_API_URL=http://localhost:8004` |
-
-### Docker 상태 확인
-
-```powershell
-# Docker 컨테이너 확인
-docker ps
-
-# 백엔드 로그 확인
-docker logs pokervod-backend -f
-
-# API 직접 테스트 (CORS 우회)
-curl http://localhost:8004/api/v1/nas/files/videos
-```
 
 ---
 
 ## Commands
 
+### Frontend (Next.js)
+
 ```powershell
-# Frontend (Next.js)
 cd D:\AI\claude01\wsoptv_v2\frontend
 npm install
 npm run dev              # Development (localhost:3000)
 npm run build            # Production build
-
-# Backend (Docker)
-cd D:\AI\claude01\wsoptv_v2_db
-docker-compose up -d     # Start all services
-docker-compose logs -f   # View logs
-
-# Screenshots (Playwright)
-cd D:\AI\claude01\wsoptv_v2\frontend
-node screenshot.mjs      # Capture UI screenshots
+npm run lint             # ESLint
 ```
 
+### Backend (Python)
+
+```powershell
+cd D:\AI\claude01\wsoptv_v2
+
+# 테스트 실행 (단일 파일)
+pytest tests/test_orchestration.py -v
+
+# 테스트 실행 (블럭별)
+pytest tests/test_blocks/test_auth_block.py -v
+
+# 린트 & 포맷
+ruff check src/ tests/
+ruff format src/ tests/
+
+# 타입 체크
+mypy src/ --ignore-missing-imports
+```
+
+### Docker (All Services)
+
+```powershell
+cd D:\AI\claude01\wsoptv_v2
+docker-compose up -d     # Start all services
+docker-compose logs -f   # View logs
+docker-compose down      # Stop all services
+```
+
+| Service | Port | Description |
+|---------|------|-------------|
+| app | 8002:8000 | FastAPI Backend |
+| redis | 6380:6379 | L1 Cache |
+| postgres | 5434:5432 | Metadata Store |
+| meilisearch | 7701:7700 | Search Engine |
+
 ## Architecture
+
+### Block Architecture (Backend)
+
+7개의 독립적인 블럭으로 구성된 마이크로서비스 아키텍처:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Orchestration Layer                       │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
+│  │ MessageBus   │  │ BlockRegistry│  │ Contract     │      │
+│  │ (Pub/Sub)    │  │ (Lifecycle)  │  │ (Validation) │      │
+│  └──────────────┘  └──────────────┘  └──────────────┘      │
+└─────────────────────────────────────────────────────────────┘
+         │                    │                    │
+┌────────┴────────┬──────────┴──────────┬────────┴────────┐
+│   Wave 1 (L0)   │    Wave 2 (L1)      │    Wave 3 (L2)  │
+│  ┌────────────┐ │ ┌────────────────┐  │ ┌────────────┐  │
+│  │    Auth    │ │ │    Content     │  │ │   Stream   │  │
+│  │   Cache    │ │ │    Search      │  │ │   Admin    │  │
+│  └────────────┘ │ │    Worker      │  │ └────────────┘  │
+│   (No deps)     │ └────────────────┘  │  (Full deps)    │
+└─────────────────┴─────────────────────┴─────────────────┘
+```
+
+**핵심 원칙:**
+- 블럭 간 직접 import 금지 → MessageBus를 통한 통신만 허용
+- 각 블럭은 `provides`/`requires` Contract로 의존성 명시
+- BlockRegistry가 의존성 순서 보장 (L0 → L1 → L2)
+
+**주요 파일:**
+- `src/orchestration/message_bus.py` - Pub/Sub 메시지 버스 (싱글톤)
+- `src/orchestration/registry.py` - 블럭 등록/헬스체크/의존성 관리
+- `src/orchestration/contract.py` - 버전 호환성/스키마 검증
+- `src/blocks/{block}/` - 각 블럭 구현 (models, service, router)
 
 ### 4-Tier Cache System
 
@@ -112,63 +116,47 @@ Request → [L1: Redis] → [L2: SSD Cache] → [L3: Rate Limiter] → [L4: NAS]
 - **L3 Rate Limiter**: 전체 20, 사용자당 3 동시 스트림
 - **L4 NAS**: 원본 파일 (SMB: `10.10.100.122`)
 
-### Directory Structure
+### Frontend Architecture
 
 ```
-wsoptv_v2/
-├── frontend/              # Next.js 14 Frontend
-│   ├── src/
-│   │   ├── app/          # App Router pages
-│   │   ├── components/   # React components
-│   │   └── lib/api/      # API clients
-│   ├── .env.local        # API URL config
-│   └── screenshot.mjs    # Playwright automation
-├── src/                   # Block-based Backend
-│   ├── blocks/           # Feature blocks (auth, content, stream, etc.)
-│   └── orchestration/    # Message bus, registry
-├── tests/                 # Test suites
-└── docker-compose.yml     # Docker config
-
-wsoptv_v2_db/              # Docker Backend (별도 디렉토리)
-├── backend/src/main.py   # FastAPI entry
-└── docker-compose.yml    # PostgreSQL, Backend, Frontend
+frontend/src/
+├── app/                   # Next.js App Router
+│   ├── (auth)/            # 인증 그룹 (login, register)
+│   ├── (main)/            # 메인 그룹 (browse, search, watch, history)
+│   └── admin/             # 관리자 (dashboard, users, streams)
+├── components/
+│   ├── ui/                # shadcn/ui 컴포넌트
+│   ├── layout/            # Header, Sidebar, Footer
+│   ├── content/           # ContentCard, ContentGrid
+│   └── player/            # VideoPlayer, PlayerControls
+├── lib/
+│   ├── api/               # API 클라이언트 (auth, content, stream)
+│   ├── hooks/             # useAuth, useContent, usePlayer
+│   └── stores/            # Zustand 스토어
+└── types/                 # TypeScript 타입 정의
 ```
+
+**상태 관리:**
+- `Zustand` - 클라이언트 상태 (auth, player)
+- `TanStack Query` - 서버 상태 캐싱/동기화
 
 ### Key API Endpoints
 
 | Endpoint | Purpose |
 |----------|---------|
-| `GET /api/v1/nas/files/videos` | NAS 비디오 파일 목록 |
-| `POST /api/auth/register` | 회원가입 (Pending 상태) |
-| `POST /api/auth/login` | 로그인 (Active만 가능) |
-| `GET /api/stream/{id}` | HTTP Range 스트리밍 |
-| `PUT /api/progress/{id}` | 시청 진행률 저장 |
+| `POST /auth/register` | 회원가입 (Pending 상태) |
+| `POST /auth/login` | 로그인 (Active만 가능) |
+| `GET /content/` | 콘텐츠 카탈로그 |
+| `GET /search?keyword=` | 검색 (MeiliSearch) |
+| `GET /stream/{id}` | HTTP Range 스트리밍 |
+| `GET /admin/dashboard` | 관리자 대시보드 |
+| `GET /health` | 블럭별 헬스 체크 |
+
+---
 
 ## Development Notes
 
 - Windows Native 환경에서 개발
-- NAS는 SMB 마운트 (`10.10.100.122`)
 - 트랜스코딩 없이 원본 파일 직접 스트리밍 (HTTP Range Request)
 - FFmpeg으로 썸네일 생성 (10초 지점 프레임 추출)
-- 로그인 테스트: `garimto` / `1234`
-
-## Version Management
-
-버전 업데이트 시 아래 파일들을 **반드시 동일한 버전으로 통일**:
-
-| 파일 | 위치 | 수정 항목 |
-|------|------|----------|
-| `package.json` | `frontend/package.json` | `"version": "X.Y.Z"` |
-| `layout.tsx` | `frontend/src/app/layout.tsx` | `APP_VERSION = 'X.Y.Z'` |
-| `prd.md` | `docs/prd.md` | `**Version**: X.Y.Z` |
-| `CHANGELOG.md` | 루트 | 변경 내역 추가 |
-| `CLAUDE.md` | 루트 | `Current Version` 업데이트 |
-
-### 버전 규칙 (Semantic Versioning)
-
-```
-MAJOR.MINOR.PATCH
-  │     │     └── 버그 수정
-  │     └──────── 새 기능 (하위 호환)
-  └────────────── 호환성 깨지는 변경
-```
+- 테스트: `asyncio_mode = "auto"` (pytest-asyncio)
