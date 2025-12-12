@@ -76,7 +76,11 @@ class BlockRegistry:
 
         # 제공 기능 등록
         for func in block.provides:
-            full_name = f"{block.block_id}.{func}"
+            # provides에 이미 block_id 접두사가 있으면 그대로 사용
+            if "." in func:
+                full_name = func
+            else:
+                full_name = f"{block.block_id}.{func}"
             self._provided_functions[full_name] = block.block_id
 
         # 상태를 healthy로 변경
@@ -99,7 +103,10 @@ class BlockRegistry:
 
         # 제공 기능 제거
         for func in block.provides:
-            full_name = f"{block.block_id}.{func}"
+            if "." in func:
+                full_name = func
+            else:
+                full_name = f"{block.block_id}.{func}"
             self._provided_functions.pop(full_name, None)
 
         del self._blocks[block_id]

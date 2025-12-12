@@ -79,7 +79,7 @@ class SyncRequest(BaseModel):
     """동기화 요청"""
 
     files: list[NASFileRequest] = Field(
-        ..., min_length=1, max_length=1000, description="NAS 파일 목록"
+        ..., min_length=1, max_length=5000, description="NAS 파일 목록"
     )
 
 

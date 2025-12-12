@@ -18,6 +18,8 @@ from src.blocks.content.router import router as content_router
 from src.blocks.search.router import router as search_router
 from src.blocks.stream.router import router as stream_router
 from src.blocks.admin.router import router as admin_router
+from src.blocks.flat_catalog.router import router as catalog_router
+from src.blocks.title_generator.router import router as title_router
 
 
 # Block Registry 초기화
@@ -44,6 +46,14 @@ def register_blocks():
             status=BlockStatus.HEALTHY,
             metadata={"name": "Cache Block"},
         ),
+        BlockInfo(
+            block_id="title_generator",
+            version="1.0.0",
+            provides=["title.generate", "title.parse", "title.batch"],
+            requires=[],
+            status=BlockStatus.HEALTHY,
+            metadata={"name": "Title Generator Block (G)"},
+        ),
 
         # Wave 2: 콘텐츠 블럭
         BlockInfo(
@@ -69,6 +79,14 @@ def register_blocks():
             requires=["cache.get"],
             status=BlockStatus.HEALTHY,
             metadata={"name": "Worker Block"},
+        ),
+        BlockInfo(
+            block_id="flat_catalog",
+            version="1.0.0",
+            provides=["catalog.list", "catalog.get", "catalog.search", "catalog.sync"],
+            requires=["title.generate"],
+            status=BlockStatus.HEALTHY,
+            metadata={"name": "Flat Catalog Block (F)"},
         ),
 
         # Wave 3: 최종 블럭
@@ -143,6 +161,14 @@ tags_metadata = [
         "name": "admin",
         "description": "관리자 대시보드 및 사용자 관리",
     },
+    {
+        "name": "catalog",
+        "description": "Flat Catalog - Netflix 스타일 단일 계층 카탈로그",
+    },
+    {
+        "name": "title",
+        "description": "Title Generator - 파일명 기반 표시 제목 생성",
+    },
 ]
 
 
@@ -164,8 +190,10 @@ WSOPTV는 프라이빗 포커 VOD 스트리밍 플랫폼입니다.
 
 ### 아키텍처
 
-7개의 독립적인 블럭으로 구성된 마이크로서비스 아키텍처:
+9개의 독립적인 블럭으로 구성된 마이크로서비스 아키텍처:
 - Auth, Cache, Content, Search, Worker, Stream, Admin
+- **Flat Catalog (F)**: Netflix 스타일 단일 계층 카탈로그
+- **Title Generator (G)**: 파일명 기반 표시 제목 생성
 
 ### API 문서
 
@@ -206,6 +234,8 @@ app.include_router(content_router)
 app.include_router(search_router)
 app.include_router(stream_router)
 app.include_router(admin_router)
+app.include_router(catalog_router, prefix="/api/v1")
+app.include_router(title_router, prefix="/api/v1")
 
 
 @app.get("/")
