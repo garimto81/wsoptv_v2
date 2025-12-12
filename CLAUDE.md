@@ -6,18 +6,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **WSOPTV** - 초대 기반 프라이빗 포커 VOD 스트리밍 플랫폼 (18TB+ 아카이브)
 
-**Current Version**: 1.5.0
+**Current Version**: 1.6.0
 
 **GitHub**: https://github.com/garimto81/wsoptv_v2
 
 | Layer | Technology |
 |-------|------------|
 | Frontend | Next.js 14, TypeScript, Tailwind CSS, shadcn/ui |
-| Backend | FastAPI, Python 3.12, Block Architecture |
+| Backend | FastAPI, Python 3.12, Block Architecture (9 Blocks) |
 | Database | PostgreSQL 16 (Docker: port 5434) |
 | Cache | Redis 7 (L1), Local SSD (L2) |
 | Search | MeiliSearch v1.6 |
-| Storage | NAS (SMB, `10.10.100.122`) |
+| Storage | NAS (SMB, `Z:\ARCHIVE` → `/mnt/nas/ARCHIVE`) |
 
 ---
 
@@ -52,27 +52,36 @@ ruff format src/ tests/
 mypy src/ --ignore-missing-imports
 ```
 
-### Docker (All Services)
+### Docker (Infrastructure Only)
 
 ```powershell
 cd D:\AI\claude01\wsoptv_v2
-docker-compose up -d     # Start all services
+docker-compose up -d     # Redis, PostgreSQL, MeiliSearch만 시작
 docker-compose logs -f   # View logs
 docker-compose down      # Stop all services
 ```
 
 | Service | Port | Description |
 |---------|------|-------------|
-| app | 8002:8000 | FastAPI Backend |
 | redis | 6380:6379 | L1 Cache |
 | postgres | 5434:5432 | Metadata Store |
 | meilisearch | 7701:7700 | Search Engine |
+
+### Backend (Local - NAS 접근 필요)
+
+```powershell
+# Docker for Windows는 네트워크 드라이브 마운트 불가 → 로컬 실행 필수
+python -m uvicorn src.main:app --host 0.0.0.0 --port 8002
+
+# 카탈로그 동기화 (NAS → API)
+python scripts/sync_nas_to_catalog.py
+```
 
 ## Architecture
 
 ### Block Architecture (Backend)
 
-7개의 독립적인 블럭으로 구성된 마이크로서비스 아키텍처:
+9개의 독립적인 블럭으로 구성된 마이크로서비스 아키텍처:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -88,10 +97,24 @@ docker-compose down      # Stop all services
 │  ┌────────────┐ │ ┌────────────────┐  │ ┌────────────┐  │
 │  │    Auth    │ │ │    Content     │  │ │   Stream   │  │
 │  │   Cache    │ │ │    Search      │  │ │   Admin    │  │
-│  └────────────┘ │ │    Worker      │  │ └────────────┘  │
-│   (No deps)     │ └────────────────┘  │  (Full deps)    │
-└─────────────────┴─────────────────────┴─────────────────┘
+│  │Title Gen(G)│ │ │    Worker      │  │ └────────────┘  │
+│  └────────────┘ │ │ FlatCatalog(F) │  │  (Full deps)    │
+│   (No deps)     │ └────────────────┘  │                  │
+└─────────────────┴─────────────────────┴──────────────────┘
 ```
+
+**9개 블럭:**
+| Block | Purpose | Wave |
+|-------|---------|------|
+| auth | 인증/권한 | L0 |
+| cache | Redis/SSD 캐싱 | L0 |
+| title_generator (G) | 파일명 → 표시 제목 | L0 |
+| content | 콘텐츠 메타데이터 | L1 |
+| search | MeiliSearch 검색 | L1 |
+| worker | 썸네일/NAS 스캔 | L1 |
+| flat_catalog (F) | Netflix 스타일 카탈로그 | L1 |
+| stream | HTTP Range 스트리밍 | L2 |
+| admin | 대시보드/사용자 관리 | L2 |
 
 **핵심 원칙:**
 - 블럭 간 직접 import 금지 → MessageBus를 통한 통신만 허용
@@ -99,6 +122,7 @@ docker-compose down      # Stop all services
 - BlockRegistry가 의존성 순서 보장 (L0 → L1 → L2)
 
 **주요 파일:**
+- `src/main.py` - FastAPI 앱, 블럭 등록, 라우터 통합
 - `src/orchestration/message_bus.py` - Pub/Sub 메시지 버스 (싱글톤)
 - `src/orchestration/registry.py` - 블럭 등록/헬스체크/의존성 관리
 - `src/orchestration/contract.py` - 버전 호환성/스키마 검증
@@ -151,12 +175,26 @@ frontend/src/
 | `GET /stream/{id}` | HTTP Range 스트리밍 |
 | `GET /admin/dashboard` | 관리자 대시보드 |
 | `GET /health` | 블럭별 헬스 체크 |
+| **Block F/G (v1 API)** | |
+| `GET /api/v1/catalog/` | Flat Catalog 목록 |
+| `GET /api/v1/catalog/{id}` | 단일 카탈로그 아이템 |
+| `GET /api/v1/catalog/category/{cat}` | 카테고리별 필터링 |
+| `POST /api/v1/title/generate` | 단일 제목 생성 |
+| `POST /api/v1/title/batch` | 배치 제목 생성 |
+| `POST /api/v1/progress/{id}` | 시청 진행률 저장 |
 
 ---
 
 ## Development Notes
 
-- Windows Native 환경에서 개발
+- Windows Native 환경에서 개발 (Docker for Windows)
 - 트랜스코딩 없이 원본 파일 직접 스트리밍 (HTTP Range Request)
 - FFmpeg으로 썸네일 생성 (10초 지점 프레임 추출)
 - 테스트: `asyncio_mode = "auto"` (pytest-asyncio)
+- NAS 마운트: Windows `Z:\ARCHIVE` → Docker `/mnt/nas/ARCHIVE`
+
+### Block F/G 구현 규칙
+
+- **Block F (flat_catalog)**: NAS 파일 → 단일 계층 CatalogItem 매핑
+- **Block G (title_generator)**: 파일명 패턴 매칭 → Netflix 스타일 표시 제목
+- PRD 문서: `tasks/prds/0002-prd-flat-catalog-title-generator.md`

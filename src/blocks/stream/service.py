@@ -145,6 +145,31 @@ class StreamService:
             data=data,
         )
 
+    def _convert_path_for_environment(self, file_path: str) -> Path:
+        """
+        환경에 맞게 경로 변환 (Windows ↔ Docker)
+
+        Windows 경로 (Z:\\ARCHIVE\\...) → Docker 경로 (/mnt/nas/ARCHIVE/...)
+        """
+        import os
+
+        # Docker 환경 감지 (NAS_MOUNT_PATH 환경변수 또는 /mnt/nas 존재 여부)
+        nas_mount = os.environ.get("NAS_MOUNT_PATH", "/mnt/nas")
+        is_docker = os.path.exists(nas_mount) or os.path.exists("/.dockerenv")
+
+        if is_docker:
+            # Windows 경로를 Docker 경로로 변환
+            # Z:\ARCHIVE\... → /mnt/nas/ARCHIVE/...
+            # Z:/ARCHIVE/... → /mnt/nas/ARCHIVE/...
+            path_str = file_path.replace("\\", "/")
+            if path_str.upper().startswith("Z:/ARCHIVE"):
+                path_str = path_str[2:]  # "Z:" 제거 → "/ARCHIVE/..."
+                path_str = f"{nas_mount}{path_str}"
+            return Path(path_str)
+        else:
+            # Windows 환경: 경로 그대로 사용
+            return Path(file_path)
+
     async def get_stream_source(self, content_id: str) -> StreamSource:
         """
         캐시 티어별 스트리밍 소스 선택
@@ -170,10 +195,10 @@ class StreamService:
             item = catalog_service.get_by_id(UUID(content_id))
 
             if item:
-                # Windows 환경: 경로 그대로 사용
-                file_path = item.file_path
+                # 환경에 맞게 경로 변환
+                file_path = self._convert_path_for_environment(item.file_path)
                 return StreamSource(
-                    path=Path(file_path), tier=CacheTier.L4
+                    path=file_path, tier=CacheTier.L4
                 )
         except Exception as e:
             print(f"Failed to get catalog item: {e}")
