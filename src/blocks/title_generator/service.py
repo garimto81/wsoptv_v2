@@ -57,7 +57,11 @@ class TitleGeneratorService:
 
         if match_result is None:
             # 매칭 실패 시 Fallback
-            return GeneratedTitle.fallback(file_name)
+            result = GeneratedTitle.fallback(file_name)
+            # 경로에서 프로젝트/연도 추출 시도
+            if file_path:
+                self._enrich_from_path(result.metadata, file_path)
+            return result
 
         pattern, match = match_result
 
@@ -175,25 +179,47 @@ class TitleGeneratorService:
 
     def _enrich_from_path(self, metadata: ParsedMetadata, file_path: str) -> None:
         """파일 경로에서 추가 정보 추출"""
-        path = Path(file_path)
+        import re
+        # Windows/Linux 경로 호환성: 백슬래시를 슬래시로 변환 후 분할
+        normalized_path = file_path.replace("\\", "/")
+        path = Path(normalized_path)
         parts = path.parts
 
-        # 프로젝트 코드가 없으면 경로에서 추출
-        if metadata.project_code is None:
+        # 프로젝트 코드가 없거나 OTHER이면 경로에서 추출
+        if metadata.project_code is None or metadata.project_code == ProjectCode.OTHER:
+            # 폴더명과 ProjectCode 매핑
+            folder_mapping = {
+                "WSOP": ProjectCode.WSOP,
+                "HCL": ProjectCode.HCL,
+                "GGMILLIONS": ProjectCode.GGMILLIONS,
+                "GOG": ProjectCode.GOG,
+                "MPP": ProjectCode.MPP,
+                "PAD": ProjectCode.PAD,
+            }
             for part in parts:
-                upper = part.upper()
-                if upper in [p.value for p in ProjectCode]:
-                    metadata.project_code = ProjectCode(upper)
+                # 정규화: 공백, 특수문자 제거 후 대문자 변환
+                normalized = re.sub(r'[^A-Za-z0-9]', '', part).upper()
+                if normalized in folder_mapping:
+                    metadata.project_code = folder_mapping[normalized]
+                    break
+                # "GOG 최종" 같은 케이스 처리
+                if normalized.startswith("GOG"):
+                    metadata.project_code = ProjectCode.GOG
                     break
 
-        # 연도가 없으면 경로에서 추출
+        # 연도가 없으면 경로와 파일명에서 추출
         if metadata.year is None:
-            for part in parts:
-                if part.isdigit() and len(part) == 4:
-                    year = int(part)
-                    if 2000 <= year <= 2100:
-                        metadata.year = year
-                        break
+            full_path = str(path)
+            # 4자리 연도 패턴 (2000-2099)
+            year_match = re.search(r'20[0-9]{2}', full_path)
+            if year_match:
+                metadata.year = int(year_match.group())
+            else:
+                # YYMMDD 형식에서 연도 추출 (25XXXX = 2025)
+                yymmdd_match = re.search(r'\b(2[0-5])(\d{2})(\d{2})\b', path.stem)
+                if yymmdd_match:
+                    yy = int(yymmdd_match.group(1))
+                    metadata.year = 2000 + yy
 
     def _generate_short_title(self, display_title: str, max_length: int = 40) -> str:
         """축약 제목 생성"""
