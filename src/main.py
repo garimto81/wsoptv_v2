@@ -20,6 +20,7 @@ from src.blocks.stream.router import router as stream_router
 from src.blocks.admin.router import router as admin_router
 from src.blocks.flat_catalog.router import router as catalog_router
 from src.blocks.title_generator.router import router as title_router
+from src.blocks.content.progress_router import router as progress_router
 
 
 # Block Registry 초기화
@@ -124,6 +125,10 @@ async def lifespan(app: FastAPI):
     # MessageBus 초기화
     bus = MessageBus.get_instance()
 
+    # StreamService 초기화
+    from src.blocks.stream.service import StreamService
+    app.state.stream_service = StreamService()
+
     print("=" * 50)
     print("WSOPTV Server Started")
     print("=" * 50)
@@ -168,6 +173,10 @@ tags_metadata = [
     {
         "name": "title",
         "description": "Title Generator - 파일명 기반 표시 제목 생성",
+    },
+    {
+        "name": "progress",
+        "description": "시청 진행률 저장/조회",
     },
 ]
 
@@ -236,6 +245,7 @@ app.include_router(stream_router)
 app.include_router(admin_router)
 app.include_router(catalog_router, prefix="/api/v1")
 app.include_router(title_router, prefix="/api/v1")
+app.include_router(progress_router, prefix="/api/v1")
 
 
 @app.get("/")

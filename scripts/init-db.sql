@@ -74,10 +74,10 @@ CREATE INDEX IF NOT EXISTS idx_cache_metadata_access ON cache_metadata(access_co
 
 -- 기본 관리자 계정 (비밀번호: admin)
 INSERT INTO users (email, password_hash, role, status)
-VALUES ('admin@wsoptv.local', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/X4.FKNH4BOdV5kxFy', 'admin', 'active')
+VALUES ('admin@wsoptv.local', '$2b$12$ZbCPRu9T4.i71bvNCbL06.MTq0pcKqkYC9D1NdSSGmmxRTNiK82gS', 'admin', 'active')
 ON CONFLICT (email) DO NOTHING;
 
 -- 테스트 사용자 (비밀번호: password)
 INSERT INTO users (email, password_hash, role, status)
-VALUES ('test@wsoptv.local', '$2b$12$PYQOmXjJKTp3xKpQy1pOd.GIYVpEPJ7e8EY7pGfO2dGPpEQl3P3ey', 'user', 'active')
+VALUES ('test@wsoptv.local', '$2b$12$9iRRxQ153xLeun/lDWVyjeVumzQn/HspAkTA9SSYf5KZ7XLYL.kuu', 'user', 'active')
 ON CONFLICT (email) DO NOTHING;

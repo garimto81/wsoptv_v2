@@ -1,57 +1,18 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-
-// User type definition
-interface User {
-  id: string;
-  username: string;
-  password: string;
-  role: 'admin' | 'user';
-  status: 'pending' | 'active' | 'rejected' | 'suspended';
-  created_at: string;
-}
-
-// Initialize users in localStorage
-function initializeUsers(): User[] {
-  if (typeof window === 'undefined') return [];
-
-  const existingUsers = localStorage.getItem('wsoptv_users');
-  if (existingUsers) {
-    return JSON.parse(existingUsers);
-  }
-
-  // Create default admin user
-  const defaultUsers: User[] = [
-    {
-      id: '1',
-      username: 'garimto',
-      password: '1234',
-      role: 'admin',
-      status: 'active',
-      created_at: new Date().toISOString(),
-    },
-  ];
-
-  localStorage.setItem('wsoptv_users', JSON.stringify(defaultUsers));
-  return defaultUsers;
-}
+import { authApi } from '@/lib/api/auth';
 
 export default function LoginPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
-    username: '',
+    email: '',
     password: '',
   });
-
-  useEffect(() => {
-    // Initialize users on component mount
-    initializeUsers();
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,49 +20,40 @@ export default function LoginPage() {
     setError('');
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      const response = await authApi.login({
+        email: formData.email,
+        password: formData.password,
+      });
 
-      const users = initializeUsers();
-      const user = users.find(
-        (u) => u.username === formData.username && u.password === formData.password
-      );
+      // 토큰 저장
+      localStorage.setItem('token', response.token);
+      localStorage.setItem('user_id', response.user_id);
 
-      if (!user) {
-        setError('Invalid username or password.');
-        return;
+      // 사용자 정보 조회 시도
+      try {
+        const user = await authApi.me();
+        localStorage.setItem('user', JSON.stringify(user));
+
+        if (user.role === 'admin') {
+          router.push('/admin');
+        } else {
+          router.push('/catalog');
+        }
+      } catch {
+        // me API가 없으면 기본 페이지로
+        router.push('/catalog');
       }
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Login failed';
 
-      // Check user status
-      switch (user.status) {
-        case 'pending':
-          setError('Your account is pending approval. Please wait for admin approval.');
-          router.push('/pending');
-          return;
-        case 'rejected':
-          setError('Your account has been rejected.');
-          return;
-        case 'suspended':
-          setError('Your account has been suspended.');
-          return;
-        case 'active':
-          // Login successful
-          localStorage.setItem('token', `token-${user.id}-${Date.now()}`);
-          localStorage.setItem('user', JSON.stringify({
-            id: user.id,
-            username: user.username,
-            role: user.role,
-            status: user.status,
-          }));
-
-          if (user.role === 'admin') {
-            router.push('/admin');
-          } else {
-            router.push('/catalog');
-          }
-          break;
+      if (message.includes('not active')) {
+        setError('Your account is pending approval. Please wait for admin approval.');
+        router.push('/pending');
+      } else if (message.includes('Invalid credentials')) {
+        setError('Invalid email or password.');
+      } else {
+        setError(message);
       }
-    } catch {
-      setError('Login failed. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -133,10 +85,10 @@ export default function LoginPage() {
 
             <div>
               <input
-                type="text"
-                placeholder="Username"
-                value={formData.username}
-                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                type="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 disabled={isLoading}
                 required
                 className="w-full bg-[#333] text-white rounded px-4 py-4 text-base placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/20 border border-transparent focus:border-[#E50914]"
@@ -174,7 +126,8 @@ export default function LoginPage() {
           </div>
 
           <div className="mt-4 text-gray-500 text-xs">
-            <p>Admin: garimto / 1234</p>
+            <p>Admin: admin@wsoptv.local / admin</p>
+            <p>User: test@wsoptv.local / password</p>
           </div>
         </div>
       </div>

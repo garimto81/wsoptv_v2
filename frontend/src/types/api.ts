@@ -19,7 +19,7 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   token: string;
-  user: User;
+  user_id: string;
 }
 
 export interface RegisterRequest {

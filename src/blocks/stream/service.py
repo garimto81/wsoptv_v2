@@ -161,17 +161,27 @@ class StreamService:
             tier = self._determine_tier(cache_path)
             return StreamSource(path=cache_path, tier=tier)
 
-        # Mock 데이터
-        if "hot" in content_id:
-            # Hot content -> SSD (L1 or L2)
-            return StreamSource(
-                path=Path(f"/cache/l1/{content_id}.mp4"), tier=CacheTier.L1
-            )
-        else:
-            # Cold content -> NAS (L4)
-            return StreamSource(
-                path=Path(f"/cache/l4/{content_id}.mp4"), tier=CacheTier.L4
-            )
+        # Flat Catalog에서 file_path 조회
+        try:
+            from uuid import UUID
+            from src.blocks.flat_catalog.service import get_flat_catalog_service
+
+            catalog_service = get_flat_catalog_service()
+            item = catalog_service.get_by_id(UUID(content_id))
+
+            if item:
+                # Windows 환경: 경로 그대로 사용
+                file_path = item.file_path
+                return StreamSource(
+                    path=Path(file_path), tier=CacheTier.L4
+                )
+        except Exception as e:
+            print(f"Failed to get catalog item: {e}")
+
+        # Fallback
+        return StreamSource(
+            path=Path(f"Z:/ARCHIVE/{content_id}.mp4"), tier=CacheTier.L4
+        )
 
     def _determine_tier(self, path: Path) -> CacheTier:
         """경로에서 캐시 티어 추론"""
