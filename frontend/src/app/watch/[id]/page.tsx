@@ -92,7 +92,7 @@ export default function WatchPage() {
       if (token) {
         try {
           const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8004'}/api/v1/progress/${contentId}?token=${token}`
+            `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8002'}/api/v1/progress/${contentId}?token=${token}`
           );
           if (response.ok) {
             const progress = await response.json();
@@ -120,7 +120,7 @@ export default function WatchPage() {
 
     try {
       await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8004'}/api/v1/progress?token=${token}`,
+        `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8002'}/api/v1/progress?token=${token}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -154,7 +154,7 @@ export default function WatchPage() {
     if (token && contentId) {
       try {
         await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8004'}/api/v1/progress/${contentId}/complete?token=${token}`,
+          `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8002'}/api/v1/progress/${contentId}/complete?token=${token}`,
           { method: 'POST' }
         );
       } catch (error) {

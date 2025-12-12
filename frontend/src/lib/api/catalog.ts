@@ -16,7 +16,7 @@ import type {
 } from '@/types/api';
 
 // Catalog DB API base (다른 포트 사용 가능)
-const CATALOG_API_URL = process.env.NEXT_PUBLIC_CATALOG_API_URL || 'http://localhost:8000';
+const CATALOG_API_URL = process.env.NEXT_PUBLIC_CATALOG_API_URL || 'http://localhost:8002';
 
 class CatalogApiClient {
   private baseUrl: string;
