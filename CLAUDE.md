@@ -6,9 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **WSOPTV** - 초대 기반 프라이빗 포커 VOD 스트리밍 플랫폼 (18TB+ 아카이브)
 
-**Current Version**: 1.6.0
-
-**GitHub**: https://github.com/garimto81/wsoptv_v2
+**Version**: 1.6.0 | **GitHub**: https://github.com/garimto81/wsoptv_v2
 
 | Layer | Technology |
 |-------|------------|
@@ -31,6 +29,11 @@ npm install
 npm run dev              # Development (localhost:3000)
 npm run build            # Production build
 npm run lint             # ESLint
+
+# E2E 테스트 (Playwright)
+npx playwright test                    # 모든 E2E 테스트
+npx playwright test auth.spec.ts       # 단일 테스트 파일
+npx playwright test --ui               # UI 모드
 ```
 
 ### Backend (Python)
@@ -43,6 +46,12 @@ pytest tests/test_orchestration.py -v
 
 # 테스트 실행 (블럭별)
 pytest tests/test_blocks/test_auth_block.py -v
+
+# 테스트 실행 (단일 함수)
+pytest tests/test_blocks/test_auth_block.py::test_function_name -v
+
+# 통합 테스트
+pytest tests/test_integration/ -v
 
 # 린트 & 포맷
 ruff check src/ tests/
@@ -75,6 +84,24 @@ python -m uvicorn src.main:app --host 0.0.0.0 --port 8002
 
 # 카탈로그 동기화 (NAS → API)
 python scripts/sync_nas_to_catalog.py
+```
+
+### Environment Variables
+
+Backend: 환경변수 또는 `.env` 파일 (프로젝트 루트)
+Frontend: `frontend/.env.local`
+
+```
+# Backend
+REDIS_URL=redis://localhost:6380/0
+DATABASE_URL=postgresql://wsoptv:wsoptv@localhost:5434/wsoptv
+MEILISEARCH_URL=http://localhost:7701
+MEILISEARCH_API_KEY=masterKey
+NAS_MOUNT_PATH=Z:\ARCHIVE
+SSD_CACHE_PATH=D:\cache
+
+# Frontend (.env.local)
+NEXT_PUBLIC_API_URL=http://localhost:8002
 ```
 
 ## Architecture
@@ -127,6 +154,24 @@ python scripts/sync_nas_to_catalog.py
 - `src/orchestration/registry.py` - 블럭 등록/헬스체크/의존성 관리
 - `src/orchestration/contract.py` - 버전 호환성/스키마 검증
 - `src/blocks/{block}/` - 각 블럭 구현 (models, service, router)
+
+**Block 통신 패턴:**
+```python
+from src.orchestration.message_bus import MessageBus, BlockMessage
+
+# 메시지 발행
+bus = MessageBus.get_instance()
+await bus.publish("catalog.updated", BlockMessage(
+    source_block="flat_catalog",
+    event_type="item_created",
+    payload={"item_id": "123"}
+))
+
+# 메시지 구독
+async def handler(msg: BlockMessage):
+    print(f"Received: {msg.payload}")
+await bus.subscribe("catalog.updated", handler)
+```
 
 ### 4-Tier Cache System
 
@@ -198,3 +243,41 @@ frontend/src/
 - **Block F (flat_catalog)**: NAS 파일 → 단일 계층 CatalogItem 매핑
 - **Block G (title_generator)**: 파일명 패턴 매칭 → Netflix 스타일 표시 제목
 - PRD 문서: `tasks/prds/0002-prd-flat-catalog-title-generator.md`
+
+**지원 포커 시리즈 (Block G 패턴):**
+
+| 코드 | 시리즈 | 예시 패턴 |
+|------|--------|----------|
+| WSOP | World Series of Poker | `WSOP_2023_ME_Day1.mp4` |
+| HCL | Hustler Casino Live | `HCL_S2_E15.mp4` |
+| GGMILLIONS | GGPoker Millions | `GGMillions_Final_Table.mp4` |
+| GOG | Game of Gold | `GOG_S1_EP03.mp4` |
+| MPP | Mid-stakes Poker Tour | `MPP_500K_GTD.mp4` |
+| PAD | Poker After Dark | `PAD_Cash_Game_2024.mp4` |
+
+---
+
+## Testing Strategy
+
+| 레이어 | 도구 | 경로 |
+|--------|------|------|
+| Unit (Backend) | pytest | `tests/test_blocks/` |
+| Integration | pytest | `tests/test_integration/` |
+| E2E | Playwright | `frontend/e2e/` |
+
+**Block F/G 테스트:**
+```powershell
+# Title Generator (35개 테스트)
+pytest tests/test_blocks/test_title_generator.py -v
+
+# Flat Catalog (36개 테스트)
+pytest tests/test_blocks/test_flat_catalog.py -v
+
+# Block F + G 통합 (12개 테스트)
+pytest tests/test_integration/test_catalog_title_integration.py -v
+
+# Migration 테스트 (15개 테스트)
+pytest tests/test_blocks/test_flat_catalog_migration.py -v
+```
+
+**주의:** 전체 테스트(`pytest tests/ -v --cov`)는 120초 초과 시 타임아웃 → 개별 파일 단위로 실행
