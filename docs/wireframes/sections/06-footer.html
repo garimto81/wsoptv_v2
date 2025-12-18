@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1200">
+    <title>WSOPTV - 06. Footer Section</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f5f5f5;
+            padding: 40px;
+            color: #333;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #e50914;
+        }
+        .page-title h1 { font-size: 28px; color: #1a1a1a; }
+        .page-title p { color: #666; margin-top: 8px; }
+
+        .section-container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Footer Wireframe */
+        .footer-wireframe {
+            background: #0a0a0a;
+            border-radius: 8px;
+            padding: 40px 60px;
+        }
+
+        .footer-main {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #2a2a2a;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h4 {
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .footer-column ul {
+            list-style: none;
+        }
+        .footer-column li {
+            margin-bottom: 10px;
+        }
+        .footer-column a {
+            color: #808080;
+            text-decoration: none;
+            font-size: 13px;
+            border: 1px dashed #333;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            transition: color 0.2s;
+        }
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+            position: relative;
+        }
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            background: #1a1a1a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #808080;
+            font-size: 16px;
+            border: 2px dashed #333;
+            transition: all 0.2s;
+        }
+        .social-icon:hover {
+            background: #333;
+            color: white;
+        }
+
+        .copyright {
+            color: #666;
+            font-size: 12px;
+        }
+
+        /* Markers */
+        .marker {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: #607d8b;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        /* Link Categories */
+        .link-categories {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 30px;
+        }
+        .link-categories h4 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        .category-item {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 16px;
+        }
+        .category-item h5 {
+            color: #607d8b;
+            font-size: 13px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+        .category-item ul {
+            list-style: none;
+            font-size: 12px;
+            color: #666;
+        }
+        .category-item li {
+            margin-bottom: 6px;
+            padding-left: 12px;
+            position: relative;
+        }
+        .category-item li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #607d8b;
+        }
+
+        /* Annotation Table */
+        .annotation-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+        .annotation-table th {
+            background: #607d8b;
+            color: white;
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 14px;
+        }
+        .annotation-table td {
+            padding: 16px;
+            border-bottom: 1px solid #eee;
+            vertical-align: top;
+        }
+        .annotation-table tr:hover {
+            background: #f9f9f9;
+        }
+        .marker-cell {
+            width: 50px;
+            text-align: center;
+        }
+        .marker-small {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: #607d8b;
+            color: white;
+            border-radius: 50%;
+            line-height: 24px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .element-name {
+            font-weight: 600;
+            color: #1a1a1a;
+            width: 140px;
+        }
+        .spec-list {
+            list-style: none;
+            font-size: 13px;
+            color: #555;
+        }
+        .spec-list li {
+            margin-bottom: 6px;
+            padding-left: 16px;
+            position: relative;
+        }
+        .spec-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #607d8b;
+        }
+        .code-tag {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            color: #d63384;
+        }
+
+        /* Responsive Note */
+        .responsive-note {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            border-radius: 0 8px 8px 0;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .responsive-note h4 {
+            color: #2e7d32;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+        .responsive-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        .responsive-item {
+            background: white;
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+        }
+        .responsive-item .breakpoint {
+            font-size: 12px;
+            color: #4caf50;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .responsive-item .layout {
+            font-size: 11px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-title">
+        <h1>06. Footer - 하단 정보 영역</h1>
+        <p>WSOPTV Homepage Wireframe | Section 6 of 6</p>
+    </div>
+
+    <div class="section-container">
+        <div class="footer-wireframe">
+            <div class="footer-main" style="position: relative;">
+                <!-- About Column -->
+                <div class="footer-column" style="position: relative;">
+                    <h4>About</h4>
+                    <ul>
+                        <li><a href="#">About WSOPTV</a></li>
+                        <li><a href="#">Press Releases</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                    <span class="marker" style="top: -10px; left: -10px;">A</span>
+                </div>
+
+                <!-- Support Column -->
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Help Center</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal Column -->
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Terms of Use</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+
+                <!-- Account Column -->
+                <div class="footer-column">
+                    <h4>Account</h4>
+                    <ul>
+                        <li><a href="#">My Account</a></li>
+                        <li><a href="#">Watch History</a></li>
+                        <li><a href="#">My List</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="social-links">
+                    <a href="#" class="social-icon">📘</a>
+                    <a href="#" class="social-icon">✖</a>
+                    <a href="#" class="social-icon">📷</a>
+                    <a href="#" class="social-icon">▶</a>
+                    <span class="marker" style="top: -10px; left: -10px;">B</span>
+                </div>
+                <div class="copyright" style="position: relative;">
+                    © 2024 WSOPTV. All rights reserved.
+                    <span class="marker" style="top: -10px; right: -30px;">C</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Link Categories -->
+        <div class="link-categories">
+            <h4>📋 링크 카테고리별 상세</h4>
+            <div class="category-grid">
+                <div class="category-item">
+                    <h5>About</h5>
+                    <ul>
+                        <li>회사 소개 페이지</li>
+                        <li>보도자료 목록</li>
+                        <li>채용 정보 (선택)</li>
+                    </ul>
+                </div>
+                <div class="category-item">
+                    <h5>Support</h5>
+                    <ul>
+                        <li>자주 묻는 질문</li>
+                        <li>문의 양식</li>
+                        <li>도움말 센터</li>
+                    </ul>
+                </div>
+                <div class="category-item">
+                    <h5>Legal</h5>
+                    <ul>
+                        <li>이용약관</li>
+                        <li>개인정보처리방침</li>
+                        <li>쿠키 정책</li>
+                    </ul>
+                </div>
+                <div class="category-item">
+                    <h5>Account</h5>
+                    <ul>
+                        <li>계정 설정</li>
+                        <li>시청 기록</li>
+                        <li>내 리스트</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Annotation Table -->
+        <table class="annotation-table">
+            <thead>
+                <tr>
+                    <th class="marker-cell">ID</th>
+                    <th>요소</th>
+                    <th>상세 스펙</th>
+                    <th>클릭 동작</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="marker-cell"><span class="marker-small">A</span></td>
+                    <td class="element-name">Link Columns</td>
+                    <td>
+                        <ul class="spec-list">
+                            <li>그리드: <code class="code-tag">4 columns</code></li>
+                            <li>제목: <code class="code-tag">14px / 600 / uppercase</code></li>
+                            <li>링크: <code class="code-tag">13px / #808080</code></li>
+                            <li>호버: <code class="code-tag">color: white</code></li>
+                        </ul>
+                    </td>
+                    <td>각 링크별 해당 페이지</td>
+                </tr>
+                <tr>
+                    <td class="marker-cell"><span class="marker-small">B</span></td>
+                    <td class="element-name">Social Links</td>
+                    <td>
+                        <ul class="spec-list">
+                            <li>아이콘 크기: <code class="code-tag">36px × 36px</code></li>
+                            <li>배경: <code class="code-tag">#1a1a1a</code></li>
+                            <li>간격: <code class="code-tag">gap: 16px</code></li>
+                            <li>호버: 배경 밝아짐 + 아이콘 흰색</li>
+                        </ul>
+                    </td>
+                    <td>
+                        📘 → Facebook (새 탭)<br>
+                        ✖ → X/Twitter (새 탭)<br>
+                        📷 → Instagram (새 탭)<br>
+                        ▶ → YouTube (새 탭)
+                    </td>
+                </tr>
+                <tr>
+                    <td class="marker-cell"><span class="marker-small">C</span></td>
+                    <td class="element-name">Copyright</td>
+                    <td>
+                        <ul class="spec-list">
+                            <li>폰트: <code class="code-tag">12px</code></li>
+                            <li>색상: <code class="code-tag">#666</code></li>
+                            <li>형식: <code class="code-tag">© {년도} WSOPTV. All rights reserved.</code></li>
+                            <li>년도: 자동 업데이트 (JavaScript)</li>
+                        </ul>
+                    </td>
+                    <td>없음</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Responsive Note -->
+        <div class="responsive-note">
+            <h4>📱 반응형 레이아웃</h4>
+            <div class="responsive-grid">
+                <div class="responsive-item">
+                    <div class="breakpoint">Desktop (≥1024px)</div>
+                    <div class="layout">4 columns 그리드</div>
+                </div>
+                <div class="responsive-item">
+                    <div class="breakpoint">Tablet (768-1023px)</div>
+                    <div class="layout">2 columns 그리드</div>
+                </div>
+                <div class="responsive-item">
+                    <div class="breakpoint">Mobile (<768px)</div>
+                    <div class="layout">1 column, 아코디언</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

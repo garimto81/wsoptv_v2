@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=907">
+    <title>01. Header</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #999;
+        }
+        .capture-area {
+            width: 907px; /* 24cm at 96dpi */
+            background: white;
+            padding: 24px;
+        }
+
+        .page-header {
+            border-bottom: 2px solid #000;
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+        }
+        .page-header h1 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .page-header p {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        /* Wireframe Box */
+        .wireframe-box {
+            border: 2px solid #000;
+            background: #f9f9f9;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .wf-left {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .wf-logo {
+            border: 2px solid #000;
+            padding: 8px 16px;
+            font-weight: 700;
+            font-size: 16px;
+            background: #eee;
+        }
+
+        .wf-nav {
+            display: flex;
+            gap: 16px;
+        }
+        .wf-nav-item {
+            border: 1px dashed #999;
+            padding: 6px 12px;
+            font-size: 13px;
+        }
+        .wf-nav-item.active {
+            border: 2px solid #000;
+            background: #ddd;
+        }
+
+        .wf-right {
+            display: flex;
+            gap: 12px;
+        }
+        .wf-icon {
+            width: 32px;
+            height: 32px;
+            border: 1px dashed #999;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        /* Annotation Markers */
+        .marker {
+            display: inline-flex;
+            width: 20px;
+            height: 20px;
+            background: #000;
+            color: #fff;
+            border-radius: 50%;
+            font-size: 11px;
+            font-weight: 600;
+            align-items: center;
+            justify-content: center;
+            margin-right: 6px;
+        }
+
+        /* Spec Table */
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        .spec-table th {
+            background: #000;
+            color: #fff;
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 500;
+        }
+        .spec-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #ddd;
+            vertical-align: top;
+        }
+        .spec-table tr:hover {
+            background: #f5f5f5;
+        }
+
+        .code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+        }
+
+        /* Behavior Box */
+        .behavior-box {
+            background: #f5f5f5;
+            border-left: 4px solid #000;
+            padding: 16px;
+            margin-top: 20px;
+        }
+        .behavior-box h4 {
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+        .behavior-box ul {
+            font-size: 12px;
+            padding-left: 20px;
+        }
+        .behavior-box li {
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+<div class="capture-area">
+    <div class="page-header">
+        <h1>01. Header - 상단 고정 네비게이션</h1>
+        <p>WSOPTV Homepage Wireframe | Section 1 of 6</p>
+    </div>
+
+    <!-- Wireframe -->
+    <div class="wireframe-box">
+        <div class="wf-left">
+            <div class="wf-logo">WSOPTV</div>
+            <div class="wf-nav">
+                <div class="wf-nav-item active">Home</div>
+                <div class="wf-nav-item">Browse</div>
+                <div class="wf-nav-item">Search</div>
+            </div>
+        </div>
+        <div class="wf-right">
+            <div class="wf-icon">🔍</div>
+            <div class="wf-icon">👤</div>
+        </div>
+    </div>
+
+    <!-- Spec Table -->
+    <table class="spec-table">
+        <thead>
+            <tr>
+                <th style="width:30px"></th>
+                <th style="width:100px">요소</th>
+                <th>스펙</th>
+                <th style="width:150px">동작</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="marker">A</span></td>
+                <td>Logo</td>
+                <td>
+                    <span class="code">120×40px</span>,
+                    <span class="code">font-weight: 700</span>,
+                    배경: <span class="code">#e50914</span>
+                </td>
+                <td>클릭 → 홈 이동</td>
+            </tr>
+            <tr>
+                <td><span class="marker">B</span></td>
+                <td>Navigation</td>
+                <td>
+                    <span class="code">gap: 24px</span>,
+                    활성: 흰색 + 언더라인,
+                    비활성: <span class="code">#b3b3b3</span>
+                </td>
+                <td>각 메뉴 페이지 이동</td>
+            </tr>
+            <tr>
+                <td><span class="marker">C</span></td>
+                <td>검색 아이콘</td>
+                <td>
+                    <span class="code">36×36px</span>,
+                    Lucide React <span class="code">Search</span>
+                </td>
+                <td>검색 모달 오픈</td>
+            </tr>
+            <tr>
+                <td><span class="marker">D</span></td>
+                <td>프로필 아이콘</td>
+                <td>
+                    <span class="code">36×36px</span>,
+                    로그인 시 아바타 표시
+                </td>
+                <td>드롭다운 메뉴</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Behavior -->
+    <div class="behavior-box">
+        <h4>동작 정의</h4>
+        <ul>
+            <li><strong>position: fixed</strong> - 스크롤해도 항상 상단 고정</li>
+            <li><strong>z-index: 1000</strong> - 모든 콘텐츠 위에 표시</li>
+            <li><strong>높이: 64px</strong> 고정</li>
+            <li><strong>모바일 (768px 이하)</strong>: 햄버거 메뉴로 전환</li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

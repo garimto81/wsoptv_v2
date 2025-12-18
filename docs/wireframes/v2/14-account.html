@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=907">
+    <title>14. Account Page</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #999;
+        }
+        .capture-area {
+            width: 907px;
+            background: white;
+            padding: 24px;
+        }
+
+        .page-header {
+            border-bottom: 2px solid #000;
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+        }
+        .page-header h1 { font-size: 20px; font-weight: 600; }
+        .page-header p { font-size: 12px; color: #666; margin-top: 4px; }
+
+        .section {
+            margin-bottom: 32px;
+        }
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Account Frame */
+        .account-frame {
+            background: #141414;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: #000;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        .logo {
+            background: #e50914;
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 4px 10px;
+        }
+        .nav {
+            display: flex;
+            gap: 16px;
+        }
+        .nav a {
+            color: #888;
+            text-decoration: none;
+            font-size: 12px;
+        }
+        .nav a.active {
+            color: #fff;
+            font-weight: 600;
+        }
+        .header-right {
+            display: flex;
+            gap: 12px;
+        }
+        .icon-btn {
+            width: 28px;
+            height: 28px;
+            background: #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 12px;
+        }
+
+        /* Page Title */
+        .page-title-bar {
+            padding: 20px;
+            border-bottom: 1px solid #252525;
+        }
+        .page-title {
+            color: #fff;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        /* Main Layout */
+        .account-layout {
+            display: flex;
+            min-height: 400px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 200px;
+            background: #1a1a1a;
+            padding: 16px 0;
+            border-right: 1px solid #252525;
+        }
+        .sidebar-item {
+            padding: 12px 20px;
+            color: #888;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        .sidebar-item:hover {
+            background: #252525;
+            color: #fff;
+        }
+        .sidebar-item.active {
+            background: #252525;
+            color: #fff;
+            border-left: 3px solid #e50914;
+        }
+        .sidebar-item .icon {
+            font-size: 16px;
+        }
+
+        /* Content Area */
+        .content-area {
+            flex: 1;
+            padding: 24px;
+        }
+
+        /* Profile Section */
+        .profile-section {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        .avatar {
+            width: 100px;
+            height: 100px;
+            background: #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            position: relative;
+        }
+        .avatar-edit {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 28px;
+            height: 28px;
+            background: #e50914;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 12px;
+        }
+        .profile-info {
+            flex: 1;
+        }
+        .profile-name {
+            color: #fff;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .profile-email {
+            color: #888;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+        .profile-date {
+            color: #666;
+            font-size: 12px;
+        }
+        .profile-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #444;
+            color: #fff;
+        }
+        .btn-outline:hover {
+            border-color: #888;
+        }
+
+        /* Info Card */
+        .info-card {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        .info-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .info-card-title {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .info-card-action {
+            color: #e50914;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #252525;
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            color: #888;
+            font-size: 13px;
+        }
+        .info-value {
+            color: #fff;
+            font-size: 13px;
+        }
+        .info-value.highlight {
+            color: #e50914;
+        }
+
+        /* Subscription Card */
+        .sub-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .sub-badge {
+            background: #22c55e;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+        .sub-plan {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .sub-price {
+            color: #888;
+            font-size: 24px;
+            font-weight: 700;
+            margin: 12px 0;
+        }
+        .sub-price span {
+            font-size: 14px;
+            font-weight: 400;
+        }
+        .sub-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .btn-danger {
+            background: transparent;
+            border: 1px solid #ef4444;
+            color: #ef4444;
+        }
+
+        /* History Section */
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .history-item {
+            display: flex;
+            gap: 12px;
+            background: #1a1a1a;
+            border-radius: 6px;
+            padding: 12px;
+        }
+        .history-thumb {
+            width: 120px;
+            aspect-ratio: 16/9;
+            background: #333;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            font-size: 20px;
+            flex-shrink: 0;
+            position: relative;
+        }
+        .history-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #444;
+        }
+        .history-progress-fill {
+            height: 100%;
+            background: #e50914;
+        }
+        .history-info {
+            flex: 1;
+        }
+        .history-title {
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .history-meta {
+            color: #888;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+        .history-date {
+            color: #666;
+            font-size: 11px;
+            margin-top: 8px;
+        }
+        .history-action {
+            display: flex;
+            align-items: center;
+        }
+        .history-remove {
+            color: #666;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* Settings Section */
+        .setting-group {
+            margin-bottom: 24px;
+        }
+        .setting-group-title {
+            color: #888;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: #1a1a1a;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+        .setting-label {
+            color: #fff;
+            font-size: 13px;
+        }
+        .setting-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .toggle {
+            width: 40px;
+            height: 22px;
+            background: #444;
+            border-radius: 11px;
+            position: relative;
+        }
+        .toggle.on {
+            background: #e50914;
+        }
+        .toggle::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: #fff;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: 0.2s;
+        }
+        .toggle.on::after {
+            left: 20px;
+        }
+        .select {
+            background: #333;
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<div class="capture-area">
+    <div class="page-header">
+        <h1>14. Account Page - 계정</h1>
+        <p>WSOPTV Wireframe | Profile / Subscription / History / Settings</p>
+    </div>
+
+    <!-- Account Page -->
+    <div class="section">
+        <div class="section-title">계정 페이지 전체 레이아웃</div>
+
+        <div class="account-frame">
+            <!-- Header -->
+            <div class="header">
+                <div class="header-left">
+                    <div class="logo">WSOPTV</div>
+                    <nav class="nav">
+                        <a href="#">Home</a>
+                        <a href="#">Browse</a>
+                    </nav>
+                </div>
+                <div class="header-right">
+                    <div class="icon-btn">🔍</div>
+                    <div class="icon-btn active" style="background: #e50914;">👤</div>
+                </div>
+            </div>
+
+            <!-- Page Title -->
+            <div class="page-title-bar">
+                <h1 class="page-title">Account</h1>
+            </div>
+
+            <!-- Main Layout -->
+            <div class="account-layout">
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <div class="sidebar-item active">
+                        <span class="icon">👤</span>
+                        <span>프로필</span>
+                    </div>
+                    <div class="sidebar-item">
+                        <span class="icon">💳</span>
+                        <span>구독 관리</span>
+                    </div>
+                    <div class="sidebar-item">
+                        <span class="icon">📺</span>
+                        <span>시청 기록</span>
+                    </div>
+                    <div class="sidebar-item">
+                        <span class="icon">⚙️</span>
+                        <span>설정</span>
+                    </div>
+                    <div class="sidebar-item" style="margin-top: 24px; border-top: 1px solid #333; padding-top: 24px;">
+                        <span class="icon">🚪</span>
+                        <span>로그아웃</span>
+                    </div>
+                </aside>
+
+                <!-- Content: Profile -->
+                <div class="content-area">
+                    <!-- Profile Section -->
+                    <div class="profile-section">
+                        <div class="avatar">
+                            👤
+                            <div class="avatar-edit">✏️</div>
+                        </div>
+                        <div class="profile-info">
+                            <div class="profile-name">John Doe</div>
+                            <div class="profile-email">john.doe@email.com</div>
+                            <div class="profile-date">가입일: 2024-01-15</div>
+                            <div class="profile-actions">
+                                <button class="btn btn-outline">이름 변경</button>
+                                <button class="btn btn-outline">비밀번호 변경</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subscription Info -->
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <div class="info-card-title">💳 구독 정보</div>
+                            <div class="info-card-action">관리 →</div>
+                        </div>
+                        <div class="sub-status">
+                            <span class="sub-badge">ACTIVE</span>
+                            <span class="sub-plan">Premium Yearly</span>
+                        </div>
+                        <div class="sub-price">$99 <span>/년</span></div>
+                        <div class="info-row">
+                            <span class="info-label">다음 결제일</span>
+                            <span class="info-value">2025-01-15</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">결제 수단</span>
+                            <span class="info-value">💳 •••• 1234</span>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <div class="info-card-title">📺 최근 시청</div>
+                            <div class="info-card-action">전체 보기 →</div>
+                        </div>
+                        <div class="history-list">
+                            <div class="history-item">
+                                <div class="history-thumb">
+                                    🎬
+                                    <div class="history-progress"><div class="history-progress-fill" style="width: 60%;"></div></div>
+                                </div>
+                                <div class="history-info">
+                                    <div class="history-title">WSOP 2024 Main Event Day 5</div>
+                                    <div class="history-meta">60% 시청 • 45:23 남음</div>
+                                    <div class="history-date">어제</div>
+                                </div>
+                                <div class="history-action">
+                                    <span class="history-remove">✕</span>
+                                </div>
+                            </div>
+                            <div class="history-item">
+                                <div class="history-thumb">
+                                    🎬
+                                    <div class="history-progress"><div class="history-progress-fill" style="width: 100%;"></div></div>
+                                </div>
+                                <div class="history-info">
+                                    <div class="history-title">WSOP 2024 Main Event Day 4</div>
+                                    <div class="history-meta">시청 완료</div>
+                                    <div class="history-date">2일 전</div>
+                                </div>
+                                <div class="history-action">
+                                    <span class="history-remove">✕</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div class="section">
+        <div class="section-title">설정 탭 (Settings)</div>
+
+        <div class="account-frame" style="padding: 24px;">
+            <div class="setting-group">
+                <div class="setting-group-title">재생</div>
+                <div class="setting-item">
+                    <span class="setting-label">자동 재생</span>
+                    <div class="toggle on"></div>
+                </div>
+                <div class="setting-item">
+                    <span class="setting-label">기본 화질</span>
+                    <select class="select">
+                        <option>자동</option>
+                        <option>4K</option>
+                        <option>1080p</option>
+                        <option>720p</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <span class="setting-label">기본 자막</span>
+                    <select class="select">
+                        <option>한국어</option>
+                        <option>English</option>
+                        <option>끄기</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <div class="setting-group-title">포커 기능</div>
+                <div class="setting-item">
+                    <span class="setting-label">Hand Skip 자동 활성화</span>
+                    <div class="toggle on"></div>
+                </div>
+                <div class="setting-item">
+                    <span class="setting-label">Best Hands 패널 기본 표시</span>
+                    <div class="toggle"></div>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <div class="setting-group-title">알림</div>
+                <div class="setting-item">
+                    <span class="setting-label">새 콘텐츠 알림</span>
+                    <div class="toggle on"></div>
+                </div>
+                <div class="setting-item">
+                    <span class="setting-label">이메일 뉴스레터</span>
+                    <div class="toggle"></div>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <div class="setting-group-title">언어</div>
+                <div class="setting-item">
+                    <span class="setting-label">인터페이스 언어</span>
+                    <select class="select">
+                        <option>한국어</option>
+                        <option>English</option>
+                        <option>日本語</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

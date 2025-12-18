@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=907">
+    <title>15. Auth Page</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #999;
+        }
+        .capture-area {
+            width: 907px;
+            background: white;
+            padding: 24px;
+        }
+
+        .page-header {
+            border-bottom: 2px solid #000;
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+        }
+        .page-header h1 { font-size: 20px; font-weight: 600; }
+        .page-header p { font-size: 12px; color: #666; margin-top: 4px; }
+
+        .section {
+            margin-bottom: 32px;
+        }
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .auth-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        /* Auth Frame */
+        .auth-frame {
+            background: #141414;
+            border-radius: 8px;
+            overflow: hidden;
+            min-height: 480px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Auth Background */
+        .auth-bg {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+            position: relative;
+        }
+        .auth-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(229,9,20,0.1) 0%, transparent 50%);
+        }
+
+        /* Auth Card */
+        .auth-card {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 32px;
+            width: 340px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Logo */
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .auth-logo span {
+            background: #e50914;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+            padding: 6px 14px;
+        }
+
+        /* Form Title */
+        .form-title {
+            color: #fff;
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        /* Input */
+        .input-group {
+            margin-bottom: 16px;
+        }
+        .input-label {
+            color: #888;
+            font-size: 12px;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .input {
+            width: 100%;
+            background: #333;
+            border: 1px solid #444;
+            padding: 12px 16px;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .input .icon {
+            color: #888;
+        }
+        .input .placeholder {
+            color: #666;
+        }
+        .input .value {
+            color: #fff;
+        }
+        .input.error {
+            border-color: #ef4444;
+        }
+        .input-error {
+            color: #ef4444;
+            font-size: 11px;
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .input-hint {
+            color: #666;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        /* Checkbox */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .checkbox {
+            width: 16px;
+            height: 16px;
+            background: #333;
+            border: 1px solid #444;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e50914;
+            font-size: 10px;
+        }
+        .checkbox.checked {
+            background: #e50914;
+            border-color: #e50914;
+            color: #fff;
+        }
+        .checkbox-label {
+            color: #888;
+            font-size: 12px;
+        }
+        .checkbox-label a {
+            color: #e50914;
+            text-decoration: none;
+        }
+
+        /* Button */
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            margin-bottom: 12px;
+        }
+        .btn-primary {
+            background: #e50914;
+            color: #fff;
+        }
+        .btn-secondary {
+            background: #333;
+            color: #fff;
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 20px 0;
+        }
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: #333;
+        }
+        .divider-text {
+            color: #666;
+            font-size: 12px;
+        }
+
+        /* Social Buttons */
+        .social-btns {
+            display: flex;
+            gap: 12px;
+        }
+        .social-btn {
+            flex: 1;
+            padding: 12px;
+            background: #252525;
+            border: 1px solid #333;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* Links */
+        .auth-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .auth-link {
+            color: #888;
+            font-size: 13px;
+        }
+        .auth-link a {
+            color: #e50914;
+            text-decoration: none;
+        }
+
+        /* Success/Error States */
+        .message-box {
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+        }
+        .message-box.success {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid #22c55e;
+            color: #22c55e;
+        }
+        .message-box.error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+        }
+        .message-box.info {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid #3b82f6;
+            color: #3b82f6;
+        }
+
+        /* Password Reset Flow */
+        .flow-steps {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+        .flow-step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .flow-step-num {
+            width: 24px;
+            height: 24px;
+            background: #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .flow-step-num.active {
+            background: #e50914;
+            color: #fff;
+        }
+        .flow-step-num.done {
+            background: #22c55e;
+            color: #fff;
+        }
+        .flow-connector {
+            width: 30px;
+            height: 2px;
+            background: #333;
+            margin: 0 4px;
+        }
+        .flow-connector.done {
+            background: #22c55e;
+        }
+    </style>
+</head>
+<body>
+<div class="capture-area">
+    <div class="page-header">
+        <h1>15. Auth Page - 인증</h1>
+        <p>WSOPTV Wireframe | Login / Register / Password Reset</p>
+    </div>
+
+    <!-- Login & Register -->
+    <div class="section">
+        <div class="section-title">로그인 / 회원가입</div>
+        <div class="auth-grid">
+            <!-- Login -->
+            <div class="auth-frame">
+                <div class="auth-bg">
+                    <div class="auth-card">
+                        <div class="auth-logo">
+                            <span>WSOPTV</span>
+                        </div>
+                        <div class="form-title">로그인</div>
+
+                        <div class="input-group">
+                            <div class="input">
+                                <span class="icon">📧</span>
+                                <span class="placeholder">이메일</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input">
+                                <span class="icon">🔒</span>
+                                <span class="placeholder">비밀번호</span>
+                            </div>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <div class="checkbox checked">✓</div>
+                            <span class="checkbox-label">로그인 상태 유지</span>
+                        </div>
+
+                        <button class="btn btn-primary">로그인</button>
+
+                        <div class="divider">
+                            <div class="divider-line"></div>
+                            <span class="divider-text">또는</span>
+                            <div class="divider-line"></div>
+                        </div>
+
+                        <div class="social-btns">
+                            <div class="social-btn">🍎 Apple</div>
+                            <div class="social-btn">G Google</div>
+                        </div>
+
+                        <div class="auth-links">
+                            <p class="auth-link"><a href="#">비밀번호를 잊으셨나요?</a></p>
+                            <p class="auth-link" style="margin-top: 8px;">
+                                계정이 없으신가요? <a href="#">회원가입</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Register -->
+            <div class="auth-frame">
+                <div class="auth-bg">
+                    <div class="auth-card">
+                        <div class="auth-logo">
+                            <span>WSOPTV</span>
+                        </div>
+                        <div class="form-title">회원가입</div>
+
+                        <div class="input-group">
+                            <div class="input">
+                                <span class="icon">📧</span>
+                                <span class="placeholder">이메일</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input">
+                                <span class="icon">🔒</span>
+                                <span class="placeholder">비밀번호</span>
+                            </div>
+                            <div class="input-hint">• 8자 이상 • 영문+숫자 포함</div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input">
+                                <span class="icon">🔒</span>
+                                <span class="placeholder">비밀번호 확인</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input">
+                                <span class="icon">👤</span>
+                                <span class="placeholder">이름</span>
+                            </div>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <div class="checkbox"></div>
+                            <span class="checkbox-label"><a href="#">이용약관</a> 및 <a href="#">개인정보처리방침</a>에 동의합니다</span>
+                        </div>
+
+                        <button class="btn btn-primary">회원가입</button>
+
+                        <div class="auth-links">
+                            <p class="auth-link">
+                                이미 계정이 있으신가요? <a href="#">로그인</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error States & Password Reset -->
+    <div class="section">
+        <div class="section-title">에러 상태 / 비밀번호 찾기</div>
+        <div class="auth-grid">
+            <!-- Login Error -->
+            <div class="auth-frame">
+                <div class="auth-bg">
+                    <div class="auth-card">
+                        <div class="auth-logo">
+                            <span>WSOPTV</span>
+                        </div>
+                        <div class="form-title">로그인</div>
+
+                        <div class="message-box error">
+                            ⚠️ 이메일 또는 비밀번호가 올바르지 않습니다
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input error">
+                                <span class="icon">📧</span>
+                                <span class="value">wrong@email.com</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input error">
+                                <span class="icon">🔒</span>
+                                <span class="value">••••••••</span>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary">로그인</button>
+
+                        <div class="auth-links">
+                            <p class="auth-link"><a href="#">비밀번호를 잊으셨나요?</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Password Reset -->
+            <div class="auth-frame">
+                <div class="auth-bg">
+                    <div class="auth-card">
+                        <div class="auth-logo">
+                            <span>WSOPTV</span>
+                        </div>
+                        <div class="form-title">비밀번호 찾기</div>
+
+                        <div class="flow-steps">
+                            <div class="flow-step">
+                                <div class="flow-step-num active">1</div>
+                            </div>
+                            <div class="flow-connector"></div>
+                            <div class="flow-step">
+                                <div class="flow-step-num">2</div>
+                            </div>
+                            <div class="flow-connector"></div>
+                            <div class="flow-step">
+                                <div class="flow-step-num">3</div>
+                            </div>
+                        </div>
+
+                        <p style="color: #888; font-size: 13px; text-align: center; margin-bottom: 20px;">
+                            가입하신 이메일 주소를 입력하세요.<br>
+                            비밀번호 재설정 링크를 보내드립니다.
+                        </p>
+
+                        <div class="input-group">
+                            <div class="input">
+                                <span class="icon">📧</span>
+                                <span class="placeholder">이메일</span>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary">인증 메일 발송</button>
+
+                        <div class="auth-links">
+                            <p class="auth-link">
+                                <a href="#">← 로그인으로 돌아가기</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Reset Flow -->
+    <div class="section">
+        <div class="section-title">비밀번호 재설정 플로우</div>
+        <div class="auth-grid">
+            <!-- Email Sent -->
+            <div class="auth-frame">
+                <div class="auth-bg">
+                    <div class="auth-card">
+                        <div class="auth-logo">
+                            <span>WSOPTV</span>
+                        </div>
+
+                        <div class="flow-steps">
+                            <div class="flow-step">
+                                <div class="flow-step-num done">✓</div>
+                            </div>
+                            <div class="flow-connector done"></div>
+                            <div class="flow-step">
+                                <div class="flow-step-num active">2</div>
+                            </div>
+                            <div class="flow-connector"></div>
+                            <div class="flow-step">
+                                <div class="flow-step-num">3</div>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; margin: 24px 0;">
+                            <div style="font-size: 48px; margin-bottom: 16px;">📧</div>
+                            <div style="color: #fff; font-size: 18px; font-weight: 600; margin-bottom: 8px;">
+                                인증 메일을 발송했습니다
+                            </div>
+                            <div style="color: #888; font-size: 13px;">
+                                john@email.com으로<br>
+                                비밀번호 재설정 링크를 보냈습니다.
+                            </div>
+                        </div>
+
+                        <div class="message-box info">
+                            💡 메일이 도착하지 않았나요? 스팸함을 확인해주세요.
+                        </div>
+
+                        <button class="btn btn-secondary">메일 재발송</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Password -->
+            <div class="auth-frame">
+                <div class="auth-bg">
+                    <div class="auth-card">
+                        <div class="auth-logo">
+                            <span>WSOPTV</span>
+                        </div>
+                        <div class="form-title">새 비밀번호 설정</div>
+
+                        <div class="flow-steps">
+                            <div class="flow-step">
+                                <div class="flow-step-num done">✓</div>
+                            </div>
+                            <div class="flow-connector done"></div>
+                            <div class="flow-step">
+                                <div class="flow-step-num done">✓</div>
+                            </div>
+                            <div class="flow-connector done"></div>
+                            <div class="flow-step">
+                                <div class="flow-step-num active">3</div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input">
+                                <span class="icon">🔒</span>
+                                <span class="placeholder">새 비밀번호</span>
+                            </div>
+                            <div class="input-hint">• 8자 이상 • 영문+숫자 포함</div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input">
+                                <span class="icon">🔒</span>
+                                <span class="placeholder">새 비밀번호 확인</span>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary">비밀번호 변경</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

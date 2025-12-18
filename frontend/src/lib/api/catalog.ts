@@ -1,10 +1,22 @@
 // Catalog API - wsoptv_v2_db 백엔드 연동
 
 import apiClient from './client';
-import type { Project, Season, Event, Episode, NASFolder, NASFile } from '@/types/api';
+import type {
+  Project,
+  Season,
+  Event,
+  Episode,
+  NASFolder,
+  NASFile,
+  CatalogItem,
+  CatalogListResponse,
+  CatalogStats,
+  CatalogSearchParams,
+  ProjectCode,
+} from '@/types/api';
 
 // Catalog DB API base (다른 포트 사용 가능)
-const CATALOG_API_URL = process.env.NEXT_PUBLIC_CATALOG_API_URL || 'http://localhost:8000';
+const CATALOG_API_URL = process.env.NEXT_PUBLIC_CATALOG_API_URL || 'http://localhost:8002';
 
 class CatalogApiClient {
   private baseUrl: string;
@@ -170,6 +182,95 @@ class CatalogApiClient {
     unlinked_count: number;
   }> {
     return this.request('/api/v1/nas/files/stats');
+  }
+
+  // ==================== Block F: Flat Catalog API ====================
+
+  /**
+   * Block F 카탈로그 목록 조회
+   * @param params 필터/페이지네이션 파라미터
+   */
+  async getCatalogItems(params: CatalogSearchParams = {}): Promise<CatalogListResponse> {
+    const queryParams = new URLSearchParams();
+    if (params.project_code) queryParams.append('project_code', params.project_code);
+    if (params.year) queryParams.append('year', params.year.toString());
+    if (params.visible_only !== undefined) queryParams.append('visible_only', params.visible_only.toString());
+    if (params.skip) queryParams.append('skip', params.skip.toString());
+    if (params.limit) queryParams.append('limit', params.limit.toString());
+
+    const url = `/api/v1/catalog/${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+    return this.request<CatalogListResponse>(url);
+  }
+
+  /**
+   * Block F 카탈로그 아이템 상세 조회
+   */
+  async getCatalogItem(itemId: string): Promise<CatalogItem> {
+    return this.request<CatalogItem>(`/api/v1/catalog/${itemId}`);
+  }
+
+  /**
+   * Block F 카탈로그 검색
+   * @param query 검색어
+   * @param limit 결과 개수 제한 (기본값: 50)
+   */
+  async searchCatalog(query: string, limit: number = 50): Promise<CatalogItem[]> {
+    return this.request<CatalogItem[]>(
+      `/api/v1/catalog/search?q=${encodeURIComponent(query)}&limit=${limit}`
+    );
+  }
+
+  /**
+   * Block F 카탈로그 통계
+   */
+  async getCatalogStats(): Promise<CatalogStats> {
+    return this.request<CatalogStats>('/api/v1/catalog/stats');
+  }
+
+  /**
+   * Block F 프로젝트 목록 (카운트 포함)
+   */
+  async getCatalogProjects(): Promise<Array<{ code: string; count: number }>> {
+    return this.request<Array<{ code: string; count: number }>>('/api/v1/catalog/projects');
+  }
+
+  /**
+   * Block F 연도 목록
+   * @param projectCode 프로젝트 코드 필터 (선택)
+   */
+  async getCatalogYears(projectCode?: ProjectCode): Promise<number[]> {
+    const url = projectCode
+      ? `/api/v1/catalog/years?project_code=${projectCode}`
+      : '/api/v1/catalog/years';
+    return this.request<number[]>(url);
+  }
+
+  /**
+   * Block F NAS 파일 동기화
+   * 기존 syncNAS와 별개로 Block F 카탈로그 동기화
+   */
+  async syncCatalog(files: Array<{
+    id: string;
+    file_path: string;
+    file_name: string;
+    file_size_bytes: number;
+    file_extension: string;
+    file_category?: string;
+    is_hidden_file?: boolean;
+  }>): Promise<{
+    created: number;
+    updated: number;
+    deleted: number;
+    skipped: number;
+    errors: number;
+    total_processed: number;
+    duration_seconds: number;
+    error_messages: string[];
+  }> {
+    return this.request('/api/v1/catalog/sync', {
+      method: 'POST',
+      body: JSON.stringify({ files }),
+    });
   }
 }
 

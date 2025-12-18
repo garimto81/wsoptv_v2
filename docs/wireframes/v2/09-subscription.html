@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=907">
+    <title>09. Subscription UX</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #999;
+        }
+        .capture-area {
+            width: 907px;
+            background: white;
+            padding: 24px;
+        }
+
+        .page-header {
+            border-bottom: 2px solid #000;
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+        }
+        .page-header h1 { font-size: 20px; font-weight: 600; }
+        .page-header p { font-size: 12px; color: #666; margin-top: 4px; }
+
+        .section {
+            margin-bottom: 28px;
+        }
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        /* Paywall Modal */
+        .paywall {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            position: relative;
+        }
+        .paywall-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(229,9,20,0.1) 0%, rgba(0,0,0,0.9) 100%);
+            border-radius: 8px;
+        }
+        .paywall-content {
+            position: relative;
+            z-index: 1;
+        }
+        .lock-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+        .paywall-title {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .benefits-list {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .benefit-item {
+            color: #ccc;
+            font-size: 12px;
+            padding: 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .benefit-item .check {
+            color: #22c55e;
+        }
+        .paywall-cta {
+            background: #e50914;
+            color: #fff;
+            border: none;
+            padding: 12px 32px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 12px;
+            display: block;
+            width: 100%;
+        }
+        .paywall-price {
+            color: #888;
+            font-size: 12px;
+        }
+
+        /* Subscription Page */
+        .sub-page {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .sub-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .sub-header h3 {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+        .sub-header p {
+            font-size: 11px;
+            color: #666;
+        }
+        .plans {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .plan-card {
+            flex: 1;
+            background: #fff;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            position: relative;
+        }
+        .plan-card.recommended {
+            border-color: #e50914;
+        }
+        .plan-badge {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #e50914;
+            color: #fff;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 10px;
+        }
+        .plan-name {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        .plan-price {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .plan-period {
+            font-size: 11px;
+            color: #888;
+        }
+        .plan-save {
+            color: #22c55e;
+            font-size: 10px;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        /* Payment Methods */
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .payment-btn {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Funnel */
+        .funnel {
+            margin-top: 20px;
+        }
+        .funnel-title {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #666;
+        }
+        .funnel-steps {
+            display: flex;
+            align-items: center;
+        }
+        .funnel-step {
+            flex: 1;
+            text-align: center;
+            padding: 12px 8px;
+            background: #f5f5f5;
+            font-size: 10px;
+            position: relative;
+        }
+        .funnel-step:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        .funnel-step .num {
+            display: block;
+            font-weight: 700;
+            color: #e50914;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+<div class="capture-area">
+    <div class="page-header">
+        <h1>09. Subscription UX - 구독 전환</h1>
+        <p>WSOPTV Homepage Wireframe | Paywall & Subscription</p>
+    </div>
+
+    <div class="two-col">
+        <!-- Paywall -->
+        <div class="section">
+            <div class="section-title">4.1 Paywall 화면</div>
+            <div class="paywall">
+                <div class="paywall-bg"></div>
+                <div class="paywall-content">
+                    <div class="lock-icon">🔒</div>
+                    <div class="paywall-title">Premium 구독자 전용 콘텐츠</div>
+                    <div class="benefits-list">
+                        <div class="benefit-item"><span class="check">✓</span> 전체 WSOP 아카이브 접근</div>
+                        <div class="benefit-item"><span class="check">✓</span> Hand Skip 기능</div>
+                        <div class="benefit-item"><span class="check">✓</span> 에피소드별 Best Hands</div>
+                        <div class="benefit-item"><span class="check">✓</span> 이어보기 동기화</div>
+                        <div class="benefit-item"><span class="check">✓</span> 광고 없음</div>
+                    </div>
+                    <button class="paywall-cta">Premium 시작하기</button>
+                    <div class="paywall-price">$9.99/월 또는 $99/년</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subscription Page -->
+        <div class="section">
+            <div class="section-title">4.2 구독 페이지</div>
+            <div class="sub-page">
+                <div class="sub-header">
+                    <h3>🏆 WSOPTV Premium</h3>
+                    <p>플랜을 선택하세요</p>
+                </div>
+                <div class="plans">
+                    <div class="plan-card">
+                        <div class="plan-name">MONTHLY</div>
+                        <div class="plan-price">$9.99</div>
+                        <div class="plan-period">/월</div>
+                    </div>
+                    <div class="plan-card recommended">
+                        <div class="plan-badge">BEST VALUE</div>
+                        <div class="plan-name">YEARLY</div>
+                        <div class="plan-price">$99</div>
+                        <div class="plan-period">/년 ($8.25/월)</div>
+                        <div class="plan-save">17% 절약</div>
+                    </div>
+                </div>
+                <div class="payment-methods">
+                    <div class="payment-btn">💳 Card</div>
+                    <div class="payment-btn">🍎 Apple Pay</div>
+                    <div class="payment-btn">G Google Pay</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conversion Funnel -->
+    <div class="funnel">
+        <div class="funnel-title">전환 퍼널</div>
+        <div class="funnel-steps">
+            <div class="funnel-step">
+                <span class="num">1</span>
+                인지<br><small>잠금 콘텐츠 발견</small>
+            </div>
+            <div class="funnel-step">
+                <span class="num">2</span>
+                관심<br><small>30초 미리보기</small>
+            </div>
+            <div class="funnel-step">
+                <span class="num">3</span>
+                결정<br><small>Paywall 표시</small>
+            </div>
+            <div class="funnel-step">
+                <span class="num">4</span>
+                전환<br><small>구독 완료</small>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

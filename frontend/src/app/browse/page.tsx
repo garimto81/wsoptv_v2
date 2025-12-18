@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { Header } from '@/components/layout/header';
 import { HeroBillboard } from '@/components/content/hero-billboard';
 import { ContentRow } from '@/components/content/content-row';
+import { catalogApi } from '@/lib/api/catalog';
+import type { CatalogItem, ProjectCode } from '@/types/api';
 
 interface User {
   id: string;
@@ -19,10 +21,51 @@ function getAuthUser(): User | null {
   return userData ? JSON.parse(userData) : null;
 }
 
+// CatalogItem을 ContentRow의 ContentItem으로 변환
+function catalogToContentItem(item: CatalogItem) {
+  return {
+    id: item.id,
+    title: item.display_title,
+    shortTitle: item.short_title,
+    thumbnail: item.thumbnail_url || undefined,
+    category: item.project_code,
+    year: item.year || undefined,
+    duration: item.duration_seconds
+      ? `${Math.floor(item.duration_seconds / 3600)}h ${Math.floor((item.duration_seconds % 3600) / 60)}m`
+      : undefined,
+    confidence: item.confidence,
+    tags: item.category_tags,
+  };
+}
+
+// CatalogItem을 HeroBillboard의 FeaturedContent로 변환
+function catalogToFeaturedContent(item: CatalogItem) {
+  return {
+    id: item.id,
+    title: item.display_title,
+    description: `${item.project_code} ${item.year || ''} - ${item.category_tags.slice(0, 3).join(', ')}`,
+    category: item.project_code,
+    thumbnail: item.thumbnail_url || undefined,
+    year: item.year || undefined,
+    duration: item.duration_seconds
+      ? `${Math.floor(item.duration_seconds / 3600)}h ${Math.floor((item.duration_seconds % 3600) / 60)}m`
+      : undefined,
+    tags: item.category_tags,
+  };
+}
+
 export default function BrowsePage() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Block F 데이터
+  const [wsopItems, setWsopItems] = useState<CatalogItem[]>([]);
+  const [hclItems, setHclItems] = useState<CatalogItem[]>([]);
+  const [ggmillionsItems, setGgmillionsItems] = useState<CatalogItem[]>([]);
+  const [gogItems, setGogItems] = useState<CatalogItem[]>([]);
+  const [recentItems, setRecentItems] = useState<CatalogItem[]>([]);
+  const [topItems, setTopItems] = useState<CatalogItem[]>([]);
 
   useEffect(() => {
     const authUser = getAuthUser();
@@ -31,7 +74,36 @@ export default function BrowsePage() {
       return;
     }
     setUser(authUser);
-    setIsLoading(false);
+
+    // Block F API로 데이터 로드
+    const loadCatalogData = async () => {
+      try {
+        const [wsop, hcl, ggmillions, gog, recent] = await Promise.all([
+          catalogApi.getCatalogItems({ project_code: 'WSOP' as ProjectCode, limit: 15 }),
+          catalogApi.getCatalogItems({ project_code: 'HCL' as ProjectCode, limit: 15 }),
+          catalogApi.getCatalogItems({ project_code: 'GGMILLIONS' as ProjectCode, limit: 15 }),
+          catalogApi.getCatalogItems({ project_code: 'GOG' as ProjectCode, limit: 15 }),
+          catalogApi.getCatalogItems({ limit: 10 }), // 최신 항목
+        ]);
+
+        setWsopItems(wsop.items);
+        setHclItems(hcl.items);
+        setGgmillionsItems(ggmillions.items);
+        setGogItems(gog.items);
+        setRecentItems(recent.items);
+
+        // Top 10: 신뢰도 높은 순으로 정렬
+        const allItems = [...wsop.items, ...hcl.items, ...ggmillions.items, ...gog.items];
+        const sorted = allItems.sort((a, b) => b.confidence - a.confidence).slice(0, 10);
+        setTopItems(sorted);
+      } catch (err) {
+        console.error('Failed to load catalog data:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadCatalogData();
   }, [router]);
 
   const handleLogout = () => {
@@ -56,11 +128,11 @@ export default function BrowsePage() {
       />
 
       {/* Hero Billboard */}
-      <HeroBillboard />
+      <HeroBillboard content={topItems[0] ? catalogToFeaturedContent(topItems[0]) : undefined} />
 
       {/* Content Rows */}
       <div className="relative z-10 -mt-20 pb-12 space-y-4">
-        {/* Continue Watching */}
+        {/* Continue Watching - 추후 Watch History 연동 */}
         <ContentRow
           title="Continue Watching"
           items={[]}
@@ -70,51 +142,57 @@ export default function BrowsePage() {
         {/* Today's Top 10 */}
         <ContentRow
           title="Today in WSOPTV"
-          items={[]}
+          items={topItems.map((item, i) => ({
+            ...catalogToContentItem(item),
+            rank: i + 1,
+          }))}
           variant="top10"
         />
 
         {/* WSOP Series */}
-        <ContentRow
-          title="WSOP Series"
-          items={[]}
-          variant="default"
-        />
+        {wsopItems.length > 0 && (
+          <ContentRow
+            title="WSOP Series"
+            items={wsopItems.map(catalogToContentItem)}
+            variant="default"
+          />
+        )}
 
         {/* HCL (Hustler Casino Live) */}
-        <ContentRow
-          title="Hustler Casino Live"
-          items={[]}
-          variant="default"
-        />
+        {hclItems.length > 0 && (
+          <ContentRow
+            title="Hustler Casino Live"
+            items={hclItems.map(catalogToContentItem)}
+            variant="default"
+          />
+        )}
 
         {/* GGMillions */}
-        <ContentRow
-          title="GGMillions"
-          items={[]}
-          variant="default"
-        />
+        {ggmillionsItems.length > 0 && (
+          <ContentRow
+            title="GGMillions"
+            items={ggmillionsItems.map(catalogToContentItem)}
+            variant="default"
+          />
+        )}
 
-        {/* Phil Ivey Collection */}
-        <ContentRow
-          title="Phil Ivey Moments"
-          items={[]}
-          variant="default"
-        />
-
-        {/* High Stakes Cash Games */}
-        <ContentRow
-          title="High Stakes Cash Games"
-          items={[]}
-          variant="default"
-        />
+        {/* GOG */}
+        {gogItems.length > 0 && (
+          <ContentRow
+            title="Game of Gold"
+            items={gogItems.map(catalogToContentItem)}
+            variant="default"
+          />
+        )}
 
         {/* New Releases */}
-        <ContentRow
-          title="New Releases"
-          items={[]}
-          variant="default"
-        />
+        {recentItems.length > 0 && (
+          <ContentRow
+            title="Recently Added"
+            items={recentItems.map(catalogToContentItem)}
+            variant="default"
+          />
+        )}
       </div>
 
       {/* Footer */}

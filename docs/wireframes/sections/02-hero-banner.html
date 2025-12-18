@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1200">
+    <title>WSOPTV - 02. Hero Banner Section</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f5f5f5;
+            padding: 40px;
+            color: #333;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #e50914;
+        }
+        .page-title h1 { font-size: 28px; color: #1a1a1a; }
+        .page-title p { color: #666; margin-top: 8px; }
+
+        .section-container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Hero Wireframe */
+        .hero-wireframe {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 8px;
+            padding: 60px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            min-height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .badge-group {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            position: relative;
+        }
+        .badge {
+            padding: 4px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 4px;
+            border: 2px dashed rgba(255,255,255,0.3);
+        }
+        .badge.new { background: #e50914; color: white; }
+        .badge.quality { background: #ffc107; color: #000; }
+
+        .hero-title {
+            color: white;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.2;
+            border: 2px dashed rgba(255,255,255,0.2);
+            padding: 16px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .hero-desc {
+            color: #b3b3b3;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            border: 2px dashed rgba(255,255,255,0.15);
+            padding: 12px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 16px;
+            position: relative;
+        }
+        .btn {
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-primary {
+            background: white;
+            color: #1a1a1a;
+        }
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px dashed rgba(255,255,255,0.4);
+        }
+
+        .hero-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .image-placeholder {
+            width: 100%;
+            height: 300px;
+            background: rgba(255,255,255,0.1);
+            border: 3px dashed rgba(255,255,255,0.3);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.6);
+        }
+        .image-placeholder .icon { font-size: 48px; margin-bottom: 12px; }
+        .image-placeholder .text { font-size: 14px; }
+
+        /* Auto Rotate Indicator */
+        .auto-rotate {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+        }
+        .dot.active { background: white; width: 24px; border-radius: 5px; }
+
+        /* Gradient Overlay indicator */
+        .gradient-indicator {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            border: 2px dashed rgba(255,255,255,0.3);
+        }
+
+        /* Markers */
+        .marker {
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            background: #9c27b0;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        /* Annotation Table */
+        .annotation-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+        .annotation-table th {
+            background: #9c27b0;
+            color: white;
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 14px;
+        }
+        .annotation-table td {
+            padding: 16px;
+            border-bottom: 1px solid #eee;
+            vertical-align: top;
+        }
+        .annotation-table tr:hover {
+            background: #f9f9f9;
+        }
+        .marker-cell {
+            width: 50px;
+            text-align: center;
+        }
+        .marker-small {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: #9c27b0;
+            color: white;
+            border-radius: 50%;
+            line-height: 24px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .element-name {
+            font-weight: 600;
+            color: #1a1a1a;
+            width: 140px;
+        }
+        .spec-list {
+            list-style: none;
+            font-size: 13px;
+            color: #555;
+        }
+        .spec-list li {
+            margin-bottom: 6px;
+            padding-left: 16px;
+            position: relative;
+        }
+        .spec-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #9c27b0;
+        }
+        .code-tag {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            color: #d63384;
+        }
+
+        /* Behavior Boxes */
+        .behavior-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .behavior-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+        }
+        .behavior-box.warning {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+        .behavior-box h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .behavior-box.warning h4 { color: #856404; }
+        .behavior-box ul {
+            list-style: none;
+            font-size: 13px;
+            color: #1b5e20;
+        }
+        .behavior-box.warning ul { color: #664d03; }
+        .behavior-box li {
+            margin-bottom: 6px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .behavior-box li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-title">
+        <h1>02. Hero Banner - 메인 추천 콘텐츠</h1>
+        <p>WSOPTV Homepage Wireframe | Section 2 of 6</p>
+    </div>
+
+    <div class="section-container">
+        <div class="hero-wireframe">
+            <!-- Content Side -->
+            <div class="hero-content">
+                <div class="badge-group">
+                    <span class="badge new">NEW</span>
+                    <span class="badge quality">4K</span>
+                    <span class="marker" style="top: -14px; left: -14px;">A</span>
+                </div>
+                <div class="hero-title">
+                    WSOP 2024 Main Event<br>Day 7 - Final Table
+                    <span class="marker" style="top: -14px; right: -14px;">B</span>
+                </div>
+                <div class="hero-desc">
+                    The most anticipated final table of the year.<br>
+                    9 players remain with $12.1M on the line.
+                    <span class="marker" style="bottom: -14px; right: -14px;">C</span>
+                </div>
+                <div class="cta-group">
+                    <button class="btn btn-primary">▶ Watch Now</button>
+                    <button class="btn btn-secondary">+ My List</button>
+                    <span class="marker" style="top: -14px; left: 60px;">D</span>
+                </div>
+            </div>
+
+            <!-- Image Side -->
+            <div class="hero-image">
+                <div class="image-placeholder">
+                    <div class="icon">🖼️</div>
+                    <div class="text">Featured Thumbnail</div>
+                    <div class="text" style="font-size: 12px; margin-top: 4px;">1920 × 1080</div>
+                </div>
+                <span class="marker" style="top: 10px; right: 10px;">E</span>
+            </div>
+
+            <!-- Gradient Indicator -->
+            <div class="gradient-indicator">
+                Gradient Overlay
+                <span class="marker" style="top: -10px; right: -10px; width: 20px; height: 20px; font-size: 10px;">F</span>
+            </div>
+
+            <!-- Auto Rotate Dots -->
+            <div class="auto-rotate">
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <span class="marker" style="top: -20px; right: -30px; width: 20px; height: 20px; font-size: 10px;">G</span>
+            </div>
+        </div>
+
+        <!-- Annotation Table -->
+        <table class="annotation-table">
+            <thead>
+                <tr>
+                    <th class="marker-cell">ID</th>
+                    <th>요소</th>
+                    <th>상세 스펙</th>
+                    <th>동작</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="marker-cell"><span class="marker-small">A</span></td>
+                    <td class="element-name">Badge Group</td>
+                    <td>
+                        <ul class="spec-list">
+                            <li>NEW 배지: <code class="code-tag">background: #e50914</code></li>
+                            <li>4K 배지: <code class="code-tag">background: #ffc107</code></li>
+                            <li>기타: HD, CC (자막), LIVE</li>
+                            <li>간격: <code class="code-tag">gap: 8px</code></li>
+                        </ul>
+                    </td>
+                    <td>정보 표시 전용<br>(클릭 없음)</td>
+                </tr>
+                <tr>
+                    <td class="marker-cell"><span class="marker-small">B</span></td>
+                    <td class="element-name">Title</td>
+                    <td>
+                        <ul class="spec-list">
+                            <li>폰트: <code class="code-tag">36px / 700</code></li>
+                            <li>최대 2줄, 말줄임 처리</li>
+                            <li>색상: <code class="code-tag">#ffffff</code></li>
+                            <li>하단 여백: <code class="code-tag">16px</code></li>
+                        </ul>
+                    </td>
+                    <td>클릭 시 상세 페이지</td>
+                </tr>
+                <tr>
+                    <td class="marker-cell"><span class="marker-small">C</span></td>
+                    <td class="element-name">Description</td>
+                    <td>
+                        <ul class="spec-list">
+                            <li>폰트: <code class="code-tag">16px / 400</code></li>
+                            <li>최대 3줄, 말줄임 처리</li>
+                            <li>색상: <code class="code-tag">#b3b3b3</code></li>
+                            <li>줄 높이: <code class="code-tag">1.6</code></li>
+                        </ul>
+                    </td>
+                    <td>정보 표시 전용</td>
+                </tr>
+                <tr>
+                    <td class="marker-cell"><span class="marker-small">D</span></td>
+                    <td class="element-name">CTA Buttons</td>
+                    <td>
+                        <ul class="spec-list">
+                            <li>Watch Now: <code class="code-tag">bg: white, color: #1a1a1a</code></li>
+                            <li>My List: <code class="code-tag">bg: rgba(255,255,255,0.2)</code></li>
+                            <li>패딩: <code class="code-tag">14px 28px</code></li>
+                            <li>호버: scale(1.05) + shadow</li>
+                        </ul>
+                    </td>
+                    <td>
+                        Watch Now → 바로 재생<br>
+                        My List → 내 리스트 추가
+                    </td>
+                </tr>
+                <tr>
+                    <td class="marker-cell"><span class="marker-small">E</span></td>
+                    <td class="element-name">Featured Image</td>
+                    <td>
+                        <ul class="spec-list">
+                            <li>비율: <code class="code-tag">16:9</code></li>
+                            <li>권장 크기: <code class="code-tag">1920×1080</code></li>
+                            <li>로딩: Lazy Load + Blur Placeholder</li>
+                            <li>포맷: WebP 우선, JPG fallback</li>
+                        </ul>
+                    </td>
+                    <td>클릭 시 상세 페이지</td>
+                </tr>
+                <tr>
+                    <td class="marker-cell"><span class="marker-small">F</span></td>
+                    <td class="element-name">Gradient Overlay</td>
+                    <td>
+                        <ul class="spec-list">
+                            <li>방향: <code class="code-tag">to right</code></li>
+                            <li>좌측: <code class="code-tag">rgba(0,0,0,0.8)</code></li>
+                            <li>우측: <code class="code-tag">transparent</code></li>
+                            <li>텍스트 가독성 확보용</li>
+                        </ul>
+                    </td>
+                    <td>시각적 효과 전용</td>
+                </tr>
+                <tr>
+                    <td class="marker-cell"><span class="marker-small">G</span></td>
+                    <td class="element-name">Auto Rotate</td>
+                    <td>
+                        <ul class="spec-list">
+                            <li>콘텐츠 수: 최대 5개</li>
+                            <li>전환 간격: <code class="code-tag">5초</code></li>
+                            <li>전환 효과: fade + slide</li>
+                            <li>호버 시: 자동 전환 일시정지</li>
+                        </ul>
+                    </td>
+                    <td>
+                        점 클릭 → 해당 슬라이드<br>
+                        스와이프 지원 (터치)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Behavior Boxes -->
+        <div class="behavior-grid">
+            <div class="behavior-box">
+                <h4>✅ 정상 동작</h4>
+                <ul>
+                    <li>5초마다 자동으로 다음 콘텐츠로 전환</li>
+                    <li>마우스 호버 시 자동 전환 일시정지</li>
+                    <li>Watch Now 클릭 시 즉시 재생 시작</li>
+                    <li>이미지 로딩 중 Skeleton UI 표시</li>
+                </ul>
+            </div>
+            <div class="behavior-box warning">
+                <h4>⚠️ Edge Cases</h4>
+                <ul>
+                    <li>콘텐츠 1개일 때: 인디케이터 숨김</li>
+                    <li>이미지 로드 실패: 기본 포스터 표시</li>
+                    <li>설명 없을 때: 설명 영역 숨김</li>
+                    <li>비로그인 My List: 로그인 모달 표시</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

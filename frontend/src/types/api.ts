@@ -19,7 +19,7 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   token: string;
-  user: User;
+  user_id: string;
 }
 
 export interface RegisterRequest {
@@ -253,4 +253,63 @@ export interface CatalogTree {
       }>;
     }>;
   }>;
+}
+
+// ==================== Block F: Flat Catalog Types ====================
+
+/**
+ * CatalogItem - Block F 단일 계층 카탈로그 아이템
+ * 4단계 계층(Project → Season → Event → Episode)을 대체하는 단일 모델
+ */
+export interface CatalogItem {
+  id: string;
+  nas_file_id: string | null;
+  display_title: string;        // Title Generator 생성
+  short_title: string;          // 축약 제목
+  thumbnail_url: string | null;
+  project_code: ProjectCode;    // WSOP, HCL, GGMILLIONS, GOG, MPP, PAD, OTHER
+  year: number | null;
+  category_tags: string[];      // [NLHE, Main Event, Final Table, ...]
+  file_path: string;
+  file_name: string;
+  file_size_bytes: number;
+  file_size_formatted: string;  // "2.1 GB"
+  file_extension: string;
+  duration_seconds: number | null;
+  quality: string | null;
+  is_visible: boolean;
+  confidence: number;           // 0.0 ~ 1.0 (Title Generator 신뢰도)
+  created_at: string;
+  updated_at: string;
+}
+
+/**
+ * CatalogListResponse - 카탈로그 목록 응답
+ */
+export interface CatalogListResponse {
+  items: CatalogItem[];
+  total: number;
+  skip: number;
+  limit: number;
+}
+
+/**
+ * CatalogStats - 카탈로그 통계
+ */
+export interface CatalogStats {
+  total_items: number;
+  visible_items: number;
+  projects: Array<{ code: string; count: number }>;
+  years: number[];
+}
+
+/**
+ * CatalogSearchParams - 카탈로그 검색/필터 파라미터
+ */
+export interface CatalogSearchParams {
+  project_code?: ProjectCode;
+  year?: number;
+  visible_only?: boolean;
+  skip?: number;
+  limit?: number;
 }

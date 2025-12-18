@@ -1,87 +1,45 @@
 """
 Auth Block Service
 
-인증/인가 비즈니스 로직
+인증/인가 비즈니스 로직 - PostgreSQL 연동
 """
 
-import hashlib
 import uuid
 from datetime import datetime, timedelta
 from typing import Optional
 
+import bcrypt
+
 from .models import User, UserStatus, Session, TokenResult
 from src.orchestration.message_bus import MessageBus, BlockMessage
+from src.core.database import Database
 
 
 class AuthService:
     """
     인증/인가 서비스
 
-    TDD 구현:
-    - 간단한 해싱 (hashlib.sha256)
+    PostgreSQL 연동:
+    - bcrypt 비밀번호 해싱
     - UUID 기반 토큰
-    - 인메모리 저장소 (테스트용)
+    - DB 기반 사용자 관리 + 인메모리 세션
     """
 
     def __init__(self):
-        # 인메모리 저장소 (실제로는 DB 사용)
-        self._users: dict[str, User] = {}
+        # 인메모리 세션 저장소
         self._sessions: dict[str, Session] = {}
-        self._email_to_user_id: dict[str, str] = {}
         self._bus = MessageBus.get_instance()
 
-        # 테스트용 초기 데이터
-        self._init_test_data()
-
-    def _init_test_data(self):
-        """테스트용 초기 데이터"""
-        # 일반 사용자
-        user_id = "user123"
-        user = User(
-            id=user_id,
-            email="test@test.com",
-            hashed_password=self._hash_password("password"),
-            status=UserStatus.ACTIVE,
-            is_admin=False,
-        )
-        self._users[user_id] = user
-        self._email_to_user_id[user.email] = user_id
-
-        # 관리자
-        admin_id = "admin_user"
-        admin = User(
-            id=admin_id,
-            email="admin@test.com",
-            hashed_password=self._hash_password("admin"),
-            status=UserStatus.ACTIVE,
-            is_admin=True,
-        )
-        self._users[admin_id] = admin
-        self._email_to_user_id[admin.email] = admin_id
-
-        # 유효한 토큰 세션
-        valid_token = "valid_jwt_token_123"
-        session = Session(
-            id=str(uuid.uuid4()),
-            user_id=user_id,
-            token=valid_token,
-            expires_at=datetime.now() + timedelta(days=1),
-        )
-        self._sessions[valid_token] = session
-
-        # 만료된 토큰 세션
-        expired_token = "expired_jwt_token"
-        expired_session = Session(
-            id=str(uuid.uuid4()),
-            user_id=user_id,
-            token=expired_token,
-            expires_at=datetime.now() - timedelta(days=1),  # 과거
-        )
-        self._sessions[expired_token] = expired_session
-
     def _hash_password(self, password: str) -> str:
-        """비밀번호 해싱 (간단한 구현)"""
-        return hashlib.sha256(password.encode()).hexdigest()
+        """비밀번호 해싱 (bcrypt)"""
+        return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+
+    def _verify_password(self, password: str, hashed: str) -> bool:
+        """비밀번호 검증 (bcrypt)"""
+        try:
+            return bcrypt.checkpw(password.encode(), hashed.encode())
+        except Exception:
+            return False
 
     async def register(self, email: str, password: str) -> User:
         """
@@ -94,17 +52,34 @@ class AuthService:
         Returns:
             생성된 사용자 (PENDING 상태)
         """
-        user_id = str(uuid.uuid4())
-        user = User(
-            id=user_id,
-            email=email,
-            hashed_password=self._hash_password(password),
-            status=UserStatus.PENDING,  # 승인 대기
-            is_admin=False,
-        )
+        hashed_password = self._hash_password(password)
 
-        self._users[user_id] = user
-        self._email_to_user_id[email] = user_id
+        async with Database.connection() as conn:
+            # 이메일 중복 체크
+            existing = await conn.fetchrow(
+                "SELECT id FROM users WHERE email = $1", email
+            )
+            if existing:
+                raise ValueError("Email already exists")
+
+            # 사용자 생성
+            row = await conn.fetchrow(
+                """
+                INSERT INTO users (email, password_hash, role, status)
+                VALUES ($1, $2, 'user', 'pending')
+                RETURNING id, email, role, status, created_at
+                """,
+                email,
+                hashed_password,
+            )
+
+        user = User(
+            id=str(row["id"]),
+            email=row["email"],
+            hashed_password=hashed_password,
+            status=UserStatus(row["status"]),
+            is_admin=row["role"] == "admin",
+        )
 
         # 이벤트 발행
         await self._bus.publish(
@@ -113,7 +88,7 @@ class AuthService:
                 source_block="auth",
                 event_type="user_registered",
                 payload={
-                    "user_id": user_id,
+                    "user_id": user.id,
                     "email": email,
                     "status": UserStatus.PENDING.value,
                 },
@@ -136,16 +111,25 @@ class AuthService:
         Raises:
             ValueError: 인증 실패
         """
-        user_id = self._email_to_user_id.get(email)
-        if not user_id:
+        async with Database.connection() as conn:
+            row = await conn.fetchrow(
+                """
+                SELECT id, email, password_hash, role, status
+                FROM users WHERE email = $1
+                """,
+                email,
+            )
+
+        if not row:
             raise ValueError("Invalid credentials")
 
-        user = self._users[user_id]
-        if user.hashed_password != self._hash_password(password):
+        if not self._verify_password(password, row["password_hash"]):
             raise ValueError("Invalid credentials")
 
-        if user.status != UserStatus.ACTIVE:
+        if row["status"] != "active":
             raise ValueError("User not active")
+
+        user_id = str(row["id"])
 
         # 세션 생성
         token = str(uuid.uuid4())
@@ -234,7 +218,25 @@ class AuthService:
         Returns:
             사용자 정보 또는 None
         """
-        return self._users.get(user_id)
+        async with Database.connection() as conn:
+            row = await conn.fetchrow(
+                """
+                SELECT id, email, password_hash, role, status
+                FROM users WHERE id = $1
+                """,
+                uuid.UUID(user_id),
+            )
+
+        if not row:
+            return None
+
+        return User(
+            id=str(row["id"]),
+            email=row["email"],
+            hashed_password=row["password_hash"],
+            status=UserStatus(row["status"]),
+            is_admin=row["role"] == "admin",
+        )
 
     async def check_permission(self, user_id: str, resource: str) -> bool:
         """
@@ -247,7 +249,7 @@ class AuthService:
         Returns:
             권한 여부
         """
-        user = self._users.get(user_id)
+        user = await self.get_user(user_id)
         if not user:
             return False
 
@@ -271,11 +273,26 @@ class AuthService:
         Raises:
             ValueError: 사용자를 찾을 수 없음
         """
-        user = self._users.get(user_id)
-        if not user:
+        async with Database.connection() as conn:
+            row = await conn.fetchrow(
+                """
+                UPDATE users SET status = 'active', updated_at = NOW()
+                WHERE id = $1
+                RETURNING id, email, password_hash, role, status
+                """,
+                uuid.UUID(user_id),
+            )
+
+        if not row:
             raise ValueError("User not found")
 
-        user.status = UserStatus.ACTIVE
+        user = User(
+            id=str(row["id"]),
+            email=row["email"],
+            hashed_password=row["password_hash"],
+            status=UserStatus(row["status"]),
+            is_admin=row["role"] == "admin",
+        )
 
         # 이벤트 발행
         await self._bus.publish(

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=800">
+    <title>WSOPTV Homepage - Top Section</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #999;
+        }
+        .capture-area {
+            width: 800px;
+            background: #1a1a1a;
+        }
+
+        /* Header */
+        .header {
+            background: #000;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+        .logo {
+            color: #e50914;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        .nav {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-item {
+            color: #888;
+            font-size: 13px;
+        }
+        .nav-item.active {
+            color: #fff;
+        }
+        .header-right {
+            display: flex;
+            gap: 16px;
+        }
+        .icon {
+            width: 28px;
+            height: 28px;
+            border: 1px solid #555;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        /* Hero Banner */
+        .hero {
+            background: linear-gradient(90deg, #1a1a1a 40%, #333 100%);
+            padding: 40px 24px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            position: relative;
+        }
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .badge-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .badge {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 3px 8px;
+        }
+        .badge.new { background: #e50914; color: #fff; }
+        .badge.quality { background: #333; color: #ffc107; border: 1px solid #ffc107; }
+        .hero-title {
+            color: #fff;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .hero-desc {
+            color: #999;
+            font-size: 12px;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+        .btn-row {
+            display: flex;
+            gap: 12px;
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 12px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+        }
+        .btn.primary { background: #fff; color: #000; }
+        .btn.secondary { background: rgba(255,255,255,0.2); color: #fff; }
+        .hero-image {
+            background: #333;
+            border: 1px dashed #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 180px;
+            color: #666;
+            font-size: 12px;
+        }
+        .hero-dots {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #555;
+        }
+        .dot.active { background: #fff; width: 20px; border-radius: 4px; }
+
+        /* Section Label */
+        .section-label {
+            position: absolute;
+            right: 8px;
+            top: 8px;
+            background: #e50914;
+            color: #fff;
+            padding: 4px 8px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+        .header { position: relative; }
+        .hero { position: relative; }
+    </style>
+</head>
+<body>
+<div class="capture-area">
+    <!-- Header -->
+    <div class="header">
+        <span class="section-label">A. Header</span>
+        <div class="header-left">
+            <div class="logo">WSOPTV</div>
+            <div class="nav">
+                <div class="nav-item active">Home</div>
+                <div class="nav-item">Browse</div>
+                <div class="nav-item">Search</div>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="icon">🔍</div>
+            <div class="icon">👤</div>
+        </div>
+    </div>
+
+    <!-- Hero Banner -->
+    <div class="hero">
+        <span class="section-label">B. Hero Banner</span>
+        <div class="hero-content">
+            <div class="badge-row">
+                <span class="badge new">NEW</span>
+                <span class="badge quality">4K</span>
+            </div>
+            <div class="hero-title">WSOP 2024 Main Event<br>Day 7 - Final Table</div>
+            <div class="hero-desc">The most anticipated final table of the year.<br>9 players remain with $12.1M on the line.</div>
+            <div class="btn-row">
+                <button class="btn primary">▶ Watch Now</button>
+                <button class="btn secondary">+ My List</button>
+            </div>
+        </div>
+        <div class="hero-image">Featured Thumbnail<br>1920 × 1080</div>
+        <div class="hero-dots">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

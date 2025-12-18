@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1200">
+    <title>WSOPTV - 03. Continue Watching Section</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f5f5f5;
+            padding: 40px;
+            color: #333;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #e50914;
+        }
+        .page-title h1 { font-size: 28px; color: #1a1a1a; }
+        .page-title p { color: #666; margin-top: 8px; }
+
+        .section-container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Section Wireframe */
+        .section-wireframe {
+            background: #141414;
+            border-radius: 8px;
+            padding: 30px 40px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .section-title {
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .see-all {
+            color: #b3b3b3;
+            font-size: 14px;
+            border: 2px dashed #444;
+            padding: 6px 12px;
+            border-radius: 4px;
+        }
+
+        /* Card Grid */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .content-card {
+            background: #1f1f1f;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            border: 2px dashed #333;
+        }
+
+        .card-thumbnail {
+            aspect-ratio: 16/9;
+            background: #2a2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 24px;
+            position: relative;
+        }
+
+        .duration-badge {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .progress-bar-container {
+            height: 4px;
+            background: #333;
+            position: relative;
+        }
+        .progress-bar {
+            height: 100%;
+            background: #e50914;
+        }
+
+        .card-info {
+            padding: 12px;
+        }
+        .card-title {
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .card-meta {
+            color: #808080;
+            font-size: 12px;
+        }
+        .remaining-time {
+            color: #e50914;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        /* Detailed Card (Expanded) */
+        .detailed-card {
+            background: #1a1a1a;
+            border: 3px solid #e50914;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        .detailed-card h4 {
+            color: #e50914;
+            margin-bottom: 16px;
+            font-size: 16px;
+        }
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 24px;
+        }
+        .detail-thumbnail {
+            aspect-ratio: 16/9;
+            background: #2a2a2a;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            position: relative;
+            overflow: hidden;
+        }
+        .detail-thumbnail .play-icon {
+            font-size: 48px;
+            margin-bottom: 8px;
+        }
+        .detail-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: #333;
+        }
+        .detail-progress-fill {
+            height: 100%;
+            background: #e50914;
+        }
+
+        .detail-labels {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .label-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .label-marker {
+            min-width: 28px;
+            height: 28px;
+            background: #4caf50;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .label-content {
+            flex: 1;
+        }
+        .label-title {
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .label-desc {
+            color: #808080;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        /* Markers */
+        .marker {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: #4caf50;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        /* Annotation Table */
+        .annotation-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+        .annotation-table th {
+            background: #4caf50;
+            color: white;
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 14px;
+        }
+        .annotation-table td {
+            padding: 16px;
+            border-bottom: 1px solid #eee;
+            vertical-align: top;
+        }
+        .annotation-table tr:hover {
+            background: #f9f9f9;
+        }
+        .marker-cell {
+            width: 50px;
+            text-align: center;
+        }
+        .marker-small {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: #4caf50;
+            color: white;
+            border-radius: 50%;
+            line-height: 24px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .element-name {
+            font-weight: 600;
+            color: #1a1a1a;
+            width: 140px;
+        }
+        .spec-list {
+            list-style: none;
+            font-size: 13px;
+            color: #555;
+        }
+        .spec-list li {
+            margin-bottom: 6px;
+            padding-left: 16px;
+            position: relative;
+        }
+        .spec-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #4caf50;
+        }
+        .code-tag {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            color: #d63384;
+        }
+
+        /* Important Notice */
+        .important-box {
+            background: #ffebee;
+            border: 2px solid #e53935;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .important-box h4 {
+            color: #c62828;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .important-box ul {
+            list-style: none;
+            color: #b71c1c;
+            font-size: 14px;
+        }
+        .important-box li {
+            margin-bottom: 8px;
+            padding-left: 24px;
+            position: relative;
+        }
+        .important-box li::before {
+            content: "⚡";
+            position: absolute;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-title">
+        <h1>03. Continue Watching - 이어보기 섹션</h1>
+        <p>WSOPTV Homepage Wireframe | Section 3 of 6</p>
+    </div>
+
+    <div class="section-container">
+        <div class="section-wireframe">
+            <div class="section-header">
+                <div class="section-title">
+                    ⏩ Continue Watching
+                    <span class="marker" style="top: -10px; left: -30px;">A</span>
+                </div>
+                <div class="see-all">
+                    See All →
+                    <span class="marker" style="top: -10px; right: -10px;">B</span>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <!-- Card 1 -->
+                <div class="content-card">
+                    <div class="card-thumbnail">
+                        🎬
+                        <span class="duration-badge">2:30:00</span>
+                        <span class="marker" style="top: 8px; left: 8px;">C</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: 45%;"></div>
+                        <span class="marker" style="top: -10px; right: 55%;">D</span>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-title">WSOP 2024 ME Day 5</div>
+                        <div class="card-meta">12 Players • No Limit Action</div>
+                        <div class="remaining-time">58:23 remaining</div>
+                        <span class="marker" style="bottom: 8px; right: 8px;">E</span>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="content-card">
+                    <div class="card-thumbnail">
+                        🎬
+                        <span class="duration-badge">1:45:00</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: 25%;"></div>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-title">WSOP 2024 PLO Champ</div>
+                        <div class="card-meta">8 Players • PLO Action</div>
+                        <div class="remaining-time">1:18:00 remaining</div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="content-card">
+                    <div class="card-thumbnail">
+                        🎬
+                        <span class="duration-badge">3:20:00</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: 80%;"></div>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-title">WSOP 2024 $100K HR</div>
+                        <div class="card-meta">6 Players • High Roller Action</div>
+                        <div class="remaining-time">40:00 remaining</div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="content-card">
+                    <div class="card-thumbnail">
+                        🎬
+                        <span class="duration-badge">2:00:00</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: 10%;"></div>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-title">WSOP 2024 ME Day 3</div>
+                        <div class="card-meta">24 Players • Super Action</div>
+                        <div class="remaining-time">1:48:00 remaining</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Card Breakdown -->
+        <div class="detailed-card">
+            <h4>🔍 카드 상세 구조</h4>
+            <div class="detail-grid">
+                <div class="detail-thumbnail">
+                    <div class="play-icon">▶</div>
+                    <div style="font-size: 14px;">썸네일 영역</div>
+                    <div class="detail-progress">
+                        <div class="detail-progress-fill" style="width: 45%;"></div>
+                    </div>
+                </div>
+                <div class="detail-labels">
+                    <div class="label-row">
+                        <div class="label-marker">C</div>
+                        <div class="label-content">
+                            <div class="label-title">썸네일 영역</div>
+                            <div class="label-desc">
+                                비율: 16:9 | 호버 시: 재생 아이콘 표시<br>
+                                FFmpeg으로 10초 지점 프레임 추출
+                            </div>
+                        </div>
+                    </div>
+                    <div class="label-row">
+                        <div class="label-marker">D</div>
+                        <div class="label-content">
+                            <div class="label-title">진행률 바 (Progress Bar)</div>
+                            <div class="label-desc">
+                                높이: 4px | 배경: #333 | 진행: #e50914<br>
+                                마지막 시청 위치를 시각적으로 표시
+                            </div>
+                        </div>
+                    </div>
+                    <div class="label-row">
+                        <div class="label-marker">E</div>
+                        <div class="label-content">
+                            <div class="label-title">남은 시간 표시</div>
+                            <div class="label-desc">
+                                색상: #e50914 | "58:23 remaining" 형식<br>
+                                사용자가 남은 분량 예측 가능
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Annotation Table -->
+        <table class="annotation-table">
+            <thead>
+                <tr>
+                    <th class="marker-cell">ID</th>
+                    <th>요소</th>
+                    <th>상세 스펙</th>
+                    <th>클릭 동작</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="marker-cell"><span class="marker-small">A</span></td>
+                    <td class="element-name">Section Title</td>
+                    <td>
+                        <ul class="spec-list">
+                            <li>폰트: <code class="code-tag">20px / 600</code></li>
+                            <li>아이콘: ⏩ (U+23E9)</li>
+                            <li>조건: 로그인 + 시청 기록 있을 때만 표시</li>
+                        </ul>
+                    </td>
+                    <td>없음</td>
+                </tr>
+                <tr>
+                    <td class="marker-cell"><span class="marker-small">B</span></td>
+                    <td class="element-name">See All Link</td>
+                    <td>
+                        <ul class="spec-list">
+                            <li>폰트: <code class="code-tag">14px</code></li>
+                            <li>호버: <code class="code-tag">color: white</code></li>
+                        </ul>
+                    </td>
+                    <td>전체 시청 기록 페이지<br><code class="code-tag">/history</code></td>
+                </tr>
+                <tr>
+                    <td class="marker-cell"><span class="marker-small">C</span></td>
+                    <td class="element-name">Thumbnail</td>
+                    <td>
+                        <ul class="spec-list">
+                            <li>비율: <code class="code-tag">16:9</code></li>
+                            <li>소스: FFmpeg 10초 지점 프레임</li>
+                            <li>호버: 재생 아이콘 오버레이</li>
+                            <li>우하단: 전체 재생시간 배지</li>
+                        </ul>
+                    </td>
+                    <td>마지막 시청 위치부터 재생</td>
+                </tr>
+                <tr>
+                    <td class="marker-cell"><span class="marker-small">D</span></td>
+                    <td class="element-name">Progress Bar</td>
+                    <td>
+                        <ul class="spec-list">
+                            <li>높이: <code class="code-tag">4px</code></li>
+                            <li>배경: <code class="code-tag">#333</code></li>
+                            <li>진행 색상: <code class="code-tag">#e50914</code></li>
+                            <li>계산: (current_time / total_duration) × 100%</li>
+                        </ul>
+                    </td>
+                    <td>없음 (표시 전용)</td>
+                </tr>
+                <tr>
+                    <td class="marker-cell"><span class="marker-small">E</span></td>
+                    <td class="element-name">Remaining Time</td>
+                    <td>
+                        <ul class="spec-list">
+                            <li>형식: <code class="code-tag">"58:23 remaining"</code></li>
+                            <li>색상: <code class="code-tag">#e50914</code></li>
+                            <li>계산: total_duration - current_time</li>
+                        </ul>
+                    </td>
+                    <td>없음 (표시 전용)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Important Notice -->
+        <div class="important-box">
+            <h4>⭐ 핵심 기능 - 이어보기</h4>
+            <ul>
+                <li><strong>자동 저장</strong>: 재생 중 10초마다 시청 위치 자동 저장 (API: POST /api/v1/progress/{id})</li>
+                <li><strong>즉시 재개</strong>: 카드 클릭 시 마지막 시청 위치에서 바로 재생 시작</li>
+                <li><strong>정렬 기준</strong>: 마지막 시청 시간 기준 내림차순 (최근 본 것이 먼저)</li>
+                <li><strong>완료 처리</strong>: 95% 이상 시청 시 "이어보기"에서 제거, "시청 완료"로 이동</li>
+                <li><strong>비로그인</strong>: 섹션 전체 숨김 (로그인 필요)</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

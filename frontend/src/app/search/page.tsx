@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, Suspense, useCallback } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Header } from '@/components/layout/header';
 import { ContentCard } from '@/components/content/content-card';
@@ -8,7 +8,8 @@ import { Search, X, Filter } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import type { Content } from '@/types/api';
+import { catalogApi } from '@/lib/api/catalog';
+import type { CatalogItem, ProjectCode } from '@/types/api';
 
 interface User {
   id: string;
@@ -16,38 +17,45 @@ interface User {
   role: 'admin' | 'user';
 }
 
-// Category filter options
-const CATEGORIES = [
+// Category filter options (Block F ProjectCode 기반)
+const CATEGORIES: Array<{ id: ProjectCode | 'all'; name: string }> = [
   { id: 'all', name: 'All' },
-  { id: 'wsop', name: 'WSOP' },
-  { id: 'hcl', name: 'HCL' },
-  { id: 'ggmillions', name: 'GGMillions' },
-  { id: 'gog', name: 'GOG' },
-  { id: 'mpp', name: 'MPP' },
-  { id: 'pad', name: 'PAD' },
+  { id: 'WSOP', name: 'WSOP' },
+  { id: 'HCL', name: 'HCL' },
+  { id: 'GGMILLIONS', name: 'GGMillions' },
+  { id: 'GOG', name: 'GOG' },
+  { id: 'MPP', name: 'MPP' },
+  { id: 'PAD', name: 'PAD' },
+  { id: 'OTHER', name: 'Other' },
 ];
 
-// Mock search results
-function generateMockResults(query: string, category: string): Content[] {
-  const categories = ['WSOP', 'HCL', 'GGMillions', 'GOG', 'MPP', 'PAD'];
-  const players = ['Phil Ivey', 'Daniel Negreanu', 'Tom Dwan', 'Doug Polk', 'Phil Hellmuth'];
+// 신뢰도 배지 색상
+function getConfidenceColor(confidence: number): string {
+  if (confidence >= 0.9) return 'text-green-400';
+  if (confidence >= 0.7) return 'text-yellow-400';
+  if (confidence >= 0.5) return 'text-orange-400';
+  return 'text-red-400';
+}
 
-  if (!query) return [];
-
-  return Array.from({ length: 12 }, (_, i) => ({
-    id: `search-${i + 1}`,
-    title: `${query} - ${players[i % players.length]} ${['Bluff', 'All-in', 'Final Table', 'Cash Game'][i % 4]} ${i + 1}`,
-    description: `Search result for "${query}" - Episode ${i + 1}`,
-    duration_seconds: (Math.floor(Math.random() * 180) + 30) * 60,
-    file_size_bytes: Math.floor(Math.random() * 5000000000),
-    category: category !== 'all' ? category.toUpperCase() : categories[i % categories.length],
-    year: 2024 - (i % 3),
-    quality: 'HD',
-    tags: [players[i % players.length], 'Poker', categories[i % categories.length]],
-    created_at: new Date().toISOString(),
-  })).filter(item =>
-    category === 'all' || item.category?.toLowerCase() === category
-  );
+// CatalogItem을 ContentCard용으로 변환
+function catalogItemToContent(item: CatalogItem) {
+  return {
+    id: item.id,
+    title: item.display_title,
+    description: item.file_path,
+    duration_seconds: item.duration_seconds || 0,
+    file_size_bytes: item.file_size_bytes,
+    category: item.project_code,
+    year: item.year || undefined,
+    quality: item.quality || undefined,
+    tags: item.category_tags,
+    created_at: item.created_at,
+    thumbnail_url: item.thumbnail_url || undefined,
+    // Block F 전용 필드
+    confidence: item.confidence,
+    file_size_formatted: item.file_size_formatted,
+    file_extension: item.file_extension,
+  };
 }
 
 function SearchContent() {
@@ -55,14 +63,45 @@ function SearchContent() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [query, setQuery] = useState(searchParams.get('q') || '');
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [results, setResults] = useState<Content[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<ProjectCode | 'all'>('all');
+  const [results, setResults] = useState<CatalogItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const userData = localStorage.getItem('auth_user');
     if (userData) {
       setUser(JSON.parse(userData));
+    }
+  }, []);
+
+  // Block F API 검색 함수
+  const performSearch = useCallback(async (searchQuery: string, category: ProjectCode | 'all') => {
+    if (!searchQuery.trim()) {
+      setResults([]);
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      // Block F searchCatalog API 사용
+      const searchResults = await catalogApi.searchCatalog(searchQuery.trim(), 50);
+
+      // 카테고리 필터 적용 (클라이언트 사이드)
+      const filteredResults =
+        category === 'all'
+          ? searchResults
+          : searchResults.filter((item) => item.project_code === category);
+
+      setResults(filteredResults);
+    } catch (err) {
+      console.error('Search failed:', err);
+      setError('Search failed. Please try again.');
+      setResults([]);
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
@@ -72,21 +111,7 @@ function SearchContent() {
       setQuery(q);
       performSearch(q, selectedCategory);
     }
-  }, [searchParams, selectedCategory]);
-
-  const performSearch = async (searchQuery: string, category: string) => {
-    if (!searchQuery.trim()) {
-      setResults([]);
-      return;
-    }
-
-    setIsLoading(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 300));
-    const mockResults = generateMockResults(searchQuery, category);
-    setResults(mockResults);
-    setIsLoading(false);
-  };
+  }, [searchParams, selectedCategory, performSearch]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -157,6 +182,13 @@ function SearchContent() {
           ))}
         </div>
 
+        {/* Error Message */}
+        {error && (
+          <div className="mb-6 p-4 bg-red-900/50 border border-red-500 rounded text-red-200 max-w-2xl mx-auto">
+            {error}
+          </div>
+        )}
+
         {/* Results Section */}
         {query ? (
           <>
@@ -181,12 +213,55 @@ function SearchContent() {
               </div>
             ) : results.length > 0 ? (
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-                {results.map((content) => (
-                  <ContentCard
-                    key={content.id}
-                    content={content}
-                    variant="compact"
-                  />
+                {results.map((item) => (
+                  <div key={item.id} className="group cursor-pointer" onClick={() => router.push(`/watch/${item.id}`)}>
+                    <div className="relative rounded overflow-hidden bg-[#181818]">
+                      {/* Thumbnail */}
+                      <div className="aspect-video bg-[#2F2F2F] relative overflow-hidden">
+                        {item.thumbnail_url ? (
+                          <img src={item.thumbnail_url} alt={item.short_title} className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <svg className="w-12 h-12 text-gray-600 group-hover:text-[#E50914] transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z" />
+                            </svg>
+                          </div>
+                        )}
+                        {/* File extension badge */}
+                        <div className="absolute top-2 left-2 bg-[#E50914] text-white text-xs px-1.5 py-0.5 rounded uppercase">
+                          {item.file_extension.replace('.', '')}
+                        </div>
+                        {/* Confidence badge */}
+                        <div className={`absolute top-2 right-2 ${getConfidenceColor(item.confidence)} text-xs font-semibold`}>
+                          {Math.round(item.confidence * 100)}%
+                        </div>
+                        {/* File size */}
+                        <div className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-1.5 py-0.5 rounded">
+                          {item.file_size_formatted}
+                        </div>
+                      </div>
+                      {/* Content info */}
+                      <div className="p-2">
+                        <h3 className="text-white text-sm font-medium line-clamp-2 group-hover:text-[#E50914] transition-colors">
+                          {item.display_title}
+                        </h3>
+                        <div className="flex items-center gap-2 mt-1 text-xs text-gray-400">
+                          <span className="text-[#46D369]">{item.project_code}</span>
+                          {item.year && <span>• {item.year}</span>}
+                        </div>
+                        {/* Tags */}
+                        {item.category_tags.length > 0 && (
+                          <div className="flex flex-wrap gap-1 mt-1">
+                            {item.category_tags.slice(0, 2).map((tag, i) => (
+                              <span key={i} className="text-xs bg-[#333] text-gray-400 px-1 py-0.5 rounded">
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 ))}
               </div>
             ) : (
@@ -219,7 +294,7 @@ function SearchContent() {
         <div className="px-4 md:px-12 py-12">
           <h3 className="text-lg text-white mb-4">Popular Searches</h3>
           <div className="flex flex-wrap gap-2">
-            {['Phil Ivey', 'WSOP 2024', 'Final Table', 'HCL', 'Tom Dwan', 'High Stakes'].map((term) => (
+            {['Phil Ivey', 'WSOP 2024', 'Main Event', 'HCL', 'Tom Dwan', 'Final Table', 'High Stakes', 'GGMillions'].map((term) => (
               <button
                 key={term}
                 onClick={() => {

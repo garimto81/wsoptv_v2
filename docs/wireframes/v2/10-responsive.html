@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=907">
+    <title>10. Responsive Design</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #999;
+        }
+        .capture-area {
+            width: 907px;
+            background: white;
+            padding: 24px;
+        }
+
+        .page-header {
+            border-bottom: 2px solid #000;
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+        }
+        .page-header h1 { font-size: 20px; font-weight: 600; }
+        .page-header p { font-size: 12px; color: #666; margin-top: 4px; }
+
+        .section {
+            margin-bottom: 24px;
+        }
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Breakpoints Table */
+        .bp-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            margin-bottom: 24px;
+        }
+        .bp-table th {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 12px;
+            text-align: left;
+        }
+        .bp-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+        .bp-table tr:hover {
+            background: #f9f9f9;
+        }
+        .bp-label {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .bp-icon {
+            font-size: 16px;
+        }
+        .code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 11px;
+        }
+
+        /* Device Comparison */
+        .device-row {
+            display: flex;
+            gap: 16px;
+            justify-content: space-between;
+        }
+
+        /* Mobile Frame */
+        .device-frame {
+            background: #333;
+            border-radius: 12px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+        }
+        .device-frame.mobile {
+            width: 140px;
+        }
+        .device-frame.tablet {
+            width: 200px;
+        }
+        .device-frame.desktop {
+            width: 320px;
+        }
+        .device-screen {
+            background: #1a1a1a;
+            border-radius: 4px;
+            overflow: hidden;
+            flex: 1;
+        }
+        .device-label {
+            text-align: center;
+            color: #888;
+            font-size: 10px;
+            padding-top: 6px;
+        }
+
+        /* Mini Header */
+        .mini-header {
+            background: #000;
+            padding: 6px 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .mini-logo {
+            color: #e50914;
+            font-size: 8px;
+            font-weight: 700;
+        }
+        .mini-nav {
+            display: flex;
+            gap: 6px;
+        }
+        .mini-nav span {
+            color: #888;
+            font-size: 6px;
+        }
+        .mini-icons {
+            display: flex;
+            gap: 4px;
+            font-size: 8px;
+        }
+
+        /* Mini Hero */
+        .mini-hero {
+            background: linear-gradient(90deg, #222 0%, #333 100%);
+            padding: 12px 8px;
+        }
+        .mini-hero.vertical {
+            text-align: center;
+        }
+        .mini-hero-title {
+            color: #fff;
+            font-size: 8px;
+            font-weight: 600;
+        }
+        .mini-hero-btn {
+            background: #fff;
+            color: #000;
+            font-size: 6px;
+            padding: 3px 8px;
+            border-radius: 2px;
+            display: inline-block;
+            margin-top: 4px;
+        }
+
+        /* Mini Cards */
+        .mini-section {
+            padding: 8px;
+        }
+        .mini-section-title {
+            color: #fff;
+            font-size: 7px;
+            margin-bottom: 6px;
+        }
+        .mini-cards {
+            display: flex;
+            gap: 4px;
+            overflow: hidden;
+        }
+        .mini-card {
+            background: #333;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+        .mini-card.col-2 { width: 45%; }
+        .mini-card.col-3 { width: 30%; }
+        .mini-card.col-4 { width: 22%; }
+        .mini-card-thumb {
+            aspect-ratio: 16/9;
+            background: #444;
+        }
+        .mini-card-info {
+            padding: 3px;
+        }
+        .mini-card-title {
+            color: #fff;
+            font-size: 5px;
+        }
+
+        /* Mini Bottom Nav */
+        .mini-bottom-nav {
+            background: #000;
+            padding: 6px 0;
+            display: flex;
+            justify-content: space-around;
+        }
+        .mini-nav-item {
+            text-align: center;
+            color: #888;
+            font-size: 4px;
+        }
+        .mini-nav-item.active {
+            color: #e50914;
+        }
+        .mini-nav-item .icon {
+            font-size: 10px;
+            display: block;
+        }
+
+        /* Touch Targets */
+        .touch-section {
+            margin-top: 20px;
+        }
+        .touch-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+        .touch-item {
+            background: #f5f5f5;
+            padding: 12px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .touch-visual {
+            width: 48px;
+            height: 48px;
+            background: #e50914;
+            border-radius: 4px;
+            margin: 0 auto 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+        .touch-label {
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .touch-size {
+            font-size: 10px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+<div class="capture-area">
+    <div class="page-header">
+        <h1>10. Responsive Design - 반응형 디자인</h1>
+        <p>WSOPTV Homepage Wireframe | Multi-device Layout</p>
+    </div>
+
+    <!-- Breakpoints -->
+    <div class="section">
+        <div class="section-title">5.1 Breakpoints</div>
+        <table class="bp-table">
+            <thead>
+                <tr>
+                    <th>디바이스</th>
+                    <th>Width</th>
+                    <th>카드 열</th>
+                    <th>네비게이션</th>
+                    <th>플레이어</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="bp-label"><span class="bp-icon">📱</span> Mobile</span></td>
+                    <td><span class="code">< 768px</span></td>
+                    <td>1-2열</td>
+                    <td>바텀 탭</td>
+                    <td>전체화면</td>
+                </tr>
+                <tr>
+                    <td><span class="bp-label"><span class="bp-icon">📱</span> Tablet</span></td>
+                    <td><span class="code">768px - 1024px</span></td>
+                    <td>3열</td>
+                    <td>상단 헤더</td>
+                    <td>인라인</td>
+                </tr>
+                <tr>
+                    <td><span class="bp-label"><span class="bp-icon">🖥️</span> Desktop</span></td>
+                    <td><span class="code">> 1024px</span></td>
+                    <td>4-5열</td>
+                    <td>상단 헤더</td>
+                    <td>인라인 + 사이드바</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Device Comparison -->
+    <div class="section">
+        <div class="section-title">5.2 디바이스별 레이아웃</div>
+        <div class="device-row">
+            <!-- Mobile -->
+            <div class="device-frame mobile">
+                <div class="device-screen">
+                    <div class="mini-header">
+                        <div class="mini-logo">WSOPTV</div>
+                        <div class="mini-icons">☰</div>
+                    </div>
+                    <div class="mini-hero vertical">
+                        <div class="mini-hero-title">Main Event</div>
+                        <div class="mini-hero-btn">▶ Watch</div>
+                    </div>
+                    <div class="mini-section">
+                        <div class="mini-section-title">Continue</div>
+                        <div class="mini-cards">
+                            <div class="mini-card col-2"><div class="mini-card-thumb"></div></div>
+                            <div class="mini-card col-2"><div class="mini-card-thumb"></div></div>
+                        </div>
+                    </div>
+                    <div class="mini-section">
+                        <div class="mini-section-title">Recent</div>
+                        <div class="mini-cards">
+                            <div class="mini-card col-2"><div class="mini-card-thumb"></div></div>
+                            <div class="mini-card col-2"><div class="mini-card-thumb"></div></div>
+                        </div>
+                    </div>
+                    <div class="mini-bottom-nav">
+                        <div class="mini-nav-item active"><span class="icon">🏠</span>Home</div>
+                        <div class="mini-nav-item"><span class="icon">📺</span>Browse</div>
+                        <div class="mini-nav-item"><span class="icon">🔍</span>Search</div>
+                        <div class="mini-nav-item"><span class="icon">👤</span>Me</div>
+                    </div>
+                </div>
+                <div class="device-label">Mobile < 768px</div>
+            </div>
+
+            <!-- Tablet -->
+            <div class="device-frame tablet">
+                <div class="device-screen">
+                    <div class="mini-header">
+                        <div class="mini-logo">WSOPTV</div>
+                        <div class="mini-nav">
+                            <span>Home</span>
+                            <span>Browse</span>
+                        </div>
+                        <div class="mini-icons">🔍 👤</div>
+                    </div>
+                    <div class="mini-hero">
+                        <div class="mini-hero-title">WSOP 2024 Main Event</div>
+                        <div class="mini-hero-btn">▶ Watch Now</div>
+                    </div>
+                    <div class="mini-section">
+                        <div class="mini-section-title">Continue Watching</div>
+                        <div class="mini-cards">
+                            <div class="mini-card col-3"><div class="mini-card-thumb"></div></div>
+                            <div class="mini-card col-3"><div class="mini-card-thumb"></div></div>
+                            <div class="mini-card col-3"><div class="mini-card-thumb"></div></div>
+                        </div>
+                    </div>
+                    <div class="mini-section">
+                        <div class="mini-section-title">Recently Added</div>
+                        <div class="mini-cards">
+                            <div class="mini-card col-3"><div class="mini-card-thumb"></div></div>
+                            <div class="mini-card col-3"><div class="mini-card-thumb"></div></div>
+                            <div class="mini-card col-3"><div class="mini-card-thumb"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="device-label">Tablet 768-1024px</div>
+            </div>
+
+            <!-- Desktop -->
+            <div class="device-frame desktop">
+                <div class="device-screen">
+                    <div class="mini-header">
+                        <div class="mini-logo">WSOPTV</div>
+                        <div class="mini-nav">
+                            <span>Home</span>
+                            <span>Browse</span>
+                            <span>Search</span>
+                        </div>
+                        <div class="mini-icons">🔍 👤</div>
+                    </div>
+                    <div class="mini-hero">
+                        <div class="mini-hero-title">WSOP 2024 Main Event Final Table</div>
+                        <div class="mini-hero-btn">▶ Watch Now</div>
+                    </div>
+                    <div class="mini-section">
+                        <div class="mini-section-title">Continue Watching</div>
+                        <div class="mini-cards">
+                            <div class="mini-card col-4"><div class="mini-card-thumb"></div></div>
+                            <div class="mini-card col-4"><div class="mini-card-thumb"></div></div>
+                            <div class="mini-card col-4"><div class="mini-card-thumb"></div></div>
+                            <div class="mini-card col-4"><div class="mini-card-thumb"></div></div>
+                        </div>
+                    </div>
+                    <div class="mini-section">
+                        <div class="mini-section-title">Recently Added</div>
+                        <div class="mini-cards">
+                            <div class="mini-card col-4"><div class="mini-card-thumb"></div></div>
+                            <div class="mini-card col-4"><div class="mini-card-thumb"></div></div>
+                            <div class="mini-card col-4"><div class="mini-card-thumb"></div></div>
+                            <div class="mini-card col-4"><div class="mini-card-thumb"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="device-label">Desktop > 1024px</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Touch Targets -->
+    <div class="touch-section">
+        <div class="section-title">5.3 터치 최적화</div>
+        <div class="touch-grid">
+            <div class="touch-item">
+                <div class="touch-visual">▶</div>
+                <div class="touch-label">버튼</div>
+                <div class="touch-size">48 × 48px</div>
+            </div>
+            <div class="touch-item">
+                <div class="touch-visual">🏠</div>
+                <div class="touch-label">네비게이션</div>
+                <div class="touch-size">44 × 44px</div>
+            </div>
+            <div class="touch-item">
+                <div class="touch-visual">🎬</div>
+                <div class="touch-label">카드</div>
+                <div class="touch-size">전체 영역</div>
+            </div>
+            <div class="touch-item">
+                <div class="touch-visual">─●─</div>
+                <div class="touch-label">슬라이더</div>
+                <div class="touch-size">24 × 24px</div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

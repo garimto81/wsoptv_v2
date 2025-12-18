@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=907">
+    <title>08. Content Cards</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #999;
+        }
+        .capture-area {
+            width: 907px;
+            background: white;
+            padding: 24px;
+        }
+
+        .page-header {
+            border-bottom: 2px solid #000;
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+        }
+        .page-header h1 { font-size: 20px; font-weight: 600; }
+        .page-header p { font-size: 12px; color: #666; margin-top: 4px; }
+
+        .section {
+            margin-bottom: 28px;
+        }
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .card-row {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        /* Episode Card */
+        .episode-card {
+            width: 200px;
+            background: #2a2a2a;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .card-thumb {
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, #444 0%, #333 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 24px;
+        }
+        .card-thumb .duration {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            background: rgba(0,0,0,0.85);
+            color: #fff;
+            font-size: 10px;
+            padding: 2px 5px;
+            border-radius: 2px;
+        }
+        .card-thumb .badge {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 2px;
+        }
+        .badge.new { background: #e50914; color: #fff; }
+        .badge.quality { background: transparent; color: #ffc107; border: 1px solid #ffc107; }
+        .card-info {
+            padding: 10px;
+        }
+        .card-series {
+            color: #888;
+            font-size: 10px;
+            margin-bottom: 2px;
+        }
+        .card-title {
+            color: #fff;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        .card-meta {
+            color: #666;
+            font-size: 10px;
+        }
+
+        /* Best Hand Card */
+        .besthand-card {
+            width: 200px;
+            background: #2a2a2a;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid #e50914;
+        }
+        .besthand-card .card-thumb {
+            background: linear-gradient(135deg, #4a1a1a 0%, #2a1a1a 100%);
+        }
+        .besthand-card .action-badge {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            background: #e50914;
+            color: #fff;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .besthand-card .timestamp {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            font-size: 10px;
+            padding: 3px 6px;
+            border-radius: 2px;
+        }
+        .hand-title {
+            color: #ffc107;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .hand-players {
+            color: #fff;
+            font-size: 11px;
+            margin-bottom: 4px;
+        }
+        .hand-pot {
+            color: #22c55e;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Continue Card */
+        .continue-card {
+            width: 200px;
+            background: #2a2a2a;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .continue-card .card-thumb {
+            background: linear-gradient(135deg, #333 0%, #222 100%);
+        }
+        .continue-card .play-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .play-btn {
+            background: rgba(255,255,255,0.9);
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .progress-bar {
+            height: 4px;
+            background: #555;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #e50914;
+        }
+        .remaining {
+            color: #e50914;
+            font-size: 10px;
+            margin-top: 4px;
+        }
+
+        /* Spec annotation */
+        .card-spec {
+            flex: 1;
+            background: #f9f9f9;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+        .card-spec h4 {
+            font-size: 12px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        .card-spec table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .card-spec td {
+            padding: 4px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .card-spec td:first-child {
+            color: #666;
+            width: 80px;
+        }
+        .code {
+            background: #e8e8e8;
+            padding: 1px 4px;
+            border-radius: 2px;
+            font-family: monospace;
+            font-size: 10px;
+        }
+
+        /* Badge Section */
+        .badge-grid {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .badge-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f5f5f5;
+            padding: 12px 16px;
+            border-radius: 4px;
+        }
+        .badge-sample {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 3px;
+        }
+        .badge-sample.new { background: #e50914; color: #fff; }
+        .badge-sample.k4 { background: #1a1a1a; color: #ffc107; border: 1px solid #ffc107; }
+        .badge-sample.hd { background: #666; color: #fff; }
+        .badge-sample.cc { background: transparent; color: #333; border: 1px solid #333; }
+        .badge-desc {
+            font-size: 11px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+<div class="capture-area">
+    <div class="page-header">
+        <h1>08. Content Cards - 콘텐츠 카드 디자인</h1>
+        <p>WSOPTV Homepage Wireframe | Card Components</p>
+    </div>
+
+    <!-- Episode Card -->
+    <div class="section">
+        <div class="section-title">3.1 에피소드 카드</div>
+        <div class="card-row">
+            <div class="episode-card">
+                <div class="card-thumb">
+                    🎬
+                    <span class="badge new">NEW</span>
+                    <span class="duration">2:30:00</span>
+                </div>
+                <div class="card-info">
+                    <div class="card-series">WSOP 2024</div>
+                    <div class="card-title">Main Event Day 5</div>
+                    <div class="card-meta">47 Hands / 52m Action</div>
+                </div>
+            </div>
+            <div class="card-spec">
+                <h4>스펙</h4>
+                <table>
+                    <tr><td>썸네일</td><td>16:9, WebP, Lazy Load</td></tr>
+                    <tr><td>재생시간</td><td>우하단, <span class="code">H:MM:SS</span></td></tr>
+                    <tr><td>시리즈명</td><td>상단, <span class="code">#888</span></td></tr>
+                    <tr><td>제목</td><td><span class="code">12px</span>, bold</td></tr>
+                    <tr><td>메타</td><td>핸드 수 / 액션 시간</td></tr>
+                    <tr><td>호버</td><td><span class="code">scale(1.05)</span></td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Best Hand Card -->
+    <div class="section">
+        <div class="section-title">3.2 Best Hand 카드</div>
+        <div class="card-row">
+            <div class="besthand-card">
+                <div class="card-thumb">
+                    💥
+                    <span class="action-badge">All-in</span>
+                    <span class="timestamp">▶ 1:24:35</span>
+                </div>
+                <div class="card-info">
+                    <div class="hand-title">AA vs KK</div>
+                    <div class="hand-players">Phil Ivey vs Tom Dwan</div>
+                    <div class="hand-pot">$2.3M Pot</div>
+                </div>
+            </div>
+            <div class="card-spec">
+                <h4>스펙</h4>
+                <table>
+                    <tr><td>테두리</td><td><span class="code">1px #e50914</span></td></tr>
+                    <tr><td>액션 배지</td><td>All-in, Bluff, Bad Beat</td></tr>
+                    <tr><td>타임스탬프</td><td>클릭 시 해당 위치 점프</td></tr>
+                    <tr><td>핸드 제목</td><td><span class="code">#ffc107</span> 금색</td></tr>
+                    <tr><td>팟 사이즈</td><td><span class="code">#22c55e</span> 녹색</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Continue Watching Card -->
+    <div class="section">
+        <div class="section-title">3.3 이어보기 카드</div>
+        <div class="card-row">
+            <div class="continue-card">
+                <div class="card-thumb">
+                    🎬
+                    <div class="play-overlay">
+                        <div class="play-btn">▶ Resume</div>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 45%"></div>
+                </div>
+                <div class="card-info">
+                    <div class="card-title">Main Event Day 5</div>
+                    <div class="remaining">58:23 remaining</div>
+                </div>
+            </div>
+            <div class="card-spec">
+                <h4>스펙</h4>
+                <table>
+                    <tr><td>진행률 바</td><td><span class="code">4px</span>, <span class="code">#e50914</span></td></tr>
+                    <tr><td>남은 시간</td><td>빨간색 텍스트</td></tr>
+                    <tr><td>Resume</td><td>호버 시 표시</td></tr>
+                    <tr><td>자동 저장</td><td>10초마다 위치 저장</td></tr>
+                    <tr><td>자동 제거</td><td>95% 이상 시청 시</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Badges -->
+    <div class="section">
+        <div class="section-title">3.4 콘텐츠 상태 배지</div>
+        <div class="badge-grid">
+            <div class="badge-item">
+                <span class="badge-sample new">NEW</span>
+                <span class="badge-desc">7일 이내 추가</span>
+            </div>
+            <div class="badge-item">
+                <span class="badge-sample k4">4K</span>
+                <span class="badge-desc">4K 리마스터</span>
+            </div>
+            <div class="badge-item">
+                <span class="badge-sample hd">HD</span>
+                <span class="badge-desc">1080p 콘텐츠</span>
+            </div>
+            <div class="badge-item">
+                <span class="badge-sample cc">CC</span>
+                <span class="badge-desc">자막 지원</span>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

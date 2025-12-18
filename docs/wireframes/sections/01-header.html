@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1200">
+    <title>WSOPTV - 01. Header Section</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f5f5f5;
+            padding: 40px;
+            color: #333;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #e50914;
+        }
+        .page-title h1 { font-size: 28px; color: #1a1a1a; }
+        .page-title p { color: #666; margin-top: 8px; }
+
+        .section-container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Header Wireframe */
+        .header-wireframe {
+            background: #1a1a1a;
+            padding: 16px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .logo {
+            background: #e50914;
+            color: white;
+            padding: 8px 16px;
+            font-weight: bold;
+            font-size: 18px;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-item {
+            color: #b3b3b3;
+            font-size: 14px;
+            padding: 8px 12px;
+            border: 2px dashed #444;
+            border-radius: 4px;
+            position: relative;
+        }
+        .nav-item.active {
+            color: white;
+            border-color: #e50914;
+            background: rgba(229, 9, 20, 0.2);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            background: #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+            border: 2px dashed #555;
+        }
+
+        /* Markers */
+        .marker {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: #2196F3;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        /* Annotation Table */
+        .annotation-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+        .annotation-table th {
+            background: #2196F3;
+            color: white;
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 14px;
+        }
+        .annotation-table td {
+            padding: 16px;
+            border-bottom: 1px solid #eee;
+            vertical-align: top;
+        }
+        .annotation-table tr:hover {
+            background: #f9f9f9;
+        }
+        .marker-cell {
+            width: 50px;
+            text-align: center;
+        }
+        .marker-small {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: #2196F3;
+            color: white;
+            border-radius: 50%;
+            line-height: 24px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .element-name {
+            font-weight: 600;
+            color: #1a1a1a;
+            width: 120px;
+        }
+        .spec-list {
+            list-style: none;
+            font-size: 13px;
+            color: #555;
+        }
+        .spec-list li {
+            margin-bottom: 6px;
+            padding-left: 16px;
+            position: relative;
+        }
+        .spec-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #2196F3;
+        }
+        .code-tag {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            color: #d63384;
+        }
+
+        /* Behavior Box */
+        .behavior-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 16px 20px;
+            margin-top: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+        .behavior-box h4 {
+            color: #856404;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .behavior-box ul {
+            list-style: none;
+            font-size: 13px;
+            color: #664d03;
+        }
+        .behavior-box li {
+            margin-bottom: 6px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .behavior-box li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-title">
+        <h1>01. Header - 상단 고정 네비게이션</h1>
+        <p>WSOPTV Homepage Wireframe | Section 1 of 6</p>
+    </div>
+
+    <div class="section-container">
+        <div class="header-wireframe">
+            <!-- Logo -->
+            <div class="header-left">
+                <div class="logo">
+                    WSOPTV
+                    <span class="marker" style="top: -12px; left: -12px;">A</span>
+                </div>
+
+                <!-- Navigation -->
+                <div class="nav-menu">
+                    <div class="nav-item active">
+                        Home
+                        <span class="marker" style="top: -12px; right: -12px;">B</span>
+                    </div>
+                    <div class="nav-item">Browse</div>
+                    <div class="nav-item">Search</div>
+                </div>
+            </div>
+
+            <!-- Right Icons -->
+            <div class="header-right">
+                <div class="icon-btn">
+                    🔍
+                    <span class="marker" style="top: -8px; right: -8px;">C</span>
+                </div>
+                <div class="icon-btn">
+                    👤
+                    <span class="marker" style="top: -8px; right: -8px;">D</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Annotation Table -->
+        <table class="annotation-table">
+            <thead>
+                <tr>
+                    <th class="marker-cell">ID</th>
+                    <th>요소</th>
+                    <th>상세 스펙</th>
+                    <th>클릭 동작</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="marker-cell"><span class="marker-small">A</span></td>
+                    <td class="element-name">Logo</td>
+                    <td>
+                        <ul class="spec-list">
+                            <li>크기: <code class="code-tag">120px × 40px</code></li>
+                            <li>배경: <code class="code-tag">#e50914</code> (WSOP Red)</li>
+                            <li>폰트: <code class="code-tag">font-weight: 700</code></li>
+                            <li>왼쪽 여백: <code class="code-tag">padding-left: 40px</code></li>
+                        </ul>
+                    </td>
+                    <td>홈페이지로 이동 <code class="code-tag">/</code></td>
+                </tr>
+                <tr>
+                    <td class="marker-cell"><span class="marker-small">B</span></td>
+                    <td class="element-name">Navigation Menu</td>
+                    <td>
+                        <ul class="spec-list">
+                            <li>메뉴 간격: <code class="code-tag">gap: 24px</code></li>
+                            <li>활성 상태: 흰색 텍스트 + 빨간 언더라인</li>
+                            <li>비활성: <code class="code-tag">#b3b3b3</code></li>
+                            <li>호버: 흰색으로 전환 (0.2s ease)</li>
+                        </ul>
+                    </td>
+                    <td>
+                        Home → <code class="code-tag">/</code><br>
+                        Browse → <code class="code-tag">/browse</code><br>
+                        Search → <code class="code-tag">/search</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="marker-cell"><span class="marker-small">C</span></td>
+                    <td class="element-name">Search Icon</td>
+                    <td>
+                        <ul class="spec-list">
+                            <li>크기: <code class="code-tag">36px × 36px</code></li>
+                            <li>배경: <code class="code-tag">#333</code></li>
+                            <li>아이콘: Lucide React <code class="code-tag">Search</code></li>
+                            <li>호버: 배경 <code class="code-tag">#444</code></li>
+                        </ul>
+                    </td>
+                    <td>검색 모달 오픈<br>또는 검색 페이지 이동</td>
+                </tr>
+                <tr>
+                    <td class="marker-cell"><span class="marker-small">D</span></td>
+                    <td class="element-name">Profile Icon</td>
+                    <td>
+                        <ul class="spec-list">
+                            <li>크기: <code class="code-tag">36px × 36px</code></li>
+                            <li>로그인 시: 사용자 아바타 표시</li>
+                            <li>비로그인: 기본 아이콘</li>
+                            <li>드롭다운: 클릭 시 메뉴 표시</li>
+                        </ul>
+                    </td>
+                    <td>
+                        로그인 → 드롭다운 메뉴<br>
+                        비로그인 → <code class="code-tag">/login</code>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Behavior Box -->
+        <div class="behavior-box">
+            <h4>📋 Header 동작 정의</h4>
+            <ul>
+                <li><strong>position: fixed</strong> - 스크롤해도 항상 상단 고정</li>
+                <li><strong>z-index: 1000</strong> - 모든 콘텐츠 위에 표시</li>
+                <li><strong>스크롤 시</strong>: 배경 투명도 변경 <code class="code-tag">rgba(26,26,26,0.95)</code></li>
+                <li><strong>모바일</strong>: 햄버거 메뉴로 전환 (768px 이하)</li>
+                <li><strong>높이</strong>: <code class="code-tag">64px</code> 고정</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

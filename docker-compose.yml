@@ -1,6 +1,9 @@
 services:
   # FastAPI 애플리케이션
+  # NOTE: Docker for Windows는 네트워크 드라이브(NAS) 마운트 불가
+  #       로컬에서 실행: python -m uvicorn src.main:app --host 0.0.0.0 --port 8002
   app:
+    profiles: ["full"]  # docker-compose --profile full up 으로만 실행
     build:
       context: .
       dockerfile: Dockerfile
@@ -16,7 +19,7 @@ services:
       - SSD_CACHE_PATH=/mnt/ssd
     volumes:
       - ./src:/app/src:ro
-      - wsoptv-v2-nas-data:/mnt/nas
+      - //GGPWSOP/docker/GGPNAs/ARCHIVE:/mnt/nas/ARCHIVE:ro
       - wsoptv-v2-ssd-cache:/mnt/ssd
     depends_on:
       redis:
@@ -98,5 +101,4 @@ volumes:
   wsoptv-v2-redis-data:
   wsoptv-v2-postgres-data:
   wsoptv-v2-meilisearch-data:
-  wsoptv-v2-nas-data:
   wsoptv-v2-ssd-cache:
