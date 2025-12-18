@@ -163,6 +163,44 @@ class DocumentBuilder:
         """Add horizontal divider."""
         self.add_text("\n" + "─" * 60 + "\n\n")
 
+    def add_card_section(self, image_key, title, description_lines, image_width=150):
+        """Add a card section with left-aligned image and description below."""
+        # Title
+        self.add_text(f"{title}\n", heading="HEADING_3")
+
+        # Image (left-aligned)
+        image_id = self.image_ids.get(image_key)
+        if image_id:
+            uri = f"https://drive.google.com/uc?id={image_id}"
+            self.requests.append({
+                "insertInlineImage": {
+                    "location": {"index": self.current_index},
+                    "uri": uri,
+                    "objectSize": {
+                        "width": {"magnitude": image_width, "unit": "PT"}
+                    },
+                }
+            })
+            image_index = self.current_index
+            self.current_index += 1
+
+            # Left align the image
+            self.requests.append({
+                "updateParagraphStyle": {
+                    "range": {"startIndex": image_index, "endIndex": self.current_index},
+                    "paragraphStyle": {"alignment": "START"},
+                    "fields": "alignment",
+                }
+            })
+
+        self.add_text("\n")
+
+        # Description lines
+        for line in description_lines:
+            self.add_text(f"{line}\n")
+
+        self.add_text("\n")
+
     def get_requests(self):
         return self.requests
 
@@ -274,42 +312,13 @@ def build_full_document(image_ids: dict):
 
     # ========== Section 3: Content Cards ==========
     builder.add_text("3. 콘텐츠 카드 디자인\n", heading="HEADING_1")
-    builder.add_image("08-content-cards.png", width_pt=500)
 
-    builder.add_text("\n\n3.0 디자인 의도 및 목적\n", heading="HEADING_2")
+    builder.add_text("\n3.0 디자인 의도 및 목적\n", heading="HEADING_2")
     builder.add_text("핵심 목표: ", bold=True)
     builder.add_text("콘텐츠 정보를 빠르게 파악하고 시청 결정을 돕는 카드 시스템\n\n")
-    builder.add_text("디자인 결정:\n")
-    builder.add_text("  • 16:9 썸네일 - 영상 콘텐츠 표준 비율\n")
-    builder.add_text("  • 진행률 바 - 이어보기 위치 즉시 파악\n")
-    builder.add_text("  • 메타 정보 표시 - 핸드 수/액션 시간으로 콘텐츠 밀도 예측\n")
-    builder.add_text("  • 배지 시스템 - NEW/4K/HD 등 콘텐츠 특성 즉시 인지\n\n")
 
-    builder.add_text("\n3.1 에피소드 카드\n", heading="HEADING_2")
-    builder.add_text("기본 콘텐츠 단위로, 하나의 완전한 에피소드를 표현합니다.\n")
-    builder.add_text("  • 썸네일: 16:9, WebP, Lazy Load\n")
-    builder.add_text("  • 재생시간: 우하단, 반투명 배경 (H:MM:SS)\n")
-    builder.add_text("  • 시리즈명: 상단, 작은 텍스트\n")
-    builder.add_text("  • 메타 정보: 하단, 회색 텍스트 (47 Hands / 52m Action)\n\n")
-
-    builder.add_text("\n3.2 Best Hand 카드\n", heading="HEADING_2")
-    builder.add_text("에피소드 내 하이라이트 핸드를 표현합니다.\n")
-    builder.add_text("  • 액션 배지: 좌상단, #e50914 (All-in, Bluff, Bad Beat)\n")
-    builder.add_text("  • 타임스탬프: 배지 옆 (▶ 2:34)\n")
-    builder.add_text("  • 핸드 제목: 중앙 (AA vs KK)\n")
-    builder.add_text("  • 팟 사이즈: 우하단, 금색 ($2.3M Pot)\n\n")
-
-    builder.add_text("\n3.3 이어보기 카드\n", heading="HEADING_2")
-    builder.add_text("사용자가 시청 중인 콘텐츠를 표현합니다.\n")
-    builder.add_text("  • 재생 버튼: 중앙 오버레이 (▶ Resume)\n")
-    builder.add_text("  • 진행률 바: 하단, 4px, #e50914\n")
-    builder.add_text("  • 남은 시간: 빨간색 텍스트 (45:23 remaining)\n\n")
-
-    builder.add_text("\n3.4 콘텐츠 상태 배지\n", heading="HEADING_2")
-    builder.add_text("  • NEW (#e50914 빨강) - 7일 이내 추가\n")
-    builder.add_text("  • 4K (#ffc107 금색) - 4K 리마스터 콘텐츠\n")
-    builder.add_text("  • HD (#666 회색) - 1080p 콘텐츠\n")
-    builder.add_text("  • CC (#fff 흰색 테두리) - 자막 지원\n\n")
+    # Marker for card tables (will be replaced with actual tables)
+    builder.add_text("\n[CARD_TABLES_PLACEHOLDER]\n\n")
 
     builder.add_divider()
 
@@ -326,29 +335,8 @@ def build_full_document(image_ids: dict):
     builder.add_text("  • 연간 플랜 강조 - LTV 극대화, 이탈률 감소\n")
     builder.add_text("  • 원클릭 결제 - Apple Pay/Google Pay로 전환 장벽 최소화\n\n")
 
-    builder.add_text("\n4.1 Paywall 화면\n", heading="HEADING_2")
-    builder.add_text("비구독자가 유료 콘텐츠 클릭 시 표시됩니다.\n\n")
-    builder.add_text("레이아웃:\n")
-    builder.add_text("  • 배경: 클릭한 콘텐츠 썸네일 (블러 처리)\n")
-    builder.add_text("  • 아이콘: 자물쇠\n")
-    builder.add_text("  • 메시지: \"이 콘텐츠는 Premium 구독자 전용입니다\"\n")
-    builder.add_text("  • CTA: \"Premium 시작하기\" 버튼\n")
-    builder.add_text("  • 가격: $9.99/월 또는 $99/년\n\n")
-    builder.add_text("Premium 혜택:\n")
-    builder.add_text("  • 전체 아카이브: 18TB+ WSOP/HCL/GGPoker 콘텐츠\n")
-    builder.add_text("  • Hand Skip: 액션 구간만 빠르게 시청\n")
-    builder.add_text("  • Best Hands: 에피소드별 하이라이트 점프\n")
-    builder.add_text("  • 이어보기 동기화: 모든 기기에서 시청 위치 유지\n")
-    builder.add_text("  • 광고 없음: 끊김 없는 시청 경험\n\n")
-
-    builder.add_text("\n4.2 구독 페이지\n", heading="HEADING_2")
-    builder.add_text("플랜 비교:\n")
-    builder.add_text("  • Monthly: $9.99/월\n")
-    builder.add_text("  • Yearly (추천): $99/년 ($8.25/월) - 17% 절약, BEST VALUE 배지\n\n")
-    builder.add_text("결제 수단:\n")
-    builder.add_text("  • Credit Card (기본)\n")
-    builder.add_text("  • Apple Pay (iOS 우선 표시)\n")
-    builder.add_text("  • Google Pay (Android 우선 표시)\n\n")
+    # Marker for subscription tables (will be replaced with actual tables)
+    builder.add_text("\n[SUBSCRIPTION_TABLES_PLACEHOLDER]\n\n")
 
     builder.add_divider()
 
@@ -541,6 +529,103 @@ def build_full_document(image_ids: dict):
     return builder.get_requests()
 
 
+def insert_table_with_content(docs_service, doc_id, image_ids, table_data):
+    """Insert a 2-column table and populate it with image and text.
+
+    table_data: list of (image_key, title, description_lines)
+    """
+    for image_key, title, desc_lines in table_data:
+        # Step 1: Get current document end index
+        doc = docs_service.documents().get(documentId=doc_id).execute()
+        content = doc.get("body", {}).get("content", [])
+        end_index = 1
+        for element in content:
+            if "endIndex" in element:
+                end_index = element["endIndex"]
+        insert_index = end_index - 1
+
+        # Step 2: Insert 1x2 table at the end
+        docs_service.documents().batchUpdate(
+            documentId=doc_id,
+            body={"requests": [{
+                "insertTable": {
+                    "location": {"index": insert_index},
+                    "rows": 1,
+                    "columns": 2,
+                }
+            }]}
+        ).execute()
+
+        # Step 3: Get updated document to find cell indices
+        doc = docs_service.documents().get(documentId=doc_id).execute()
+        content = doc.get("body", {}).get("content", [])
+
+        # Find the table we just inserted (last table in document)
+        table_element = None
+        for element in reversed(content):
+            if "table" in element:
+                table_element = element
+                break
+
+        if not table_element:
+            print(f"  Warning: Could not find table for {title}")
+            continue
+
+        # Get cell paragraph indices
+        table = table_element["table"]
+        row = table["tableRows"][0]
+        left_cell = row["tableCells"][0]
+        right_cell = row["tableCells"][1]
+
+        left_para_index = left_cell["content"][0]["paragraph"]["elements"][0]["startIndex"]
+        right_para_index = right_cell["content"][0]["paragraph"]["elements"][0]["startIndex"]
+
+        # Step 4: Insert content into cells
+        requests = []
+
+        # Insert image in left cell
+        image_id = image_ids.get(image_key)
+        if image_id:
+            uri = f"https://drive.google.com/uc?id={image_id}"
+            requests.append({
+                "insertInlineImage": {
+                    "location": {"index": left_para_index},
+                    "uri": uri,
+                    "objectSize": {
+                        "width": {"magnitude": 140, "unit": "PT"}
+                    },
+                }
+            })
+
+        # Insert text in right cell (title + description)
+        text_content = f"{title}\n" + "\n".join(desc_lines)
+        requests.append({
+            "insertText": {
+                "location": {"index": right_para_index},
+                "text": text_content,
+            }
+        })
+
+        # Bold the title
+        requests.append({
+            "updateTextStyle": {
+                "range": {
+                    "startIndex": right_para_index,
+                    "endIndex": right_para_index + len(title)
+                },
+                "textStyle": {"bold": True},
+                "fields": "bold",
+            }
+        })
+
+        docs_service.documents().batchUpdate(
+            documentId=doc_id,
+            body={"requests": requests}
+        ).execute()
+
+        print(f"  Added table: {title}")
+
+
 def main():
     """Main function."""
     print("Loading credentials...")
@@ -569,6 +654,337 @@ def main():
             documentId=GOOGLE_DOC_ID, body={"requests": chunk}
         ).execute()
         print(f"  Applied requests {i+1} to {min(i + chunk_size, len(requests))}")
+
+    # Now add 2-column tables for section 3 cards
+    print("\nAdding 2-column card tables...")
+    card_tables = [
+        ("card-episode.png", "3.1 에피소드 카드", [
+            "기본 콘텐츠 단위로, 하나의 완전한 에피소드를 표현합니다.",
+            "",
+            "• 썸네일: 16:9, WebP, Lazy Load",
+            "• 재생시간: 우하단, 반투명 배경 (H:MM:SS)",
+            "• 시리즈명: 상단, #888 텍스트",
+            "• 제목: 12px, bold",
+            "• 메타 정보: 핸드 수 / 액션 시간",
+            "• 호버: scale(1.05), 0.2s transition",
+        ]),
+        ("card-besthand.png", "3.2 Best Hand 카드", [
+            "에피소드 내 하이라이트 핸드를 표현합니다.",
+            "",
+            "• 테두리: 1px #e50914 강조",
+            "• 액션 배지: All-in, Bluff, Bad Beat 등",
+            "• 타임스탬프: 클릭 시 해당 위치 점프",
+            "• 핸드 제목: #ffc107 금색 (AA vs KK)",
+            "• 팟 사이즈: #22c55e 녹색 ($2.3M Pot)",
+        ]),
+        ("card-continue.png", "3.3 이어보기 카드", [
+            "사용자가 시청 중인 콘텐츠를 표현합니다.",
+            "",
+            "• 진행률 바: 4px, #e50914",
+            "• 남은 시간: 빨간색 텍스트",
+            "• Resume 버튼: 호버 시 표시",
+            "• 자동 저장: 10초마다 위치 저장",
+            "• 자동 제거: 95% 이상 시청 시",
+        ]),
+        ("card-badges.png", "3.4 콘텐츠 상태 배지", [
+            "콘텐츠 특성을 즉시 인지할 수 있는 배지 시스템입니다.",
+            "",
+            "• NEW (#e50914 빨강) - 7일 이내 추가",
+            "• 4K (#ffc107 금색) - 4K 리마스터 콘텐츠",
+            "• HD (#666 회색) - 1080p 콘텐츠",
+            "• CC (#fff 흰색 테두리) - 자막 지원",
+        ]),
+    ]
+
+    # Find the placeholder location and replace with tables
+    doc = docs_service.documents().get(documentId=GOOGLE_DOC_ID).execute()
+    content = doc.get("body", {}).get("content", [])
+
+    placeholder_start = None
+    placeholder_end = None
+    marker_text = "[CARD_TABLES_PLACEHOLDER]"
+
+    for element in content:
+        if "paragraph" in element:
+            paragraph = element["paragraph"]
+            for elem in paragraph.get("elements", []):
+                if "textRun" in elem:
+                    text = elem["textRun"].get("content", "")
+                    if marker_text in text:
+                        placeholder_start = elem["startIndex"]
+                        placeholder_end = elem["endIndex"]
+                        break
+
+    if placeholder_start:
+        # Delete the placeholder text
+        docs_service.documents().batchUpdate(
+            documentId=GOOGLE_DOC_ID,
+            body={"requests": [{
+                "deleteContentRange": {
+                    "range": {
+                        "startIndex": placeholder_start,
+                        "endIndex": placeholder_end,
+                    }
+                }
+            }]}
+        ).execute()
+        print(f"  Removed placeholder at index {placeholder_start}")
+
+        # Insert tables in reverse order (so they appear in correct order)
+        for image_key, title, desc_lines in reversed(card_tables):
+            # Get current document state
+            doc = docs_service.documents().get(documentId=GOOGLE_DOC_ID).execute()
+
+            # Insert table at the placeholder location
+            docs_service.documents().batchUpdate(
+                documentId=GOOGLE_DOC_ID,
+                body={"requests": [{
+                    "insertTable": {
+                        "location": {"index": placeholder_start},
+                        "rows": 1,
+                        "columns": 2,
+                    }
+                }]}
+            ).execute()
+
+            # Get updated document to find cell indices
+            doc = docs_service.documents().get(documentId=GOOGLE_DOC_ID).execute()
+            content = doc.get("body", {}).get("content", [])
+
+            # Find the table at the placeholder location
+            table_element = None
+            for element in content:
+                if "table" in element:
+                    if element["startIndex"] >= placeholder_start - 5:
+                        table_element = element
+                        break
+
+            if not table_element:
+                print(f"  Warning: Could not find table for {title}")
+                continue
+
+            # Get cell paragraph indices
+            table = table_element["table"]
+            row = table["tableRows"][0]
+            left_cell = row["tableCells"][0]
+            right_cell = row["tableCells"][1]
+
+            # For inserting into a table cell, use the paragraph's startIndex
+            left_para = left_cell["content"][0]
+            right_para = right_cell["content"][0]
+
+            # The insertion index should be at the start of the paragraph content
+            left_para_index = left_para["startIndex"]
+            right_para_index = right_para["startIndex"]
+
+            print(f"    Left cell index: {left_para_index}, Right cell index: {right_para_index}")
+
+            # Insert content into cells
+            # Do higher index first (right cell), then lower index (left cell)
+            # This prevents index shifts affecting subsequent operations
+
+            # Step 1: Insert text in right cell
+            text_content = f"{title}\n" + "\n".join(desc_lines)
+            docs_service.documents().batchUpdate(
+                documentId=GOOGLE_DOC_ID,
+                body={"requests": [
+                    {
+                        "insertText": {
+                            "location": {"index": right_para_index},
+                            "text": text_content,
+                        }
+                    },
+                    {
+                        "updateTextStyle": {
+                            "range": {
+                                "startIndex": right_para_index,
+                                "endIndex": right_para_index + len(title)
+                            },
+                            "textStyle": {"bold": True},
+                            "fields": "bold",
+                        }
+                    }
+                ]}
+            ).execute()
+
+            # Step 2: Insert image in left cell (indices haven't changed for left cell)
+            image_id = image_ids.get(image_key)
+            if image_id:
+                uri = f"https://drive.google.com/uc?id={image_id}"
+                docs_service.documents().batchUpdate(
+                    documentId=GOOGLE_DOC_ID,
+                    body={"requests": [{
+                        "insertInlineImage": {
+                            "location": {"index": left_para_index},
+                            "uri": uri,
+                            "objectSize": {
+                                "width": {"magnitude": 140, "unit": "PT"}
+                            },
+                        }
+                    }]}
+                ).execute()
+
+            print(f"  Added table: {title}")
+    else:
+        print("  Warning: Placeholder not found, skipping table insertion")
+
+    # Now add 2-column tables for section 4 subscription (Text | Image layout)
+    print("\nAdding 2-column subscription tables...")
+    subscription_tables = [
+        ("subscription-paywall.png", "4.1 Paywall 화면", [
+            "비구독자가 유료 콘텐츠 클릭 시 표시됩니다.",
+            "",
+            "레이아웃:",
+            "• 배경: 클릭한 콘텐츠 썸네일 (블러 처리)",
+            "• 아이콘: 자물쇠",
+            "• 메시지: \"Premium 구독자 전용\"",
+            "• CTA: \"Premium 시작하기\" 버튼",
+            "",
+            "Premium 혜택:",
+            "• 전체 아카이브: 18TB+ 콘텐츠",
+            "• Hand Skip / Best Hands 기능",
+            "• 이어보기 동기화",
+            "• 광고 없음",
+        ]),
+        ("subscription-plans.png", "4.2 구독 페이지", [
+            "플랜 비교:",
+            "• Monthly: $9.99/월",
+            "• Yearly (추천): $99/년 ($8.25/월)",
+            "  - 17% 절약, BEST VALUE 배지",
+            "",
+            "결제 수단:",
+            "• Credit Card (기본)",
+            "• Apple Pay (iOS 우선 표시)",
+            "• Google Pay (Android 우선 표시)",
+        ]),
+    ]
+
+    # Find the subscription placeholder location
+    doc = docs_service.documents().get(documentId=GOOGLE_DOC_ID).execute()
+    content = doc.get("body", {}).get("content", [])
+
+    sub_placeholder_start = None
+    sub_placeholder_end = None
+    sub_marker_text = "[SUBSCRIPTION_TABLES_PLACEHOLDER]"
+
+    for element in content:
+        if "paragraph" in element:
+            paragraph = element["paragraph"]
+            for elem in paragraph.get("elements", []):
+                if "textRun" in elem:
+                    text = elem["textRun"].get("content", "")
+                    if sub_marker_text in text:
+                        sub_placeholder_start = elem["startIndex"]
+                        sub_placeholder_end = elem["endIndex"]
+                        break
+
+    if sub_placeholder_start:
+        # Delete the placeholder text
+        docs_service.documents().batchUpdate(
+            documentId=GOOGLE_DOC_ID,
+            body={"requests": [{
+                "deleteContentRange": {
+                    "range": {
+                        "startIndex": sub_placeholder_start,
+                        "endIndex": sub_placeholder_end,
+                    }
+                }
+            }]}
+        ).execute()
+        print(f"  Removed subscription placeholder at index {sub_placeholder_start}")
+
+        # Insert tables in reverse order (so they appear in correct order)
+        for image_key, title, desc_lines in reversed(subscription_tables):
+            # Get current document state
+            doc = docs_service.documents().get(documentId=GOOGLE_DOC_ID).execute()
+
+            # Insert table at the placeholder location
+            docs_service.documents().batchUpdate(
+                documentId=GOOGLE_DOC_ID,
+                body={"requests": [{
+                    "insertTable": {
+                        "location": {"index": sub_placeholder_start},
+                        "rows": 1,
+                        "columns": 2,
+                    }
+                }]}
+            ).execute()
+
+            # Get updated document to find cell indices
+            doc = docs_service.documents().get(documentId=GOOGLE_DOC_ID).execute()
+            content = doc.get("body", {}).get("content", [])
+
+            # Find the table at the placeholder location
+            table_element = None
+            for element in content:
+                if "table" in element:
+                    if element["startIndex"] >= sub_placeholder_start - 5:
+                        table_element = element
+                        break
+
+            if not table_element:
+                print(f"  Warning: Could not find table for {title}")
+                continue
+
+            # Get cell paragraph indices
+            table = table_element["table"]
+            row = table["tableRows"][0]
+            left_cell = row["tableCells"][0]
+            right_cell = row["tableCells"][1]
+
+            # For section 4: Text on LEFT, Image on RIGHT (reversed from section 3)
+            left_para = left_cell["content"][0]
+            right_para = right_cell["content"][0]
+
+            left_para_index = left_para["startIndex"]
+            right_para_index = right_para["startIndex"]
+
+            print(f"    Left cell index: {left_para_index}, Right cell index: {right_para_index}")
+
+            # Step 1: Insert image in right cell (higher index first)
+            image_id = image_ids.get(image_key)
+            if image_id:
+                uri = f"https://drive.google.com/uc?id={image_id}"
+                docs_service.documents().batchUpdate(
+                    documentId=GOOGLE_DOC_ID,
+                    body={"requests": [{
+                        "insertInlineImage": {
+                            "location": {"index": right_para_index},
+                            "uri": uri,
+                            "objectSize": {
+                                "width": {"magnitude": 160, "unit": "PT"}
+                            },
+                        }
+                    }]}
+                ).execute()
+
+            # Step 2: Insert text in left cell (indices haven't changed for left cell)
+            text_content = f"{title}\n" + "\n".join(desc_lines)
+            docs_service.documents().batchUpdate(
+                documentId=GOOGLE_DOC_ID,
+                body={"requests": [
+                    {
+                        "insertText": {
+                            "location": {"index": left_para_index},
+                            "text": text_content,
+                        }
+                    },
+                    {
+                        "updateTextStyle": {
+                            "range": {
+                                "startIndex": left_para_index,
+                                "endIndex": left_para_index + len(title)
+                            },
+                            "textStyle": {"bold": True},
+                            "fields": "bold",
+                        }
+                    }
+                ]}
+            ).execute()
+
+            print(f"  Added table: {title}")
+    else:
+        print("  Warning: Subscription placeholder not found, skipping table insertion")
 
     print(f"\nDocument updated successfully!")
     print(f"View at: https://docs.google.com/document/d/{GOOGLE_DOC_ID}/edit")

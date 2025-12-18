@@ -19,7 +19,15 @@ const files = [
   '12-browse',
   '13-player',
   '14-account',
-  '15-auth'
+  '15-auth',
+  // Individual card images for section 3
+  'card-episode',
+  'card-besthand',
+  'card-continue',
+  'card-badges',
+  // Individual images for section 4
+  'subscription-paywall',
+  'subscription-plans'
 ];
 
 (async () => {

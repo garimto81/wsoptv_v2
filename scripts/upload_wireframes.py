@@ -32,6 +32,14 @@ FILES = [
     "mermaid-youtube-entry.png",
     "mermaid-direct-entry.png",
     "mermaid-existing-user.png",
+    # Individual card images
+    "card-episode.png",
+    "card-besthand.png",
+    "card-continue.png",
+    "card-badges.png",
+    # Section 4 subscription images
+    "subscription-paywall.png",
+    "subscription-plans.png",
 ]
 
 

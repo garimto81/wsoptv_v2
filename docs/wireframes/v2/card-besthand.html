@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=240">
+    <title>Best Hand Card</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #999;
+        }
+        .capture-area {
+            width: 240px;
+            background: #1a1a1a;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .besthand-card {
+            width: 200px;
+            background: #2a2a2a;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid #e50914;
+        }
+        .card-thumb {
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, #4a1a1a 0%, #2a1a1a 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 24px;
+        }
+        .action-badge {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            background: #e50914;
+            color: #fff;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 2px;
+        }
+        .timestamp {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            font-size: 10px;
+            padding: 3px 6px;
+            border-radius: 2px;
+        }
+        .card-info {
+            padding: 10px;
+        }
+        .hand-title {
+            color: #ffc107;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .hand-players {
+            color: #fff;
+            font-size: 11px;
+            margin-bottom: 4px;
+        }
+        .hand-pot {
+            color: #22c55e;
+            font-size: 12px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+<div class="capture-area">
+    <div class="besthand-card">
+        <div class="card-thumb">
+            <span class="action-badge">All-in</span>
+            <span class="timestamp">1:24:35</span>
+        </div>
+        <div class="card-info">
+            <div class="hand-title">AA vs KK</div>
+            <div class="hand-players">Phil Ivey vs Tom Dwan</div>
+            <div class="hand-pot">$2.3M Pot</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

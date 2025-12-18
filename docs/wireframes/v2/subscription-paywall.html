@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=280">
+    <title>Paywall</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #999;
+        }
+        .capture-area {
+            width: 280px;
+            background: #1a1a1a;
+            padding: 16px;
+        }
+        .paywall {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        .paywall-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(229,9,20,0.1) 0%, rgba(0,0,0,0.9) 100%);
+            border-radius: 8px;
+        }
+        .paywall-content {
+            position: relative;
+            z-index: 1;
+        }
+        .lock-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .paywall-title {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 14px;
+        }
+        .benefits-list {
+            text-align: left;
+            margin-bottom: 16px;
+        }
+        .benefit-item {
+            color: #ccc;
+            font-size: 11px;
+            padding: 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .benefit-item .check {
+            color: #22c55e;
+        }
+        .paywall-cta {
+            background: #e50914;
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            display: block;
+            width: 100%;
+        }
+        .paywall-price {
+            color: #888;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+<div class="capture-area">
+    <div class="paywall">
+        <div class="paywall-bg"></div>
+        <div class="paywall-content">
+            <div class="lock-icon">🔒</div>
+            <div class="paywall-title">Premium 구독자 전용</div>
+            <div class="benefits-list">
+                <div class="benefit-item"><span class="check">✓</span> 전체 WSOP 아카이브</div>
+                <div class="benefit-item"><span class="check">✓</span> Hand Skip 기능</div>
+                <div class="benefit-item"><span class="check">✓</span> Best Hands 점프</div>
+                <div class="benefit-item"><span class="check">✓</span> 이어보기 동기화</div>
+                <div class="benefit-item"><span class="check">✓</span> 광고 없음</div>
+            </div>
+            <button class="paywall-cta">Premium 시작하기</button>
+            <div class="paywall-price">$9.99/월 또는 $99/년</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

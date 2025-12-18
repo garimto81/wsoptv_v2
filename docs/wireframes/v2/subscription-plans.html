@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=300">
+    <title>Subscription Plans</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #999;
+        }
+        .capture-area {
+            width: 300px;
+            background: #f9f9f9;
+            padding: 16px;
+            border-radius: 8px;
+        }
+        .sub-header {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .sub-header h3 {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        .sub-header p {
+            font-size: 10px;
+            color: #666;
+        }
+        .plans {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .plan-card {
+            flex: 1;
+            background: #fff;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+            position: relative;
+        }
+        .plan-card.recommended {
+            border-color: #e50914;
+        }
+        .plan-badge {
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #e50914;
+            color: #fff;
+            font-size: 8px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 8px;
+        }
+        .plan-name {
+            font-size: 10px;
+            color: #666;
+            margin-bottom: 6px;
+        }
+        .plan-price {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+        .plan-period {
+            font-size: 9px;
+            color: #888;
+        }
+        .plan-save {
+            color: #22c55e;
+            font-size: 9px;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+        .payment-btn {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 9px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+    </style>
+</head>
+<body>
+<div class="capture-area">
+    <div class="sub-header">
+        <h3>WSOPTV Premium</h3>
+        <p>플랜을 선택하세요</p>
+    </div>
+    <div class="plans">
+        <div class="plan-card">
+            <div class="plan-name">MONTHLY</div>
+            <div class="plan-price">$9.99</div>
+            <div class="plan-period">/월</div>
+        </div>
+        <div class="plan-card recommended">
+            <div class="plan-badge">BEST VALUE</div>
+            <div class="plan-name">YEARLY</div>
+            <div class="plan-price">$99</div>
+            <div class="plan-period">/년 ($8.25/월)</div>
+            <div class="plan-save">17% 절약</div>
+        </div>
+    </div>
+    <div class="payment-methods">
+        <div class="payment-btn">💳 Card</div>
+        <div class="payment-btn">🍎 Apple</div>
+        <div class="payment-btn">G Google</div>
+    </div>
+</div>
+</body>
+</html>
