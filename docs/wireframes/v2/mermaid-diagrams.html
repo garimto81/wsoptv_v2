@@ -12,60 +12,34 @@
             box-sizing: border-box;
         }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #1a1a2e;
-            color: #eee;
-            padding: 20px;
-        }
-        .diagram-container {
-            background: #16213e;
-            border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        }
-        .diagram-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #e94560;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e94560;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #0d1117;
+            color: #c9d1d9;
+            padding: 24px;
         }
         .mermaid {
             display: flex;
             justify-content: center;
-            padding: 20px 0;
+            padding: 16px 0;
         }
-        .capture-area {
-            display: inline-block;
-        }
-
-        /* Individual capture sections */
         #diagram1, #diagram2, #diagram3 {
             display: inline-block;
-            background: #16213e;
-            border-radius: 12px;
-            padding: 30px;
+            background: #161b22;
+            border-radius: 8px;
+            padding: 24px 32px;
+            border: 1px solid #30363d;
         }
     </style>
 </head>
 <body>
     <!-- Diagram 1: YouTube Entry -->
     <div id="diagram1" class="capture-area">
-        <div class="diagram-title">진입 경로 1: YouTube (신규 유저층 확보)</div>
         <div class="mermaid">
-flowchart LR
-    A[YouTube 접속] --> B[쇼츠/하이라이트]
-    B --> C{풀 영상 관심?}
+flowchart TB
+    A[YouTube 접속] --> B[생방송 / 쇼츠]
+    B --> C{풀 영상<br/>관심?}
     C -->|Yes| D[WSOPTV 이동]
     D --> E[구독]
-
-    style A fill:#e94560,stroke:#e94560,color:#fff
-    style B fill:#0f3460,stroke:#e94560,color:#fff
-    style C fill:#533483,stroke:#e94560,color:#fff
-    style D fill:#0f3460,stroke:#e94560,color:#fff
-    style E fill:#16c79a,stroke:#16c79a,color:#fff
         </div>
     </div>
 
@@ -73,17 +47,11 @@ flowchart LR
 
     <!-- Diagram 2: Direct Entry -->
     <div id="diagram2" class="capture-area">
-        <div class="diagram-title">진입 경로 2: WSOPTV 직접 접속</div>
         <div class="mermaid">
-flowchart LR
+flowchart TB
     A[랜딩페이지 접속] --> B[콘텐츠 미리보기]
     B --> C[회원가입]
     C --> D[구독]
-
-    style A fill:#e94560,stroke:#e94560,color:#fff
-    style B fill:#0f3460,stroke:#e94560,color:#fff
-    style C fill:#0f3460,stroke:#e94560,color:#fff
-    style D fill:#16c79a,stroke:#16c79a,color:#fff
         </div>
     </div>
 
@@ -91,7 +59,6 @@ flowchart LR
 
     <!-- Diagram 3: Existing User Journey -->
     <div id="diagram3" class="capture-area">
-        <div class="diagram-title">기존 사용자 여정</div>
         <div class="mermaid">
 flowchart TB
     A[앱/웹 접속] --> B[로그인]
@@ -103,43 +70,38 @@ flowchart TB
     G --> H[시청 시작]
     H --> I{에피소드 내 기능}
     I --> J[Hand Skip]
-    I --> K[Best Hands 점프]
-
-    style A fill:#e94560,stroke:#e94560,color:#fff
-    style B fill:#0f3460,stroke:#e94560,color:#fff
-    style C fill:#0f3460,stroke:#e94560,color:#fff
-    style D fill:#533483,stroke:#e94560,color:#fff
-    style E fill:#16c79a,stroke:#16c79a,color:#fff
-    style F fill:#0f3460,stroke:#e94560,color:#fff
-    style G fill:#0f3460,stroke:#e94560,color:#fff
-    style H fill:#16c79a,stroke:#16c79a,color:#fff
-    style I fill:#533483,stroke:#e94560,color:#fff
-    style J fill:#ffc107,stroke:#ffc107,color:#000
-    style K fill:#ffc107,stroke:#ffc107,color:#000
+    I --> K[Best Hands]
         </div>
     </div>
 
     <script>
         mermaid.initialize({
             startOnLoad: true,
-            theme: 'dark',
+            theme: 'base',
             themeVariables: {
-                primaryColor: '#e94560',
-                primaryTextColor: '#fff',
-                primaryBorderColor: '#e94560',
-                lineColor: '#e94560',
-                secondaryColor: '#0f3460',
-                tertiaryColor: '#16213e',
-                background: '#16213e',
-                mainBkg: '#0f3460',
-                nodeBorder: '#e94560',
-                clusterBkg: '#16213e',
-                titleColor: '#fff',
-                edgeLabelBackground: '#16213e'
+                // Sophisticated muted color scheme (GitHub/Linear style)
+                primaryColor: '#238636',
+                primaryTextColor: '#c9d1d9',
+                primaryBorderColor: '#30363d',
+                lineColor: '#484f58',
+                secondaryColor: '#21262d',
+                tertiaryColor: '#161b22',
+                background: '#161b22',
+                mainBkg: '#21262d',
+                nodeBorder: '#30363d',
+                clusterBkg: '#161b22',
+                titleColor: '#c9d1d9',
+                edgeLabelBackground: '#161b22',
+                textColor: '#c9d1d9',
+                fontSize: '16px',
+                fontFamily: '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif'
             },
             flowchart: {
                 curve: 'basis',
-                padding: 20
+                padding: 24,
+                nodeSpacing: 40,
+                rankSpacing: 40,
+                htmlLabels: true
             }
         });
     </script>
