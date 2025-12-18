@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=907">
+    <title>03. Continue Watching</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #999;
+        }
+        .capture-area {
+            width: 907px; /* 24cm at 96dpi */
+            background: white;
+            padding: 24px;
+        }
+
+        .page-header {
+            border-bottom: 2px solid #000;
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+        }
+        .page-header h1 { font-size: 20px; font-weight: 600; }
+        .page-header p { font-size: 12px; color: #666; margin-top: 4px; }
+
+        /* Section Wireframe */
+        .section-wf {
+            border: 2px solid #000;
+            background: #f9f9f9;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #ccc;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .see-all {
+            font-size: 12px;
+            color: #666;
+            border: 1px dashed #999;
+            padding: 4px 10px;
+        }
+
+        /* Card Grid */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .card {
+            border: 1px solid #ccc;
+            background: #fff;
+        }
+        .card-thumb {
+            aspect-ratio: 16/9;
+            background: #eee;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #999;
+            position: relative;
+        }
+        .duration {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            background: #000;
+            color: #fff;
+            font-size: 10px;
+            padding: 2px 5px;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #ddd;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #000;
+        }
+
+        .card-info {
+            padding: 8px;
+        }
+        .card-title {
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .card-meta {
+            font-size: 10px;
+            color: #666;
+        }
+        .remaining {
+            font-size: 10px;
+            color: #c00;
+            margin-top: 2px;
+        }
+
+        /* Detail Box */
+        .detail-box {
+            border: 2px solid #000;
+            padding: 16px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 20px;
+        }
+        .detail-thumb {
+            background: #eee;
+            border: 1px dashed #999;
+            aspect-ratio: 16/9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .detail-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: #ddd;
+        }
+        .detail-progress-fill {
+            height: 100%;
+            background: #000;
+        }
+
+        .detail-labels {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .label-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .label-marker {
+            min-width: 20px;
+            height: 20px;
+            background: #000;
+            color: #fff;
+            border-radius: 50%;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .label-text {
+            font-size: 12px;
+        }
+        .label-text strong {
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        /* Spec Table */
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        .spec-table th {
+            background: #000;
+            color: #fff;
+            padding: 10px 12px;
+            text-align: left;
+        }
+        .spec-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        .code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+        }
+
+        .marker {
+            display: inline-flex;
+            width: 20px;
+            height: 20px;
+            background: #000;
+            color: #fff;
+            border-radius: 50%;
+            font-size: 11px;
+            font-weight: 600;
+            align-items: center;
+            justify-content: center;
+            margin-right: 6px;
+        }
+
+        .important-box {
+            background: #fff8e1;
+            border: 1px solid #ffc107;
+            padding: 12px 16px;
+            margin-top: 16px;
+            font-size: 12px;
+        }
+        .important-box h4 {
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+        .important-box ul {
+            padding-left: 18px;
+        }
+        .important-box li {
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+<div class="capture-area">
+    <div class="page-header">
+        <h1>03. Continue Watching - 이어보기 섹션</h1>
+        <p>WSOPTV Homepage Wireframe | Section 3 of 6</p>
+    </div>
+
+    <!-- Section Wireframe -->
+    <div class="section-wf">
+        <div class="section-header">
+            <div class="section-title">⏩ Continue Watching</div>
+            <div class="see-all">See All →</div>
+        </div>
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-thumb">🎬<span class="duration">2:30:00</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:45%"></div></div>
+                <div class="card-info">
+                    <div class="card-title">WSOP 2024 ME Day 5</div>
+                    <div class="card-meta">12 Players</div>
+                    <div class="remaining">58:23 remaining</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-thumb">🎬<span class="duration">1:45:00</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:25%"></div></div>
+                <div class="card-info">
+                    <div class="card-title">WSOP 2024 PLO Champ</div>
+                    <div class="card-meta">8 Players</div>
+                    <div class="remaining">1:18:00 remaining</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-thumb">🎬<span class="duration">3:20:00</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:80%"></div></div>
+                <div class="card-info">
+                    <div class="card-title">WSOP 2024 $100K HR</div>
+                    <div class="card-meta">6 Players</div>
+                    <div class="remaining">40:00 remaining</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-thumb">🎬<span class="duration">2:00:00</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:10%"></div></div>
+                <div class="card-info">
+                    <div class="card-title">WSOP 2024 ME Day 3</div>
+                    <div class="card-meta">24 Players</div>
+                    <div class="remaining">1:48:00 remaining</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail Box -->
+    <div class="detail-box">
+        <div class="detail-thumb">
+            <span style="font-size:24px">▶</span>
+            <div class="detail-progress">
+                <div class="detail-progress-fill" style="width:45%"></div>
+            </div>
+        </div>
+        <div class="detail-labels">
+            <div class="label-item">
+                <span class="label-marker">A</span>
+                <div class="label-text"><strong>썸네일</strong>16:9 비율, FFmpeg 10초 지점 추출</div>
+            </div>
+            <div class="label-item">
+                <span class="label-marker">B</span>
+                <div class="label-text"><strong>진행률 바</strong>4px 높이, 배경 #333, 진행 #e50914</div>
+            </div>
+            <div class="label-item">
+                <span class="label-marker">C</span>
+                <div class="label-text"><strong>남은 시간</strong>"58:23 remaining" 형식, #e50914</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Important Box -->
+    <div class="important-box">
+        <h4>⚡ 핵심 기능</h4>
+        <ul>
+            <li>재생 중 <strong>10초마다</strong> 시청 위치 자동 저장</li>
+            <li>카드 클릭 시 <strong>마지막 시청 위치</strong>에서 바로 재생</li>
+            <li>95% 이상 시청 시 "이어보기"에서 제거</li>
+            <li>비로그인 시 섹션 전체 숨김</li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

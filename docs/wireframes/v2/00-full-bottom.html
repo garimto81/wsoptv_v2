@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=800">
+    <title>WSOPTV Homepage - Bottom Section</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #999;
+        }
+        .capture-area {
+            width: 800px;
+            background: #1a1a1a;
+        }
+
+        /* Section Common */
+        .section {
+            padding: 20px 24px;
+            border-top: 1px solid #333;
+            position: relative;
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .section-title {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .see-all {
+            color: #888;
+            font-size: 10px;
+        }
+        .section-label {
+            position: absolute;
+            right: 8px;
+            top: 8px;
+            background: #e50914;
+            color: #fff;
+            padding: 4px 8px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        /* Continue Watching Cards */
+        .card-grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .card {
+            background: #2a2a2a;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .card-thumb {
+            aspect-ratio: 16/9;
+            background: #444;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 14px;
+        }
+        .duration {
+            position: absolute;
+            bottom: 3px;
+            right: 3px;
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            font-size: 8px;
+            padding: 2px 4px;
+        }
+        .progress-bar {
+            height: 3px;
+            background: #555;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #e50914;
+        }
+        .card-info {
+            padding: 6px;
+        }
+        .card-title {
+            color: #fff;
+            font-size: 9px;
+            font-weight: 500;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .card-meta {
+            color: #888;
+            font-size: 8px;
+        }
+        .remaining {
+            color: #e50914;
+            font-size: 8px;
+            margin-top: 2px;
+        }
+
+        /* Recently Added - 5 columns */
+        .card-grid-5 {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+        }
+        .card-grid-5 .card-thumb .badge-small {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            font-size: 7px;
+            font-weight: 700;
+            padding: 2px 4px;
+        }
+        .badge-small.new { background: #e50914; color: #fff; }
+        .badge-small.quality { background: transparent; color: #ffc107; border: 1px solid #ffc107; }
+
+        /* Series Section */
+        .series-layout {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 16px;
+        }
+        .series-poster {
+            background: #333;
+            border: 1px dashed #555;
+            aspect-ratio: 2/3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8px;
+        }
+        .poster-logo {
+            color: #ffc107;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        .poster-sub {
+            color: #888;
+            font-size: 10px;
+            margin-top: 2px;
+        }
+        .poster-season {
+            color: #666;
+            font-size: 8px;
+            margin-top: 6px;
+            border: 1px solid #555;
+            padding: 2px 6px;
+        }
+        .episode-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .episode-item {
+            background: #2a2a2a;
+            padding: 8px 10px;
+            display: grid;
+            grid-template-columns: 24px 1fr auto;
+            align-items: center;
+            gap: 8px;
+            border-radius: 4px;
+        }
+        .play-icon {
+            width: 24px;
+            height: 24px;
+            border: 1px solid #555;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 8px;
+        }
+        .ep-info h4 {
+            color: #fff;
+            font-size: 10px;
+            font-weight: 500;
+        }
+        .ep-info p {
+            color: #888;
+            font-size: 8px;
+            margin-top: 1px;
+        }
+        .ep-duration {
+            color: #888;
+            font-size: 9px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #111;
+            padding: 16px 24px;
+            border-top: 1px solid #333;
+            position: relative;
+        }
+        .footer-main {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #333;
+            margin-bottom: 12px;
+        }
+        .footer-col h4 {
+            color: #888;
+            font-size: 9px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .footer-col ul {
+            list-style: none;
+        }
+        .footer-col li {
+            margin-bottom: 4px;
+        }
+        .footer-col a {
+            color: #666;
+            font-size: 9px;
+            text-decoration: none;
+        }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .social-links {
+            display: flex;
+            gap: 8px;
+        }
+        .social-icon {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #444;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            color: #666;
+        }
+        .copyright {
+            color: #555;
+            font-size: 9px;
+        }
+    </style>
+</head>
+<body>
+<div class="capture-area">
+    <!-- Continue Watching -->
+    <div class="section">
+        <span class="section-label">C. Continue Watching</span>
+        <div class="section-header">
+            <div class="section-title">⏩ Continue Watching</div>
+            <div class="see-all">See All →</div>
+        </div>
+        <div class="card-grid-4">
+            <div class="card">
+                <div class="card-thumb">🎬<span class="duration">2:30:00</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:45%"></div></div>
+                <div class="card-info">
+                    <div class="card-title">WSOP 2024 ME Day 5</div>
+                    <div class="card-meta">12 Players</div>
+                    <div class="remaining">58:23 remaining</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-thumb">🎬<span class="duration">1:45:00</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:25%"></div></div>
+                <div class="card-info">
+                    <div class="card-title">WSOP 2024 PLO Champ</div>
+                    <div class="card-meta">8 Players</div>
+                    <div class="remaining">1:18:00 remaining</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-thumb">🎬<span class="duration">3:20:00</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:80%"></div></div>
+                <div class="card-info">
+                    <div class="card-title">WSOP 2024 $100K HR</div>
+                    <div class="card-meta">6 Players</div>
+                    <div class="remaining">40:00 remaining</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-thumb">🎬<span class="duration">2:00:00</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:10%"></div></div>
+                <div class="card-info">
+                    <div class="card-title">WSOP 2024 ME Day 3</div>
+                    <div class="card-meta">24 Players</div>
+                    <div class="remaining">1:48:00 remaining</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recently Added -->
+    <div class="section">
+        <span class="section-label">D. Recently Added</span>
+        <div class="section-header">
+            <div class="section-title">🆕 Recently Added</div>
+            <div class="see-all">See All →</div>
+        </div>
+        <div class="card-grid-5">
+            <div class="card">
+                <div class="card-thumb">🎬
+                    <span class="badge-small new">NEW</span>
+                    <span class="duration">2:30:00</span>
+                </div>
+                <div class="card-info">
+                    <div class="card-title">WSOP 2024 ME Day 7</div>
+                    <div class="card-meta">Final Table</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-thumb">🎬
+                    <span class="badge-small new">NEW</span>
+                    <span class="duration">2:15:00</span>
+                </div>
+                <div class="card-info">
+                    <div class="card-title">WSOP 2024 ME Day 6</div>
+                    <div class="card-meta">18 Players</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-thumb">🎬
+                    <span class="badge-small quality">4K</span>
+                    <span class="duration">3:45:00</span>
+                </div>
+                <div class="card-info">
+                    <div class="card-title">WSOP 2003 Remaster</div>
+                    <div class="card-meta">Classic</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-thumb">🎬
+                    <span class="badge-small new">NEW</span>
+                    <span class="duration">2:00:00</span>
+                </div>
+                <div class="card-info">
+                    <div class="card-title">$25K High Roller</div>
+                    <div class="card-meta">Final Table</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-thumb">🎬
+                    <span class="badge-small quality">4K</span>
+                    <span class="duration">4:00:00</span>
+                </div>
+                <div class="card-info">
+                    <div class="card-title">WSOP 2006 Remaster</div>
+                    <div class="card-meta">Classic</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Series Section -->
+    <div class="section">
+        <span class="section-label">E. Series Section</span>
+        <div class="section-header">
+            <div class="section-title">🏆 WSOP Las Vegas 2024</div>
+        </div>
+        <div class="series-layout">
+            <div class="series-poster">
+                <div class="poster-logo">WSOP</div>
+                <div class="poster-sub">Las Vegas</div>
+                <div class="poster-season">2024</div>
+            </div>
+            <div class="episode-list">
+                <div class="episode-item">
+                    <div class="play-icon">▶</div>
+                    <div class="ep-info">
+                        <h4>Main Event Day 1</h4>
+                        <p>Starting Day • 10,000+ Entries</p>
+                    </div>
+                    <div class="ep-duration">2:30:00</div>
+                </div>
+                <div class="episode-item">
+                    <div class="play-icon">▶</div>
+                    <div class="ep-info">
+                        <h4>PLO Championship Final</h4>
+                        <p>$10,000 Buy-in • 6 Max</p>
+                    </div>
+                    <div class="ep-duration">1:45:00</div>
+                </div>
+                <div class="episode-item">
+                    <div class="play-icon">▶</div>
+                    <div class="ep-info">
+                        <h4>$100,000 High Roller</h4>
+                        <p>Super High Roller • Final</p>
+                    </div>
+                    <div class="ep-duration">3:20:00</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <span class="section-label">F. Footer</span>
+        <div class="footer-main">
+            <div class="footer-col">
+                <h4>About</h4>
+                <ul>
+                    <li><a href="#">About WSOPTV</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Help</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Terms</a></li>
+                    <li><a href="#">Privacy</a></li>
+                    <li><a href="#">Cookies</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Account</h4>
+                <ul>
+                    <li><a href="#">My Account</a></li>
+                    <li><a href="#">History</a></li>
+                    <li><a href="#">My List</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="social-links">
+                <a href="#" class="social-icon">f</a>
+                <a href="#" class="social-icon">X</a>
+                <a href="#" class="social-icon">IG</a>
+                <a href="#" class="social-icon">YT</a>
+            </div>
+            <div class="copyright">© 2024 WSOPTV. All rights reserved.</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

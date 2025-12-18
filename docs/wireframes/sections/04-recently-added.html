@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1200">
+    <title>WSOPTV - 04. Recently Added Section</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f5f5f5;
+            padding: 40px;
+            color: #333;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #e50914;
+        }
+        .page-title h1 { font-size: 28px; color: #1a1a1a; }
+        .page-title p { color: #666; margin-top: 8px; }
+
+        .section-container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Section Wireframe */
+        .section-wireframe {
+            background: #141414;
+            border-radius: 8px;
+            padding: 30px 40px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .section-title {
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .see-all {
+            color: #b3b3b3;
+            font-size: 14px;
+            border: 2px dashed #444;
+            padding: 6px 12px;
+            border-radius: 4px;
+        }
+
+        /* Card Grid */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+        }
+
+        .content-card {
+            background: #1f1f1f;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            border: 2px dashed #333;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .content-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+        }
+
+        .card-thumbnail {
+            aspect-ratio: 16/9;
+            background: #2a2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 32px;
+            position: relative;
+        }
+
+        .badge-group {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            display: flex;
+            gap: 4px;
+        }
+        .badge {
+            padding: 2px 8px;
+            font-size: 10px;
+            font-weight: 700;
+            border-radius: 3px;
+        }
+        .badge.new { background: #e50914; color: white; }
+        .badge.quality { background: #ffc107; color: #000; }
+
+        .duration-badge {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+
+        .card-info {
+            padding: 12px;
+        }
+        .card-title {
+            color: white;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .card-meta {
+            color: #808080;
+            font-size: 11px;
+        }
+
+        /* Badge Comparison */
+        .badge-comparison {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 30px;
+        }
+        .badge-comparison h4 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        .badge-item {
+            background: #2a2a3e;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+        }
+        .badge-preview {
+            margin-bottom: 12px;
+        }
+        .badge-large {
+            padding: 6px 16px;
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        .badge-label {
+            color: #b3b3b3;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+        .badge-desc {
+            color: #808080;
+            font-size: 11px;
+        }
+
+        /* Markers */
+        .marker {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: #ff9800;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        /* Annotation Table */
+        .annotation-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+        .annotation-table th {
+            background: #ff9800;
+            color: white;
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 14px;
+        }
+        .annotation-table td {
+            padding: 16px;
+            border-bottom: 1px solid #eee;
+            vertical-align: top;
+        }
+        .annotation-table tr:hover {
+            background: #f9f9f9;
+        }
+        .marker-cell {
+            width: 50px;
+            text-align: center;
+        }
+        .marker-small {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: #ff9800;
+            color: white;
+            border-radius: 50%;
+            line-height: 24px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .element-name {
+            font-weight: 600;
+            color: #1a1a1a;
+            width: 140px;
+        }
+        .spec-list {
+            list-style: none;
+            font-size: 13px;
+            color: #555;
+        }
+        .spec-list li {
+            margin-bottom: 6px;
+            padding-left: 16px;
+            position: relative;
+        }
+        .spec-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #ff9800;
+        }
+        .code-tag {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            color: #d63384;
+        }
+
+        /* Hover Effect Demo */
+        .hover-demo {
+            background: #e3f2fd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .hover-demo h4 {
+            color: #1565c0;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+        .hover-states {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        .hover-state {
+            text-align: center;
+        }
+        .hover-state-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        .state-box {
+            width: 160px;
+            height: 100px;
+            background: #333;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 24px;
+        }
+        .state-box.hovered {
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            background: #444;
+        }
+        .arrow {
+            font-size: 24px;
+            color: #1565c0;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-title">
+        <h1>04. Recently Added - 최근 추가 콘텐츠</h1>
+        <p>WSOPTV Homepage Wireframe | Section 4 of 6</p>
+    </div>
+
+    <div class="section-container">
+        <div class="section-wireframe">
+            <div class="section-header">
+                <div class="section-title">
+                    🆕 Recently Added
+                    <span class="marker" style="top: -10px; left: -30px;">A</span>
+                </div>
+                <div class="see-all">
+                    See All →
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <!-- Card 1 - NEW -->
+                <div class="content-card">
+                    <div class="card-thumbnail">
+                        🎬
+                        <div class="badge-group">
+                            <span class="badge new">NEW</span>
+                        </div>
+                        <span class="duration-badge">2:30:00</span>
+                        <span class="marker" style="top: 40px; left: 8px;">B</span>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-title">WSOP 2024 ME Day 7</div>
+                        <div class="card-meta">Final Table • 47 Hands</div>
+                    </div>
+                </div>
+
+                <!-- Card 2 - NEW -->
+                <div class="content-card">
+                    <div class="card-thumbnail">
+                        🎬
+                        <div class="badge-group">
+                            <span class="badge new">NEW</span>
+                        </div>
+                        <span class="duration-badge">2:15:00</span>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-title">WSOP 2024 ME Day 6</div>
+                        <div class="card-meta">18 Players • 52 Hands</div>
+                    </div>
+                </div>
+
+                <!-- Card 3 - 4K -->
+                <div class="content-card">
+                    <div class="card-thumbnail">
+                        🎬
+                        <div class="badge-group">
+                            <span class="badge quality">4K</span>
+                        </div>
+                        <span class="duration-badge">3:45:00</span>
+                        <span class="marker" style="top: 40px; left: 8px;">C</span>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-title">WSOP 2003 Main Event</div>
+                        <div class="card-meta">Remastered • Moneymaker</div>
+                    </div>
+                </div>
+
+                <!-- Card 4 - NEW -->
+                <div class="content-card">
+                    <div class="card-thumbnail">
+                        🎬
+                        <div class="badge-group">
+                            <span class="badge new">NEW</span>
+                        </div>
+                        <span class="duration-badge">2:00:00</span>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-title">$25K High Roller</div>
+                        <div class="card-meta">Final Table • 6 Players</div>
+                    </div>
+                </div>
+
+                <!-- Card 5 - 4K -->
+                <div class="content-card">
+                    <div class="card-thumbnail">
+                        🎬
+                        <div class="badge-group">
+                            <span class="badge quality">4K</span>
+                        </div>
+                        <span class="duration-badge">4:00:00</span>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-title">WSOP 2006 Main Event</div>
+                        <div class="card-meta">Remastered • Gold vs Seidel</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Badge Comparison -->
+        <div class="badge-comparison">
+            <h4>🏷️ 배지 종류 및 표시 조건</h4>
+            <div class="badge-grid">
+                <div class="badge-item">
+                    <div class="badge-preview">
+                        <span class="badge-large" style="background: #e50914; color: white;">NEW</span>
+                    </div>
+                    <div class="badge-label">신규 콘텐츠</div>
+                    <div class="badge-desc">업로드 후 7일 이내</div>
+                </div>
+                <div class="badge-item">
+                    <div class="badge-preview">
+                        <span class="badge-large" style="background: #ffc107; color: #000;">4K</span>
+                    </div>
+                    <div class="badge-label">4K 화질</div>
+                    <div class="badge-desc">3840×2160 이상</div>
+                </div>
+                <div class="badge-item">
+                    <div class="badge-preview">
+                        <span class="badge-large" style="background: #2196F3; color: white;">HD</span>
+                    </div>
+                    <div class="badge-label">HD 화질</div>
+                    <div class="badge-desc">1920×1080</div>
+                </div>
+                <div class="badge-item">
+                    <div class="badge-preview">
+                        <span class="badge-large" style="background: #4caf50; color: white;">CC</span>
+                    </div>
+                    <div class="badge-label">자막 제공</div>
+                    <div class="badge-desc">영어 자막 포함</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Annotation Table -->
+        <table class="annotation-table">
+            <thead>
+                <tr>
+                    <th class="marker-cell">ID</th>
+                    <th>요소</th>
+                    <th>상세 스펙</th>
+                    <th>비고</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="marker-cell"><span class="marker-small">A</span></td>
+                    <td class="element-name">Section Title</td>
+                    <td>
+                        <ul class="spec-list">
+                            <li>폰트: <code class="code-tag">20px / 600</code></li>
+                            <li>아이콘: 🆕 (U+1F195)</li>
+                            <li>정렬 기준: 업로드일 내림차순</li>
+                        </ul>
+                    </td>
+                    <td>항상 표시</td>
+                </tr>
+                <tr>
+                    <td class="marker-cell"><span class="marker-small">B</span></td>
+                    <td class="element-name">NEW Badge</td>
+                    <td>
+                        <ul class="spec-list">
+                            <li>배경: <code class="code-tag">#e50914</code></li>
+                            <li>폰트: <code class="code-tag">10px / 700</code></li>
+                            <li>위치: 썸네일 좌상단</li>
+                            <li>표시 조건: 업로드 후 7일 이내</li>
+                        </ul>
+                    </td>
+                    <td>자동 계산하여 표시/숨김</td>
+                </tr>
+                <tr>
+                    <td class="marker-cell"><span class="marker-small">C</span></td>
+                    <td class="element-name">4K Badge</td>
+                    <td>
+                        <ul class="spec-list">
+                            <li>배경: <code class="code-tag">#ffc107</code></li>
+                            <li>텍스트: <code class="code-tag">#000000</code></li>
+                            <li>표시 조건: video_quality === "4K"</li>
+                            <li>복수 배지 가능: NEW + 4K</li>
+                        </ul>
+                    </td>
+                    <td>메타데이터 기반 자동 표시</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Hover Effect Demo -->
+        <div class="hover-demo">
+            <h4>🖱️ 호버 효과 (Hover Effect)</h4>
+            <div class="hover-states">
+                <div class="hover-state">
+                    <div class="hover-state-label">기본 상태</div>
+                    <div class="state-box">🎬</div>
+                </div>
+                <div class="arrow">→</div>
+                <div class="hover-state">
+                    <div class="hover-state-label">호버 상태</div>
+                    <div class="state-box hovered">🎬</div>
+                </div>
+            </div>
+            <p style="margin-top: 16px; font-size: 13px; color: #555;">
+                <code class="code-tag">transform: scale(1.05)</code> +
+                <code class="code-tag">box-shadow: 0 8px 24px rgba(0,0,0,0.5)</code> +
+                <code class="code-tag">transition: 0.2s ease</code>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

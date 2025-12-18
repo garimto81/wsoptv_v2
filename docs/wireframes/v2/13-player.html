@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=907">
+    <title>13. Player Page</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #999;
+        }
+        .capture-area {
+            width: 907px;
+            background: white;
+            padding: 24px;
+        }
+
+        .page-header {
+            border-bottom: 2px solid #000;
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+        }
+        .page-header h1 { font-size: 20px; font-weight: 600; }
+        .page-header p { font-size: 12px; color: #666; margin-top: 4px; }
+
+        .section {
+            margin-bottom: 32px;
+        }
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Player Frame */
+        .player-frame {
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, transparent 100%);
+            position: relative;
+            z-index: 10;
+        }
+        .back-btn {
+            color: #fff;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .top-controls {
+            display: flex;
+            gap: 12px;
+        }
+        .top-icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        /* Video Area */
+        .video-area {
+            background: #1a1a1a;
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .video-placeholder {
+            color: #444;
+            font-size: 48px;
+        }
+        .video-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .play-btn-large {
+            width: 72px;
+            height: 72px;
+            background: rgba(229,9,20,0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 28px;
+        }
+
+        /* Progress Bar */
+        .progress-section {
+            padding: 16px 20px;
+            background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 100%);
+        }
+        .progress-bar {
+            height: 6px;
+            background: #333;
+            border-radius: 3px;
+            position: relative;
+            margin-bottom: 8px;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #e50914;
+            border-radius: 3px;
+            width: 35%;
+        }
+        .progress-thumb {
+            position: absolute;
+            top: 50%;
+            left: 35%;
+            transform: translate(-50%, -50%);
+            width: 14px;
+            height: 14px;
+            background: #fff;
+            border-radius: 50%;
+        }
+        .progress-markers {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            display: flex;
+        }
+        .hand-marker {
+            position: absolute;
+            width: 3px;
+            height: 100%;
+            background: rgba(255,255,255,0.3);
+        }
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            color: #888;
+            font-size: 12px;
+        }
+        .current-time {
+            color: #fff;
+        }
+
+        /* Main Controls */
+        .main-controls {
+            padding: 0 20px 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+        }
+        .control-btn {
+            width: 44px;
+            height: 44px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 18px;
+        }
+        .control-btn.play {
+            width: 56px;
+            height: 56px;
+            background: #fff;
+            color: #000;
+            font-size: 24px;
+        }
+
+        /* Poker Controls - Key Feature */
+        .poker-controls {
+            padding: 16px 20px;
+            background: #141414;
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+        }
+        .poker-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #252525;
+            padding: 12px 20px;
+            border-radius: 8px;
+            min-width: 180px;
+        }
+        .poker-btn-icon {
+            width: 40px;
+            height: 40px;
+            background: #333;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .poker-btn-info {
+            flex: 1;
+        }
+        .poker-btn-label {
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .poker-btn-status {
+            color: #888;
+            font-size: 11px;
+            margin-top: 2px;
+        }
+        .poker-btn.active {
+            background: #2d1f1f;
+            border: 1px solid #e50914;
+        }
+        .poker-btn.active .poker-btn-icon {
+            background: #e50914;
+        }
+        .poker-btn.active .poker-btn-status {
+            color: #e50914;
+        }
+
+        /* Episode Info */
+        .episode-info {
+            padding: 20px;
+            background: #141414;
+            border-top: 1px solid #252525;
+        }
+        .episode-title {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .episode-meta {
+            color: #888;
+            font-size: 13px;
+            display: flex;
+            gap: 16px;
+        }
+        .episode-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Best Hands Panel */
+        .best-hands-panel {
+            padding: 20px;
+            background: #1a1a1a;
+        }
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .panel-title {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .panel-toggle {
+            color: #888;
+            font-size: 12px;
+        }
+        .hands-grid {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+        }
+        .hand-card {
+            flex-shrink: 0;
+            width: 100px;
+            background: #252525;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+        .hand-card.current {
+            border: 2px solid #e50914;
+        }
+        .hand-thumb {
+            aspect-ratio: 16/9;
+            background: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            font-size: 14px;
+            position: relative;
+        }
+        .hand-play {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 20px;
+        }
+        .hand-badge {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            background: #e50914;
+            color: #fff;
+            font-size: 8px;
+            font-weight: 700;
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+        .hand-info {
+            padding: 8px;
+        }
+        .hand-number {
+            color: #888;
+            font-size: 10px;
+        }
+        .hand-title {
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .hand-time {
+            color: #666;
+            font-size: 10px;
+            margin-top: 2px;
+        }
+
+        /* Skip Toast */
+        .skip-toast {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.9);
+            padding: 12px 24px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .skip-toast-text {
+            color: #fff;
+            font-size: 14px;
+        }
+        .skip-toast-cancel {
+            color: #e50914;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* Feature Highlight */
+        .feature-highlight {
+            background: #1a1a1a;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+            border-left: 3px solid #e50914;
+        }
+        .feature-title {
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .feature-desc {
+            color: #888;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        /* Keyboard Shortcuts */
+        .shortcuts {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 16px;
+        }
+        .shortcut {
+            background: #252525;
+            padding: 8px 12px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .shortcut-key {
+            background: #333;
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .shortcut-label {
+            color: #888;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+<div class="capture-area">
+    <div class="page-header">
+        <h1>13. Player Page - 재생</h1>
+        <p>WSOPTV Wireframe | Video Player + Hand Skip + Best Hands</p>
+    </div>
+
+    <!-- Main Player -->
+    <div class="section">
+        <div class="section-title">플레이어 전체 화면</div>
+
+        <div class="player-frame">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="back-btn">◀ Back</div>
+                <div class="top-controls">
+                    <div class="top-icon">🔊</div>
+                    <div class="top-icon">⚙️</div>
+                    <div class="top-icon">⛶</div>
+                </div>
+            </div>
+
+            <!-- Video Area -->
+            <div class="video-area">
+                <div class="video-placeholder">🎬</div>
+                <!-- Skip Toast -->
+                <div class="skip-toast">
+                    <span style="font-size: 18px;">⏭️</span>
+                    <span class="skip-toast-text">3초 후 자동 스킵</span>
+                    <span class="skip-toast-cancel">취소</span>
+                </div>
+            </div>
+
+            <!-- Progress Section -->
+            <div class="progress-section">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                    <div class="progress-thumb"></div>
+                    <!-- Hand markers -->
+                    <div class="hand-marker" style="left: 10%;"></div>
+                    <div class="hand-marker" style="left: 22%;"></div>
+                    <div class="hand-marker" style="left: 38%;"></div>
+                    <div class="hand-marker" style="left: 52%;"></div>
+                    <div class="hand-marker" style="left: 65%;"></div>
+                    <div class="hand-marker" style="left: 78%;"></div>
+                    <div class="hand-marker" style="left: 92%;"></div>
+                </div>
+                <div class="time-display">
+                    <span class="current-time">45:23</span>
+                    <span>2:15:00</span>
+                </div>
+            </div>
+
+            <!-- Main Controls -->
+            <div class="main-controls">
+                <div class="control-btn">◀◀</div>
+                <div class="control-btn play">▶</div>
+                <div class="control-btn">▶▶</div>
+            </div>
+
+            <!-- Poker Controls - Key Feature -->
+            <div class="poker-controls">
+                <div class="poker-btn active">
+                    <div class="poker-btn-icon">⏭️</div>
+                    <div class="poker-btn-info">
+                        <div class="poker-btn-label">Hand Skip</div>
+                        <div class="poker-btn-status">ON - 다음 핸드 2:34</div>
+                    </div>
+                </div>
+                <div class="poker-btn">
+                    <div class="poker-btn-icon">🔥</div>
+                    <div class="poker-btn-info">
+                        <div class="poker-btn-label">Best Hands</div>
+                        <div class="poker-btn-status">OFF - 12개 하이라이트</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Episode Info -->
+            <div class="episode-info">
+                <div class="episode-title">WSOP 2024 Main Event - Day 5</div>
+                <div class="episode-meta">
+                    <span>🕐 2h 15m</span>
+                    <span>🎴 47 Hands</span>
+                    <span>⚡ 52m Action</span>
+                    <span>🔥 12 Best Hands</span>
+                </div>
+            </div>
+
+            <!-- Best Hands Panel -->
+            <div class="best-hands-panel">
+                <div class="panel-header">
+                    <div class="panel-title">🔥 Best Hands in This Episode</div>
+                    <div class="panel-toggle">접기 ▲</div>
+                </div>
+                <div class="hands-grid">
+                    <div class="hand-card current">
+                        <div class="hand-thumb">
+                            🎬
+                            <span class="hand-badge">All-in</span>
+                            <div class="hand-play">▶</div>
+                        </div>
+                        <div class="hand-info">
+                            <div class="hand-number">#12 • 00:45:23</div>
+                            <div class="hand-title">AA vs KK</div>
+                            <div class="hand-time">현재 재생 중</div>
+                        </div>
+                    </div>
+                    <div class="hand-card">
+                        <div class="hand-thumb">
+                            🎬
+                            <span class="hand-badge">Bluff</span>
+                            <div class="hand-play">▶</div>
+                        </div>
+                        <div class="hand-info">
+                            <div class="hand-number">#23 • 01:02:45</div>
+                            <div class="hand-title">River Bluff</div>
+                            <div class="hand-time">2:34</div>
+                        </div>
+                    </div>
+                    <div class="hand-card">
+                        <div class="hand-thumb">
+                            🎬
+                            <span class="hand-badge">Hero</span>
+                            <div class="hand-play">▶</div>
+                        </div>
+                        <div class="hand-info">
+                            <div class="hand-number">#31 • 01:28:10</div>
+                            <div class="hand-title">Hero Call</div>
+                            <div class="hand-time">3:15</div>
+                        </div>
+                    </div>
+                    <div class="hand-card">
+                        <div class="hand-thumb">
+                            🎬
+                            <span class="hand-badge">Bad Beat</span>
+                            <div class="hand-play">▶</div>
+                        </div>
+                        <div class="hand-info">
+                            <div class="hand-number">#38 • 01:45:30</div>
+                            <div class="hand-title">Set vs Set</div>
+                            <div class="hand-time">2:48</div>
+                        </div>
+                    </div>
+                    <div class="hand-card">
+                        <div class="hand-thumb">
+                            🎬
+                            <span class="hand-badge">$1M+</span>
+                            <div class="hand-play">▶</div>
+                        </div>
+                        <div class="hand-info">
+                            <div class="hand-number">#42 • 01:58:22</div>
+                            <div class="hand-title">Monster Pot</div>
+                            <div class="hand-time">4:20</div>
+                        </div>
+                    </div>
+                    <div class="hand-card">
+                        <div class="hand-thumb">
+                            🎬
+                            <span class="hand-badge">Final</span>
+                            <div class="hand-play">▶</div>
+                        </div>
+                        <div class="hand-info">
+                            <div class="hand-number">#47 • 02:12:00</div>
+                            <div class="hand-title">Winning Hand</div>
+                            <div class="hand-time">3:00</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feature Highlights -->
+    <div class="section">
+        <div class="section-title">핵심 기능 설명</div>
+
+        <div class="feature-highlight">
+            <div class="feature-title">⏭️ Hand Skip (원클릭 토글)</div>
+            <div class="feature-desc">
+                ON 상태에서 핸드 사이 대기 시간을 자동 건너뜁니다.<br>
+                2시간 영상 → 52분 압축 시청 가능. 한 번 클릭 = 전체 에피소드에 적용.
+            </div>
+        </div>
+
+        <div class="feature-highlight" style="margin-top: 12px;">
+            <div class="feature-title">🔥 Best Hands (타임스탬프 점프)</div>
+            <div class="feature-desc">
+                ON 상태에서 이 영상의 베스트 핸드만 순차 점프 재생.<br>
+                10시간 영상 → 45분 베스트 핸드만 시청. 클릭 시 해당 타임스탬프로 이동.
+            </div>
+        </div>
+    </div>
+
+    <!-- Keyboard Shortcuts -->
+    <div class="section">
+        <div class="section-title">키보드 단축키</div>
+        <div class="shortcuts">
+            <div class="shortcut">
+                <span class="shortcut-key">Space</span>
+                <span class="shortcut-label">재생/일시정지</span>
+            </div>
+            <div class="shortcut">
+                <span class="shortcut-key">←/→</span>
+                <span class="shortcut-label">10초 이동</span>
+            </div>
+            <div class="shortcut">
+                <span class="shortcut-key">↑/↓</span>
+                <span class="shortcut-label">볼륨 조절</span>
+            </div>
+            <div class="shortcut">
+                <span class="shortcut-key">F</span>
+                <span class="shortcut-label">전체화면</span>
+            </div>
+            <div class="shortcut">
+                <span class="shortcut-key">M</span>
+                <span class="shortcut-label">음소거</span>
+            </div>
+            <div class="shortcut">
+                <span class="shortcut-key">N</span>
+                <span class="shortcut-label">다음 핸드</span>
+            </div>
+            <div class="shortcut">
+                <span class="shortcut-key">B</span>
+                <span class="shortcut-label">Best Hands</span>
+            </div>
+            <div class="shortcut">
+                <span class="shortcut-key">C</span>
+                <span class="shortcut-label">자막 토글</span>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

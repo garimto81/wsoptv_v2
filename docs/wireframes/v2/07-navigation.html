@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=907">
+    <title>07. Navigation Map</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #999;
+        }
+        .capture-area {
+            width: 907px;
+            background: white;
+            padding: 24px;
+        }
+
+        .page-header {
+            border-bottom: 2px solid #000;
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+        }
+        .page-header h1 { font-size: 20px; font-weight: 600; }
+        .page-header p { font-size: 12px; color: #666; margin-top: 4px; }
+
+        .section {
+            margin-bottom: 32px;
+        }
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Site Map */
+        .sitemap {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 24px;
+        }
+
+        /* Page Node */
+        .page-node {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 16px;
+            background: #fff;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            min-width: 120px;
+            text-align: center;
+        }
+        .page-node.primary {
+            border-color: #e50914;
+            background: #fff5f5;
+        }
+        .page-node.auth {
+            border-color: #3b82f6;
+            background: #f0f7ff;
+        }
+        .page-node-icon {
+            font-size: 24px;
+            margin-bottom: 6px;
+        }
+        .page-node-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+        }
+        .page-node-desc {
+            font-size: 10px;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        /* Flow Container */
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        /* Flow Row */
+        .flow-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+        }
+
+        /* Arrow */
+        .arrow {
+            display: flex;
+            align-items: center;
+            color: #888;
+            font-size: 20px;
+        }
+        .arrow-down {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #888;
+            font-size: 16px;
+            height: 40px;
+            justify-content: center;
+        }
+        .arrow-label {
+            font-size: 10px;
+            color: #666;
+            background: #fff;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        /* Navigation Structure */
+        .nav-structure {
+            display: flex;
+            gap: 16px;
+        }
+        .nav-column {
+            flex: 1;
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 16px;
+        }
+        .nav-column-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: #fff;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            font-size: 12px;
+            color: #333;
+        }
+        .nav-item .icon {
+            font-size: 14px;
+        }
+        .nav-item.active {
+            background: #e50914;
+            color: #fff;
+        }
+
+        /* User Flow */
+        .user-flow {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 24px;
+        }
+        .flow-title {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .flow-badge {
+            font-size: 10px;
+            background: #e50914;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 16px 0;
+        }
+        .flow-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            min-width: 100px;
+        }
+        .flow-step-box {
+            width: 80px;
+            height: 80px;
+            background: #252525;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #333;
+        }
+        .flow-step-box.highlight {
+            border-color: #e50914;
+            background: #2d1f1f;
+        }
+        .flow-step-box .icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        .flow-step-box .label {
+            font-size: 10px;
+            color: #fff;
+        }
+        .flow-step-name {
+            font-size: 11px;
+            color: #888;
+            text-align: center;
+        }
+        .flow-arrow {
+            color: #444;
+            font-size: 20px;
+        }
+        .flow-arrow.highlight {
+            color: #e50914;
+        }
+
+        /* Access Table */
+        .access-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        .access-table th {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        .access-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #eee;
+        }
+        .access-table tr:hover {
+            background: #f9f9f9;
+        }
+        .access-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+        .access-badge.public {
+            background: #dcfce7;
+            color: #166534;
+        }
+        .access-badge.auth {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .access-badge.premium {
+            background: #fce7f3;
+            color: #9d174d;
+        }
+
+        /* State Diagram */
+        .state-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .state-box {
+            flex: 1;
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 16px;
+        }
+        .state-box-title {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .state-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        .state-indicator.logged-out {
+            background: #ef4444;
+        }
+        .state-indicator.logged-in {
+            background: #22c55e;
+        }
+        .mini-nav {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .mini-nav-item {
+            background: #fff;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        .mini-nav-item.hidden {
+            background: #f0f0f0;
+            color: #999;
+            text-decoration: line-through;
+        }
+        .mini-nav-item.new {
+            background: #e50914;
+            color: #fff;
+            border-color: #e50914;
+        }
+    </style>
+</head>
+<body>
+<div class="capture-area">
+    <div class="page-header">
+        <h1>07. Navigation Map - 네비게이션 맵</h1>
+        <p>WSOPTV Wireframe | Site Structure & User Flows</p>
+    </div>
+
+    <!-- Site Structure -->
+    <div class="section">
+        <div class="section-title">1. 사이트 구조 (Site Structure)</div>
+        <div class="sitemap">
+            <div class="flow-container">
+                <!-- Entry Points -->
+                <div class="flow-row">
+                    <div class="page-node auth">
+                        <div class="page-node-icon">🔐</div>
+                        <div class="page-node-name">Auth</div>
+                        <div class="page-node-desc">로그인/회원가입</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="page-node primary">
+                        <div class="page-node-icon">🏠</div>
+                        <div class="page-node-name">Home</div>
+                        <div class="page-node-desc">메인 랜딩</div>
+                    </div>
+                    <div class="arrow">←→</div>
+                    <div class="page-node">
+                        <div class="page-node-icon">📺</div>
+                        <div class="page-node-name">Browse</div>
+                        <div class="page-node-desc">검색/탐색</div>
+                    </div>
+                </div>
+
+                <!-- Arrow Down -->
+                <div class="flow-row">
+                    <div style="width: 120px;"></div>
+                    <div style="width: 50px;"></div>
+                    <div class="arrow-down">↓<br><span class="arrow-label">콘텐츠 선택</span></div>
+                    <div style="width: 50px;"></div>
+                    <div class="arrow-down">↓<br><span class="arrow-label">검색/필터</span></div>
+                </div>
+
+                <!-- Content & Player -->
+                <div class="flow-row">
+                    <div class="page-node">
+                        <div class="page-node-icon">👤</div>
+                        <div class="page-node-name">Account</div>
+                        <div class="page-node-desc">프로필/설정</div>
+                    </div>
+                    <div class="arrow">←</div>
+                    <div class="page-node primary">
+                        <div class="page-node-icon">▶️</div>
+                        <div class="page-node-name">Player</div>
+                        <div class="page-node-desc">재생/Hand Skip</div>
+                    </div>
+                    <div class="arrow">←</div>
+                    <div class="page-node">
+                        <div class="page-node-icon">🔍</div>
+                        <div class="page-node-name">Search Results</div>
+                        <div class="page-node-desc">검색 결과</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Global Navigation -->
+    <div class="section">
+        <div class="section-title">2. 글로벌 네비게이션 (Global Navigation)</div>
+        <div class="nav-structure">
+            <div class="nav-column">
+                <div class="nav-column-title">Header (Desktop)</div>
+                <div class="nav-item"><span class="icon">🏠</span> Home</div>
+                <div class="nav-item active"><span class="icon">📺</span> Browse</div>
+                <div class="nav-item"><span class="icon">🔍</span> Search</div>
+                <div class="nav-item"><span class="icon">👤</span> Account</div>
+            </div>
+            <div class="nav-column">
+                <div class="nav-column-title">Bottom Tab (Mobile)</div>
+                <div class="nav-item"><span class="icon">🏠</span> Home</div>
+                <div class="nav-item"><span class="icon">📺</span> Browse</div>
+                <div class="nav-item"><span class="icon">🔍</span> Search</div>
+                <div class="nav-item"><span class="icon">👤</span> Me</div>
+            </div>
+            <div class="nav-column">
+                <div class="nav-column-title">Account Dropdown</div>
+                <div class="nav-item"><span class="icon">👤</span> 프로필</div>
+                <div class="nav-item"><span class="icon">💳</span> 구독 관리</div>
+                <div class="nav-item"><span class="icon">📺</span> 시청 기록</div>
+                <div class="nav-item"><span class="icon">⚙️</span> 설정</div>
+                <div class="nav-item"><span class="icon">🚪</span> 로그아웃</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Flows -->
+    <div class="section">
+        <div class="section-title">3. 사용자 플로우 (User Flows)</div>
+
+        <!-- Flow 1: New User -->
+        <div class="user-flow" style="margin-bottom: 16px;">
+            <div class="flow-title">
+                <span class="flow-badge">Flow 1</span>
+                신규 사용자 - 회원가입 → 구독 → 시청
+            </div>
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <div class="flow-step-box">
+                        <span class="icon">🌐</span>
+                        <span class="label">Landing</span>
+                    </div>
+                    <span class="flow-step-name">접속</span>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step">
+                    <div class="flow-step-box">
+                        <span class="icon">📝</span>
+                        <span class="label">Register</span>
+                    </div>
+                    <span class="flow-step-name">회원가입</span>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step">
+                    <div class="flow-step-box highlight">
+                        <span class="icon">💳</span>
+                        <span class="label">Subscribe</span>
+                    </div>
+                    <span class="flow-step-name">구독</span>
+                </div>
+                <span class="flow-arrow highlight">→</span>
+                <div class="flow-step">
+                    <div class="flow-step-box">
+                        <span class="icon">🏠</span>
+                        <span class="label">Home</span>
+                    </div>
+                    <span class="flow-step-name">홈</span>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step">
+                    <div class="flow-step-box">
+                        <span class="icon">🎬</span>
+                        <span class="label">Select</span>
+                    </div>
+                    <span class="flow-step-name">콘텐츠 선택</span>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step">
+                    <div class="flow-step-box highlight">
+                        <span class="icon">▶️</span>
+                        <span class="label">Player</span>
+                    </div>
+                    <span class="flow-step-name">시청</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Flow 2: Returning User -->
+        <div class="user-flow" style="margin-bottom: 16px;">
+            <div class="flow-title">
+                <span class="flow-badge">Flow 2</span>
+                재방문 사용자 - 이어보기
+            </div>
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <div class="flow-step-box">
+                        <span class="icon">🔑</span>
+                        <span class="label">Login</span>
+                    </div>
+                    <span class="flow-step-name">로그인</span>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step">
+                    <div class="flow-step-box">
+                        <span class="icon">🏠</span>
+                        <span class="label">Home</span>
+                    </div>
+                    <span class="flow-step-name">홈</span>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step">
+                    <div class="flow-step-box highlight">
+                        <span class="icon">⏩</span>
+                        <span class="label">Continue</span>
+                    </div>
+                    <span class="flow-step-name">이어보기 클릭</span>
+                </div>
+                <span class="flow-arrow highlight">→</span>
+                <div class="flow-step">
+                    <div class="flow-step-box highlight">
+                        <span class="icon">▶️</span>
+                        <span class="label">Player</span>
+                    </div>
+                    <span class="flow-step-name">중단 지점 재생</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Flow 3: Search -->
+        <div class="user-flow">
+            <div class="flow-title">
+                <span class="flow-badge">Flow 3</span>
+                검색 플로우
+            </div>
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <div class="flow-step-box">
+                        <span class="icon">📺</span>
+                        <span class="label">Browse</span>
+                    </div>
+                    <span class="flow-step-name">탐색 페이지</span>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step">
+                    <div class="flow-step-box">
+                        <span class="icon">⌨️</span>
+                        <span class="label">Search</span>
+                    </div>
+                    <span class="flow-step-name">검색어 입력</span>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step">
+                    <div class="flow-step-box">
+                        <span class="icon">📋</span>
+                        <span class="label">Results</span>
+                    </div>
+                    <span class="flow-step-name">결과 리스트</span>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step">
+                    <div class="flow-step-box highlight">
+                        <span class="icon">▶️</span>
+                        <span class="label">Player</span>
+                    </div>
+                    <span class="flow-step-name">재생</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Access Control -->
+    <div class="section">
+        <div class="section-title">4. 페이지 접근 권한 (Access Control)</div>
+        <table class="access-table">
+            <thead>
+                <tr>
+                    <th>페이지</th>
+                    <th>접근 권한</th>
+                    <th>비로그인 시</th>
+                    <th>비구독자</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Home</strong></td>
+                    <td><span class="access-badge public">Public</span></td>
+                    <td>접근 가능</td>
+                    <td>접근 가능</td>
+                </tr>
+                <tr>
+                    <td><strong>Browse</strong></td>
+                    <td><span class="access-badge public">Public</span></td>
+                    <td>접근 가능</td>
+                    <td>접근 가능</td>
+                </tr>
+                <tr>
+                    <td><strong>Player</strong></td>
+                    <td><span class="access-badge premium">Premium</span></td>
+                    <td>로그인 리다이렉트</td>
+                    <td>30초 미리보기 → Paywall</td>
+                </tr>
+                <tr>
+                    <td><strong>Account</strong></td>
+                    <td><span class="access-badge auth">Auth Required</span></td>
+                    <td>로그인 리다이렉트</td>
+                    <td>접근 가능</td>
+                </tr>
+                <tr>
+                    <td><strong>Auth</strong></td>
+                    <td><span class="access-badge public">Public</span></td>
+                    <td>접근 가능</td>
+                    <td>접근 가능</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Navigation States -->
+    <div class="section">
+        <div class="section-title">5. 네비게이션 상태 (Navigation States)</div>
+        <div class="state-row">
+            <div class="state-box">
+                <div class="state-box-title">
+                    <span class="state-indicator logged-out"></span>
+                    비로그인 상태
+                </div>
+                <div class="mini-nav">
+                    <span class="mini-nav-item">Home</span>
+                    <span class="mini-nav-item">Browse</span>
+                    <span class="mini-nav-item new">로그인</span>
+                    <span class="mini-nav-item new">회원가입</span>
+                    <span class="mini-nav-item hidden">Account</span>
+                </div>
+            </div>
+            <div class="state-box">
+                <div class="state-box-title">
+                    <span class="state-indicator logged-in"></span>
+                    로그인 상태
+                </div>
+                <div class="mini-nav">
+                    <span class="mini-nav-item">Home</span>
+                    <span class="mini-nav-item">Browse</span>
+                    <span class="mini-nav-item">Account</span>
+                    <span class="mini-nav-item hidden">로그인</span>
+                    <span class="mini-nav-item hidden">회원가입</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
