@@ -1,6 +1,8 @@
 # WSOPTV - 사용자 경험 설계
 
-**Version**: 1.5.0 | **Parent**: [README.md](./README.md)
+**Version**: 1.5.1 | **Parent**: [README.md](./README.md)
+
+**📄 Google Docs**: [온라인 문서 보기](https://docs.google.com/document/d/1tghlhpQiWttpB-0CP5c1DiL5BJa4ttWj-2R77xaoVI8/edit)
 
 ---
 
