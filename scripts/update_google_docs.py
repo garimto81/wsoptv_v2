@@ -258,55 +258,8 @@ def build_full_document(image_ids: dict):
     builder.add_text("  E. Series Section - 시리즈별 콘텐츠 그룹\n")
     builder.add_text("  F. Footer - 하단 정보 영역\n\n")
 
-    # 2.2.1 Header
-    builder.add_text("\n2.2.1 Header - 상단 고정 네비게이션\n", heading="HEADING_3")
-    builder.add_image("01-header.png", width_pt=500)
-    builder.add_text("\n\n핵심 스펙:\n")
-    builder.add_text("  • 로고: 120×40px, #e50914 배경 → 클릭 시 홈 이동\n")
-    builder.add_text("  • 네비게이션: gap 24px, 활성 흰색 + 언더라인\n")
-    builder.add_text("  • 검색/프로필 아이콘: 36×36px\n")
-    builder.add_text("  • 동작: position: fixed, z-index: 1000, 높이 64px\n\n")
-
-    # 2.2.2 Hero Banner
-    builder.add_text("\n2.2.2 Hero Banner - 메인 추천 콘텐츠\n", heading="HEADING_3")
-    builder.add_image("02-hero-banner.png", width_pt=500)
-    builder.add_text("\n\n핵심 스펙:\n")
-    builder.add_text("  • 배지: NEW (#e50914), 4K (#ffc107)\n")
-    builder.add_text("  • 제목: 36px, font-weight: 700, 최대 2줄\n")
-    builder.add_text("  • 썸네일: 16:9, WebP, Lazy Load\n")
-    builder.add_text("  • 인디케이터: 최대 5개, 5초 자동 전환\n\n")
-
-    # 2.2.3 Continue Watching
-    builder.add_text("\n2.2.3 Continue Watching - 이어보기 섹션\n", heading="HEADING_3")
-    builder.add_image("03-continue-watching.png", width_pt=500)
-    builder.add_text("\n\n핵심 스펙:\n")
-    builder.add_text("  • 카드 그리드: 4열, gap: 12px\n")
-    builder.add_text("  • 진행률 바: 높이 4px, #e50914\n")
-    builder.add_text("  • 동작: 10초마다 위치 저장, 95% 시청 시 제거\n\n")
-
-    # 2.2.4 Recently Added
-    builder.add_text("\n2.2.4 Recently Added - 최근 추가 콘텐츠\n", heading="HEADING_3")
-    builder.add_image("04-recently-added.png", width_pt=500)
-    builder.add_text("\n\n핵심 스펙:\n")
-    builder.add_text("  • 카드 그리드: 5열, gap: 10px\n")
-    builder.add_text("  • 배지: NEW (7일 이내), 4K/HD/CC\n")
-    builder.add_text("  • 호버: scale(1.05), box-shadow, 0.2s\n\n")
-
-    # 2.2.5 Series Section
-    builder.add_text("\n2.2.5 Series Section - 시리즈별 콘텐츠 그룹\n", heading="HEADING_3")
-    builder.add_image("05-series-section.png", width_pt=500)
-    builder.add_text("\n\n핵심 스펙:\n")
-    builder.add_text("  • 레이아웃: 포스터 (2:3) + 에피소드 목록\n")
-    builder.add_text("  • 에피소드: 최대 4개, 더보기 표시\n")
-    builder.add_text("  • 재생시간: \"H:MM:SS\" 형식\n\n")
-
-    # 2.2.6 Footer
-    builder.add_text("\n2.2.6 Footer - 하단 정보 영역\n", heading="HEADING_3")
-    builder.add_image("06-footer.png", width_pt=500)
-    builder.add_text("\n\n핵심 스펙:\n")
-    builder.add_text("  • 링크 그리드: 4열 (About, Support, Legal, Account)\n")
-    builder.add_text("  • 소셜 링크: 36×36px, gap: 16px\n")
-    builder.add_text("  • 반응형: Desktop 4열 > Tablet 2열 > Mobile 1열\n\n")
+    # Marker for homepage component tables (will be replaced with actual tables)
+    builder.add_text("\n[HOMEPAGE_TABLES_PLACEHOLDER]\n\n")
 
     builder.add_divider()
 
@@ -654,6 +607,185 @@ def main():
             documentId=GOOGLE_DOC_ID, body={"requests": chunk}
         ).execute()
         print(f"  Applied requests {i+1} to {min(i + chunk_size, len(requests))}")
+
+    # Add 2-column tables for section 2 homepage components
+    print("\nAdding 2-column homepage component tables...")
+    homepage_tables = [
+        ("01-header.png", "2.2.1 Header - 상단 고정 네비게이션", [
+            "• 로고: 120×40px, #e50914 배경",
+            "  → 클릭 시 홈 이동",
+            "• 네비게이션: gap 24px",
+            "  → 활성 흰색 + 언더라인",
+            "• 검색/프로필 아이콘: 36×36px",
+            "• position: fixed, z-index: 1000",
+            "• 높이: 64px",
+        ]),
+        ("02-hero-banner.png", "2.2.2 Hero Banner - 메인 추천 콘텐츠", [
+            "• 배지: NEW (#e50914), 4K (#ffc107)",
+            "• 제목: 36px, font-weight: 700",
+            "  → 최대 2줄 표시",
+            "• 썸네일: 16:9, WebP, Lazy Load",
+            "• 인디케이터: 최대 5개",
+            "  → 5초 자동 전환",
+        ]),
+        ("03-continue-watching.png", "2.2.3 Continue Watching - 이어보기", [
+            "• 카드 그리드: 4열, gap: 12px",
+            "• 진행률 바: 높이 4px, #e50914",
+            "• 동작:",
+            "  → 10초마다 위치 저장",
+            "  → 95% 시청 시 자동 제거",
+        ]),
+        ("04-recently-added.png", "2.2.4 Recently Added - 최근 추가", [
+            "• 카드 그리드: 5열, gap: 10px",
+            "• 배지: NEW (7일 이내)",
+            "  → 4K/HD/CC 품질 표시",
+            "• 호버 효과:",
+            "  → scale(1.05), box-shadow",
+            "  → 0.2s transition",
+        ]),
+        ("05-series-section.png", "2.2.5 Series Section - 시리즈별 그룹", [
+            "• 레이아웃: 포스터 (2:3)",
+            "  → 에피소드 목록 우측 배치",
+            "• 에피소드: 최대 4개 표시",
+            "  → 더보기 링크",
+            "• 재생시간: H:MM:SS 형식",
+        ]),
+        ("06-footer.png", "2.2.6 Footer - 하단 정보 영역", [
+            "• 링크 그리드: 4열",
+            "  → About, Support, Legal, Account",
+            "• 소셜 링크: 36×36px, gap: 16px",
+            "• 반응형:",
+            "  → Desktop 4열 > Tablet 2열",
+            "  → Mobile 1열",
+        ]),
+    ]
+
+    # Find the homepage placeholder location
+    doc = docs_service.documents().get(documentId=GOOGLE_DOC_ID).execute()
+    content = doc.get("body", {}).get("content", [])
+
+    hp_placeholder_start = None
+    hp_placeholder_end = None
+    hp_marker_text = "[HOMEPAGE_TABLES_PLACEHOLDER]"
+
+    for element in content:
+        if "paragraph" in element:
+            paragraph = element["paragraph"]
+            for elem in paragraph.get("elements", []):
+                if "textRun" in elem:
+                    text = elem["textRun"].get("content", "")
+                    if hp_marker_text in text:
+                        hp_placeholder_start = elem["startIndex"]
+                        hp_placeholder_end = elem["endIndex"]
+                        break
+
+    if hp_placeholder_start:
+        # Delete the placeholder text
+        docs_service.documents().batchUpdate(
+            documentId=GOOGLE_DOC_ID,
+            body={"requests": [{
+                "deleteContentRange": {
+                    "range": {
+                        "startIndex": hp_placeholder_start,
+                        "endIndex": hp_placeholder_end,
+                    }
+                }
+            }]}
+        ).execute()
+        print(f"  Removed homepage placeholder at index {hp_placeholder_start}")
+
+        # Insert tables in reverse order (so they appear in correct order)
+        for image_key, title, desc_lines in reversed(homepage_tables):
+            # Get current document state
+            doc = docs_service.documents().get(documentId=GOOGLE_DOC_ID).execute()
+
+            # Insert table at the placeholder location
+            docs_service.documents().batchUpdate(
+                documentId=GOOGLE_DOC_ID,
+                body={"requests": [{
+                    "insertTable": {
+                        "location": {"index": hp_placeholder_start},
+                        "rows": 1,
+                        "columns": 2,
+                    }
+                }]}
+            ).execute()
+
+            # Get updated document to find cell indices
+            doc = docs_service.documents().get(documentId=GOOGLE_DOC_ID).execute()
+            content = doc.get("body", {}).get("content", [])
+
+            # Find the table at the placeholder location
+            table_element = None
+            for element in content:
+                if "table" in element:
+                    if element["startIndex"] >= hp_placeholder_start - 5:
+                        table_element = element
+                        break
+
+            if not table_element:
+                print(f"  Warning: Could not find table for {title}")
+                continue
+
+            # Get cell paragraph indices
+            table = table_element["table"]
+            row = table["tableRows"][0]
+            left_cell = row["tableCells"][0]
+            right_cell = row["tableCells"][1]
+
+            left_para = left_cell["content"][0]
+            right_para = right_cell["content"][0]
+
+            left_para_index = left_para["startIndex"]
+            right_para_index = right_para["startIndex"]
+
+            # Section 2: Image on LEFT, Text on RIGHT (like section 3)
+            # Do higher index first (right cell), then lower index (left cell)
+
+            # Step 1: Insert text in right cell
+            text_content = f"{title}\n" + "\n".join(desc_lines)
+            docs_service.documents().batchUpdate(
+                documentId=GOOGLE_DOC_ID,
+                body={"requests": [
+                    {
+                        "insertText": {
+                            "location": {"index": right_para_index},
+                            "text": text_content,
+                        }
+                    },
+                    {
+                        "updateTextStyle": {
+                            "range": {
+                                "startIndex": right_para_index,
+                                "endIndex": right_para_index + len(title)
+                            },
+                            "textStyle": {"bold": True},
+                            "fields": "bold",
+                        }
+                    }
+                ]}
+            ).execute()
+
+            # Step 2: Insert image in left cell
+            image_id = image_ids.get(image_key)
+            if image_id:
+                uri = f"https://drive.google.com/uc?id={image_id}"
+                docs_service.documents().batchUpdate(
+                    documentId=GOOGLE_DOC_ID,
+                    body={"requests": [{
+                        "insertInlineImage": {
+                            "location": {"index": left_para_index},
+                            "uri": uri,
+                            "objectSize": {
+                                "width": {"magnitude": 200, "unit": "PT"}
+                            },
+                        }
+                    }]}
+                ).execute()
+
+            print(f"  Added table: {title}")
+    else:
+        print("  Warning: Homepage placeholder not found, skipping table insertion")
 
     # Now add 2-column tables for section 3 cards
     print("\nAdding 2-column card tables...")
