@@ -12,7 +12,7 @@ TOKEN_PATH = Path(r"D:\AI\claude01\json\token.json")
 WIREFRAME_DIR = Path(r"D:\AI\claude01\wsoptv_v2\docs\wireframes\v2")
 GOOGLE_DOC_ID = "1tghlhpQiWttpB-0CP5c1DiL5BJa4ttWj-2R77xaoVI8"
 
-# Files to upload
+# Files to upload (all wireframes for UX document)
 FILES = [
     "00-full-page.png",
     "01-header.png",
@@ -21,6 +21,17 @@ FILES = [
     "04-recently-added.png",
     "05-series-section.png",
     "06-footer.png",
+    "07-navigation.png",
+    "08-content-cards.png",
+    "09-subscription.png",
+    "12-browse.png",
+    "13-player.png",
+    "14-account.png",
+    "15-auth.png",
+    # Mermaid diagrams
+    "mermaid-youtube-entry.png",
+    "mermaid-direct-entry.png",
+    "mermaid-existing-user.png",
 ]
 
 

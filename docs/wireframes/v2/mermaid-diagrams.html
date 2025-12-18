@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WSOPTV User Journey Diagrams</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a2e;
+            color: #eee;
+            padding: 20px;
+        }
+        .diagram-container {
+            background: #16213e;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .diagram-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #e94560;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e94560;
+        }
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            padding: 20px 0;
+        }
+        .capture-area {
+            display: inline-block;
+        }
+
+        /* Individual capture sections */
+        #diagram1, #diagram2, #diagram3 {
+            display: inline-block;
+            background: #16213e;
+            border-radius: 12px;
+            padding: 30px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Diagram 1: YouTube Entry -->
+    <div id="diagram1" class="capture-area">
+        <div class="diagram-title">진입 경로 1: YouTube (신규 유저층 확보)</div>
+        <div class="mermaid">
+flowchart LR
+    A[YouTube 접속] --> B[쇼츠/하이라이트]
+    B --> C{풀 영상 관심?}
+    C -->|Yes| D[WSOPTV 이동]
+    D --> E[구독]
+
+    style A fill:#e94560,stroke:#e94560,color:#fff
+    style B fill:#0f3460,stroke:#e94560,color:#fff
+    style C fill:#533483,stroke:#e94560,color:#fff
+    style D fill:#0f3460,stroke:#e94560,color:#fff
+    style E fill:#16c79a,stroke:#16c79a,color:#fff
+        </div>
+    </div>
+
+    <br><br>
+
+    <!-- Diagram 2: Direct Entry -->
+    <div id="diagram2" class="capture-area">
+        <div class="diagram-title">진입 경로 2: WSOPTV 직접 접속</div>
+        <div class="mermaid">
+flowchart LR
+    A[랜딩페이지 접속] --> B[콘텐츠 미리보기]
+    B --> C[회원가입]
+    C --> D[구독]
+
+    style A fill:#e94560,stroke:#e94560,color:#fff
+    style B fill:#0f3460,stroke:#e94560,color:#fff
+    style C fill:#0f3460,stroke:#e94560,color:#fff
+    style D fill:#16c79a,stroke:#16c79a,color:#fff
+        </div>
+    </div>
+
+    <br><br>
+
+    <!-- Diagram 3: Existing User Journey -->
+    <div id="diagram3" class="capture-area">
+        <div class="diagram-title">기존 사용자 여정</div>
+        <div class="mermaid">
+flowchart TB
+    A[앱/웹 접속] --> B[로그인]
+    B --> C[홈 화면]
+    C --> D{시청 선택}
+    D -->|이어보기| E[중단 지점부터 재생]
+    D -->|새 콘텐츠| F[브라우징]
+    F --> G[에피소드 선택]
+    G --> H[시청 시작]
+    H --> I{에피소드 내 기능}
+    I --> J[Hand Skip]
+    I --> K[Best Hands 점프]
+
+    style A fill:#e94560,stroke:#e94560,color:#fff
+    style B fill:#0f3460,stroke:#e94560,color:#fff
+    style C fill:#0f3460,stroke:#e94560,color:#fff
+    style D fill:#533483,stroke:#e94560,color:#fff
+    style E fill:#16c79a,stroke:#16c79a,color:#fff
+    style F fill:#0f3460,stroke:#e94560,color:#fff
+    style G fill:#0f3460,stroke:#e94560,color:#fff
+    style H fill:#16c79a,stroke:#16c79a,color:#fff
+    style I fill:#533483,stroke:#e94560,color:#fff
+    style J fill:#ffc107,stroke:#ffc107,color:#000
+    style K fill:#ffc107,stroke:#ffc107,color:#000
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            themeVariables: {
+                primaryColor: '#e94560',
+                primaryTextColor: '#fff',
+                primaryBorderColor: '#e94560',
+                lineColor: '#e94560',
+                secondaryColor: '#0f3460',
+                tertiaryColor: '#16213e',
+                background: '#16213e',
+                mainBkg: '#0f3460',
+                nodeBorder: '#e94560',
+                clusterBkg: '#16213e',
+                titleColor: '#fff',
+                edgeLabelBackground: '#16213e'
+            },
+            flowchart: {
+                curve: 'basis',
+                padding: 20
+            }
+        });
+    </script>
+</body>
+</html>
