@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WSOP 연간 시즌 캘린더</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #ffffff;
+            color: #000;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+        .container {
+            width: 900px;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 40px;
+            border: 2px solid #000;
+        }
+        .title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .title h1 {
+            font-size: 28px;
+            color: #000;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        .title p {
+            color: #666;
+            font-size: 14px;
+        }
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        .timeline-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #ccc;
+        }
+        .timeline-fill {
+            position: absolute;
+            height: 100%;
+            border-radius: 4px;
+        }
+        .fill-q1 { left: 16.7%; width: 8.3%; background: #999; }
+        .fill-q2 { left: 25%; width: 25%; background: #000; }
+        .fill-q4a { left: 75%; width: 8.3%; background: #999; }
+        .fill-q4b { left: 91.7%; width: 8.3%; background: #666; }
+        .months {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .month {
+            flex: 1;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
+        .events {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .event {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            background: #f9f9f9;
+            border-radius: 12px;
+            border-left: 4px solid;
+            border: 1px solid #e0e0e0;
+        }
+        .event.vegas {
+            border-left: 4px solid #000;
+            background: #f0f0f0;
+        }
+        .event.other {
+            border-left: 4px solid #999;
+        }
+        .event.paradise {
+            border-left: 4px solid #666;
+        }
+        .event-time {
+            width: 100px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .event.vegas .event-time { color: #000; }
+        .event.other .event-time { color: #666; }
+        .event.paradise .event-time { color: #444; }
+        .event-info {
+            flex: 1;
+        }
+        .event-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #000;
+        }
+        .event-desc {
+            font-size: 12px;
+            color: #666;
+        }
+        .event-badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .event.vegas .event-badge {
+            background: #000;
+            color: #fff;
+        }
+        .event.other .event-badge {
+            background: #f0f0f0;
+            color: #666;
+            border: 1px solid #ccc;
+        }
+        .event.paradise .event-badge {
+            background: #f0f0f0;
+            color: #444;
+            border: 1px solid #ccc;
+        }
+        .legend-row {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #666;
+        }
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+        .dot-vegas { background: #000; }
+        .dot-other { background: #999; }
+        .dot-paradise { background: #666; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <h1>WSOP 연간 시즌 캘린더</h1>
+            <p>5~7월 WSOP Las Vegas가 연간 콘텐츠의 80%를 차지합니다</p>
+        </div>
+        <div class="timeline">
+            <div class="months">
+                <div class="month">1월</div>
+                <div class="month">2월</div>
+                <div class="month">3월</div>
+                <div class="month">4월</div>
+                <div class="month">5월</div>
+                <div class="month">6월</div>
+                <div class="month">7월</div>
+                <div class="month">8월</div>
+                <div class="month">9월</div>
+                <div class="month">10월</div>
+                <div class="month">11월</div>
+                <div class="month">12월</div>
+            </div>
+            <div class="timeline-bar">
+                <div class="timeline-fill fill-q1"></div>
+                <div class="timeline-fill fill-q2"></div>
+                <div class="timeline-fill fill-q4a"></div>
+                <div class="timeline-fill fill-q4b"></div>
+            </div>
+        </div>
+        <div class="events">
+            <div class="event other">
+                <div class="event-time">3월</div>
+                <div class="event-info">
+                    <div class="event-name">Super Circuit Cyprus</div>
+                    <div class="event-desc">유럽 사전 경기</div>
+                </div>
+                <div class="event-badge">5%</div>
+            </div>
+            <div class="event other">
+                <div class="event-time">4월</div>
+                <div class="event-info">
+                    <div class="event-name">WSOP Europe</div>
+                    <div class="event-desc">유럽 메이저 이벤트</div>
+                </div>
+                <div class="event-badge">5%</div>
+            </div>
+            <div class="event vegas">
+                <div class="event-time">5~7월</div>
+                <div class="event-info">
+                    <div class="event-name">WSOP Las Vegas</div>
+                    <div class="event-desc">Main Event, 80+ Bracelet Events, Best Hands</div>
+                </div>
+                <div class="event-badge">80%</div>
+            </div>
+            <div class="event other">
+                <div class="event-time">10월</div>
+                <div class="event-info">
+                    <div class="event-name">Super Circuit Canada</div>
+                    <div class="event-desc">북미 지역 대회</div>
+                </div>
+                <div class="event-badge">5%</div>
+            </div>
+            <div class="event paradise">
+                <div class="event-time">12월</div>
+                <div class="event-info">
+                    <div class="event-name">WSOP Paradise</div>
+                    <div class="event-desc">바하마 리조트 대회, $25K+ Buy-in</div>
+                </div>
+                <div class="event-badge">5%</div>
+            </div>
+        </div>
+        <div class="legend-row">
+            <div class="legend-item">
+                <div class="legend-dot dot-vegas"></div>
+                <span>WSOP Las Vegas (80%)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot dot-other"></div>
+                <span>기타 대회 (15%)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot dot-paradise"></div>
+                <span>WSOP Paradise (5%)</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WSOPTV 콘텐츠 구성</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #ffffff;
+            color: #000;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+        .container {
+            width: 800px;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 40px;
+            border: 2px solid #000;
+        }
+        .title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .title h1 {
+            font-size: 28px;
+            color: #000;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        .title p {
+            color: #666;
+            font-size: 14px;
+        }
+        .chart-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+        }
+        .donut-chart {
+            position: relative;
+            width: 280px;
+            height: 280px;
+        }
+        .donut-chart svg {
+            transform: rotate(-90deg);
+        }
+        .donut-chart circle {
+            fill: none;
+            stroke-width: 40;
+        }
+        .segment-vegas {
+            stroke: #000;
+            stroke-dasharray: 251.2 314;
+            stroke-dashoffset: 0;
+        }
+        .segment-other {
+            stroke: #666;
+            stroke-dasharray: 31.4 314;
+            stroke-dashoffset: -251.2;
+        }
+        .segment-original {
+            stroke: #ccc;
+            stroke-dasharray: 31.4 314;
+            stroke-dashoffset: -282.6;
+        }
+        .center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        .center-text .big {
+            font-size: 42px;
+            font-weight: bold;
+            color: #000;
+        }
+        .center-text .small {
+            font-size: 14px;
+            color: #666;
+        }
+        .legend {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            background: #f5f5f5;
+            border-radius: 12px;
+            border: 1px solid #e0e0e0;
+            transition: transform 0.2s;
+        }
+        .legend-item:hover {
+            transform: translateX(5px);
+        }
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+        .vegas { background: #000; }
+        .other { background: #666; }
+        .original { background: #ccc; }
+        .legend-info {
+            flex: 1;
+        }
+        .legend-info .name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 4px;
+        }
+        .legend-info .desc {
+            font-size: 12px;
+            color: #666;
+        }
+        .legend-percent {
+            font-size: 24px;
+            font-weight: bold;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <h1>WSOPTV 콘텐츠 구성</h1>
+            <p>연간 콘텐츠 비중 분석</p>
+        </div>
+        <div class="chart-area">
+            <div class="donut-chart">
+                <svg width="280" height="280" viewBox="0 0 280 280">
+                    <circle class="segment-vegas" cx="140" cy="140" r="100"/>
+                    <circle class="segment-other" cx="140" cy="140" r="100"/>
+                    <circle class="segment-original" cx="140" cy="140" r="100"/>
+                </svg>
+                <div class="center-text">
+                    <div class="big">18TB+</div>
+                    <div class="small">50년 아카이브</div>
+                </div>
+            </div>
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color vegas"></div>
+                    <div class="legend-info">
+                        <div class="name">WSOP Las Vegas</div>
+                        <div class="desc">Main Event, Bracelet Events, Best Hands</div>
+                    </div>
+                    <div class="legend-percent">80%</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color other"></div>
+                    <div class="legend-info">
+                        <div class="name">기타 대회</div>
+                        <div class="desc">Paradise, Europe, Super Circuit</div>
+                    </div>
+                    <div class="legend-percent">10%</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color original"></div>
+                    <div class="legend-info">
+                        <div class="name">오리지널 콘텐츠</div>
+                        <div class="desc">Game of Gold, Documentary</div>
+                    </div>
+                    <div class="legend-percent">10%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
