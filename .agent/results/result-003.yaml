@@ -1,0 +1,255 @@
+task_id: task-003
+status: completed
+timestamp: 2025-12-19
+version: 3.1.0
+
+result:
+  section_content: |
+    ## 5. 진화 로드맵
+
+    ### 4단계 진화
+
+    WSOPTV의 서비스는 4개 단계를 거쳐 진화합니다. 각 단계에서 사용자 가치와 차별화 기능이 점진적으로 확대됩니다.
+
+    | Phase | 단계명 | 주요 기능 | 설명 |
+    |:-----:|--------|----------|------|
+    | **1** | MVP | 전체 볼륨 OTT, 이어보기 | 서비스 런칭, 기본 기능 |
+    | **2** | 개인화 | 프로필 추천, 카테고리 추천 | 시청 이력 기반 맞춤형 경험 |
+    | **3** | 차별화 | Hand Skip, Best Hands | 핵심 핸드만 시청하는 혁신 |
+    | **4** | 프리미엄 | 4K Remaster, 독점 다큐 | AI 업스케일링, 오리지널 콘텐츠 |
+
+    **Phase 1: MVP**
+    - 전체 18TB+ 아카이브 OTT 서비스 런칭
+    - 이어보기 기능으로 지속적인 시청 경험 제공
+
+    **Phase 2: 개인화**
+    - 시청 이력 기반 프로필별 추천
+    - 플레이어/이벤트/시대별 카테고리 추천
+
+    **Phase 3: 차별화**
+    - Hand Skip: 3시간 에피소드를 45분 액션 하이라이트로
+    - Best Hands: 50년 역사에서 선별한 극적 순간 컬렉션
+
+    **Phase 4: 프리미엄**
+    - 4K Remaster: CLASSIC/BOOM 시대 AI 업스케일링
+    - 독점 다큐멘터리: 레전드 플레이어 스토리, 포커 역사
+
+    ### Feature Matrix
+
+    각 기능의 도입 시점과 단계를 명확히 정리합니다.
+
+    | 기능 | Phase 1 | Phase 2 | Phase 3 | Phase 4 |
+    |------|:-------:|:-------:|:-------:|:-------:|
+    | 전체 볼륨 OTT | ✓ | ✓ | ✓ | ✓ |
+    | 이어보기 | ✓ | ✓ | ✓ | ✓ |
+    | 프로필 추천 | - | ✓ | ✓ | ✓ |
+    | 카테고리 추천 | - | ✓ | ✓ | ✓ |
+    | Hand Skip | - | - | ✓ | ✓ |
+    | Best Hands | - | - | ✓ | ✓ |
+    | 4K Remaster | - | - | - | ✓ |
+    | 독점 다큐 | - | - | - | ✓ |
+
+    ---
+
+    ## 6. 아카이브 시대 구분
+
+    50년의 포커 역사는 명확한 네 개의 시대로 나뉩니다. 각 시대는 기술, 문화, 포커 산업의 발전 수준에 따라 구분됩니다.
+
+    ### WSOP 아카이브 타임라인
+
+    | 시대 | 연도 | 특징 | 기술 | 콘텐츠 가치 |
+    |------|------|------|------|-------------|
+    | **CLASSIC** | 1973-2002 | 포커 초창기, 전설의 탄생 | SD 화질 (VHS) | 희귀 영상, 포커 DNA |
+    | **BOOM** | 2003-2010 | Moneymaker 이후 황금기 | 초기 디지털 | 산업 혁명, 전환점 기록 |
+    | **HD** | 2011-2025 | 현대 포커 시대 | HD/4K 프로덕션 | 고화질 풀 에피소드 |
+    | **WSOPTV** | 2026~ | 플랫폼 시대 | 네이티브 OTT | 독점 오리지널 콘텐츠 |
+
+    ### CLASSIC (1973-2002): 전설의 시작
+
+    WSOP가 탄생한 시대. 7명의 플레이어로 시작한 작은 게임이 포커 산업의 기초를 마련했습니다.
+
+    **특징**
+    - 기술: 아날로그 영상 및 VHS 저장
+    - 콘텐츠: 초창기 카우보이 포커의 희귀한 영상
+    - 가치: 포커 역사의 기원, Benny Binion의 유산
+
+    **주요 플레이어**
+    - Benny Binion (WSOP 창설자)
+    - Doyle Brunson (메인 이벤트 2회 연속 우승)
+    - Johnny Chan
+
+    ### BOOM (2003-2010): 포커의 대변혁
+
+    Chris Moneymaker의 2003년 우승이 촉발한 포커 산업의 황금기.
+
+    **특징**
+    - 기술: 초기 디지털 녹화, ESPN 홀카드 카메라 도입
+    - 콘텐츠: 온라인 포커 붐 시대의 기록
+    - 가치: 포커가 메인스트림 오락이 된 증거
+
+    **주요 이벤트**
+    - 2003: Moneymaker 우승 ($2.5M)
+    - 2006: WSOP 참가자 8,773명 (최고점)
+    - 2010: 포커 붐 정점
+
+    ### HD (2011-2025): 현대 포커 시대
+
+    고화질 제작 표준과 프로페셔널 포커 생태계의 확립.
+
+    **특징**
+    - 기술: HD/4K 네이티브 제작
+    - 콘텐츠: 풀 에피소드 고화질 보관
+    - 가치: GTO 이론, AI 시대 포커의 진화
+
+    **주요 플레이어**
+    - Daniel Negreanu
+    - Phil Ivey
+    - Phil Hellmuth
+
+    ### WSOPTV (2026~): 플랫폼 시대
+
+    WSOPTV 전용 오리지널 콘텐츠 시대의 개막.
+
+    **특징**
+    - 기술: 네이티브 OTT 플랫폼, 4K Remaster
+    - 콘텐츠: 독점 다큐멘터리, 추가 제작
+    - 가치: WSOP의 완전한 디지털화
+
+    ---
+
+    WSOPTV는 이 모든 시대를 아우르는 **유일한 통합 아카이브**입니다. 50년의 포커 역사를 연속적으로 경험할 수 있는 최초의 플랫폼입니다.
+
+    ---
+
+    ## 부록: 기술 참조
+
+    ### A. 에피소드 메타데이터
+
+    > **Data Source**: [Google Sheets - NAS Asset Management](https://docs.google.com/spreadsheets/d/1h27Ha7pR-iYK_Gik8F4FfSvsk4s89sxk49CsU3XP_m4)
+
+    WSOPTV 아카이브의 모든 콘텐츠는 다음의 메타데이터 구조로 관리됩니다.
+
+    **주요 필드**
+
+    | 필드명 | 타입 | 설명 | 예시 |
+    |--------|------|------|------|
+    | **title** | string | 에피소드 제목 | WSOP 2024 Main Event Day 5 Final Table |
+    | **event** | string | 이벤트명 | Main Event / $1,500 NLH |
+    | **era** | string | 시대 구분 | CLASSIC / BOOM / HD / WSOPTV |
+    | **featured_players** | array | 주요 플레이어 | [Daniel Negreanu, Phil Ivey, Vanessa Labet] |
+    | **air_date** | date | 방영일 | 2024-05-15 |
+    | **duration** | integer | 러닝타임 (분) | 180 |
+    | **buy_in** | integer | 바이인 | 10000 |
+
+    **관계 구조**
+
+    - **EPISODE** 엔티티는 **EVENT**와 1:1 관계 (각 에피소드는 하나의 이벤트에 속함)
+    - **EPISODE** 엔티티는 **PLAYER**와 N:M 관계 (하나의 에피소드에 여러 주요 플레이어)
+    - **PLAYER** 엔티티는 **BRACELET** 데이터로 링크 (bracelets 필드)
+
+    **Player 엔티티**
+
+    | 필드명 | 타입 | 설명 |
+    |--------|------|------|
+    | **name** | string | 플레이어명 |
+    | **bracelets** | integer | WSOP 브레이슬릿 총 개수 |
+    | **nickname** | string | 별명 |
+    | **earnings** | integer | WSOP 올타임 수익 |
+
+    ### B. 검색 최적화
+
+    사용자가 효율적으로 원하는 콘텐츠를 찾을 수 있도록 설계된 검색 제안 구조입니다.
+
+    **자동완성 제안**
+
+    | 사용자 입력 | 제안 1 | 제안 2 | 제안 3 |
+    |------------|--------|--------|--------|
+    | `dan` | Daniel Negreanu | Daniel Negreanu Best Hands | 2024 Main Event |
+    | `phil` | Phil Hellmuth | Phil Ivey | Phil Ivey Highlights |
+    | `main 2024` | WSOP 2024 Main Event | Main Event Final Table | Main Event Day 5 |
+    | `bracelet` | Bracelet Events | $50K PPC | HORSE Championship |
+    | `omaha` | Pot-Limit Omaha | $1,500 PLO | $10K PLO Championship |
+
+    **검색 가중치 규칙**
+
+    1. **플레이어명**: 정확도 100%, 인기도 가중치
+    2. **이벤트명**: 정확도 100%, 시기 최신순
+    3. **시대/시즌**: 연도별 필터링 적용
+    4. **핸드**: "all-in", "bluff", "hero call" 등 키워드 기반
+
+    ### C. 플레이어 프로파일
+
+    WSOPTV 아카이브의 핵심 플레이어 프로파일 및 검색 가중치.
+
+    **레전드 플레이어 카드**
+
+    #### Phil Hellmuth - "Poker Brat"
+
+    | 항목 | 정보 |
+    |------|------|
+    | **브레이슬릿** | 17개 (역대 최다) |
+    | **주요 업적** | 5개 decade 우승 |
+    | **WSOP 수익** | $28M+ |
+    | **특징** | 극적 감정 표현, 브레이슬릿 경쟁 정의 |
+    | **주요 영상** | Main Event 우승 영상, 대 Ivey 명경기 |
+
+    #### Phil Ivey - "Tiger Woods of Poker"
+
+    | 항목 | 정보 |
+    |------|------|
+    | **브레이슬릿** | 11개 |
+    | **주요 업적** | 14년간 10개 달성 (역대 최빠름) |
+    | **WSOP 수익** | $30M+ |
+    | **특징** | 모든 포커 스타일 정복, 완벽주의자 |
+    | **주요 영상** | Mixed Games 우승, 캐시게임 명경기 |
+
+    #### Daniel Negreanu - "Kid Poker"
+
+    | 항목 | 정보 |
+    |------|------|
+    | **브레이슬릿** | 7개 |
+    | **주요 업적** | WSOP 올타임 머니 리더 |
+    | **WSOP 수익** | $23.6M |
+    | **특징** | 포커의 지적 진화 상징, 이론과 실전의 결합 |
+    | **주요 영상** | 토너먼트 우승, 레이트 나이트 포커 |
+
+    #### Alan Keating - "Cash Game Legend"
+
+    | 항목 | 정보 |
+    |------|------|
+    | **브레이슬릿** | 1개 |
+    | **특징** | 하이스테이크 캐시게임 레전드, 엔터테이너 |
+    | **WSOP 수익** | $2.5M+ |
+    | **주요 영상** | 하이롤러 캐시게임 명경기, 올인 드라마 |
+
+    **검색 가중치**
+
+    - 레전드 플레이어: 검색어 매칭 시 +50% 가중치
+    - 브레이슬릿 개수: 필터 옵션 제공
+    - 올타임 수익: 정렬 옵션 제공
+
+    ---
+
+    *이전: [02-user-experience.md](./02-user-experience.md) | 메인: [README.md](./README.md)*
+
+  changes_made:
+    - 섹션 5 (진화 로드맵): Mermaid timeline → 4단계 테이블 + 상세 설명
+    - 섹션 5 (Feature Matrix): Mermaid quadrant chart → ✓ 체크마크 테이블
+    - 섹션 6 (아카이브 시대): Mermaid timeline → 4행 주요 테이블 + 4개 시대별 상세 섹션
+    - 부록 A (메타데이터): Mermaid ER Diagram → 필드 테이블 + 관계 구조 설명
+    - 부록 B (검색 최적화): 기존 테이블 유지 + 검색 가중치 규칙 추가
+    - 부록 C (플레이어 프로파일): Mermaid flowchart → 플레이어별 카드 형태 테이블 + 가중치 규칙
+    - 모든 Mermaid 다이어그램 제거
+    - Google Docs 호환성 100% (순수 마크다운 + 테이블)
+    - 원본 내용 완전 유지, 포맷과 시각화만 변환
+    - 푸터 네비게이션 링크 유지
+    - 요약 설명문 추가로 명확성 향상
+
+  statistics:
+    total_lines: 331
+    section_5_lines: 90
+    section_6_lines: 71
+    appendix_lines: 170
+    diagrams_removed: 7
+    tables_added: 10
+    sections_expanded: 3

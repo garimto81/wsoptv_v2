@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=320">
+    <title>Browse Grid View</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #999; }
+        .capture-area {
+            width: 320px;
+            background: #141414;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .search-bar {
+            background: #1a1a1a;
+            padding: 10px 12px;
+            border-bottom: 1px solid #333;
+        }
+        .search-input {
+            background: #333;
+            padding: 8px 12px;
+            border-radius: 4px;
+            color: #888;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .title-bar {
+            padding: 10px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+        }
+        .title-bar h2 { color: #fff; font-size: 14px; }
+        .sort-btn {
+            background: #333;
+            color: #fff;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 9px;
+        }
+        .main-content {
+            display: flex;
+            padding: 10px;
+            gap: 10px;
+        }
+        .sidebar { width: 80px; flex-shrink: 0; }
+        .filter-section { margin-bottom: 10px; }
+        .filter-title {
+            color: #fff;
+            font-size: 9px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #888;
+            font-size: 8px;
+            padding: 2px 0;
+        }
+        .filter-option.active { color: #fff; }
+        .filter-option input { width: 8px; height: 8px; accent-color: #e50914; }
+        .content-area { flex: 1; }
+        .result-count { color: #888; font-size: 9px; margin-bottom: 8px; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
+        }
+        .card {
+            background: #1a1a1a;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .card-thumb {
+            aspect-ratio: 16/9;
+            background: #333;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            font-size: 12px;
+        }
+        .card-badge {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            font-size: 6px;
+            font-weight: 700;
+            padding: 1px 3px;
+            border-radius: 2px;
+        }
+        .card-badge.new { background: #e50914; color: #fff; }
+        .card-badge.k4 { background: #ffc107; color: #000; }
+        .card-duration {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            font-size: 7px;
+            padding: 1px 3px;
+            border-radius: 2px;
+        }
+        .card-info { padding: 4px; }
+        .card-series { color: #888; font-size: 7px; }
+        .card-title {
+            color: #fff;
+            font-size: 8px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body>
+<div class="capture-area">
+    <div class="search-bar">
+        <div class="search-input">
+            <span>🔍</span>
+            <span>검색어를 입력하세요...</span>
+        </div>
+    </div>
+    <div class="title-bar">
+        <h2>Browse</h2>
+        <button class="sort-btn">정렬: 최신순 ▼</button>
+    </div>
+    <div class="main-content">
+        <aside class="sidebar">
+            <div class="filter-section">
+                <div class="filter-title">Year</div>
+                <label class="filter-option active"><input type="checkbox" checked> 2024</label>
+                <label class="filter-option"><input type="checkbox"> 2023</label>
+            </div>
+            <div class="filter-section">
+                <div class="filter-title">Series</div>
+                <label class="filter-option active"><input type="checkbox" checked> WSOP</label>
+                <label class="filter-option"><input type="checkbox"> HCL</label>
+            </div>
+            <div class="filter-section">
+                <div class="filter-title">Quality</div>
+                <label class="filter-option"><input type="radio" checked> All</label>
+                <label class="filter-option"><input type="radio"> 4K</label>
+            </div>
+        </aside>
+        <div class="content-area">
+            <div class="result-count">156개</div>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-thumb">🎬<span class="card-badge new">NEW</span><span class="card-duration">2:45</span></div>
+                    <div class="card-info"><div class="card-series">WSOP 2024</div><div class="card-title">ME Day 7</div></div>
+                </div>
+                <div class="card">
+                    <div class="card-thumb">🎬<span class="card-badge k4">4K</span><span class="card-duration">2:30</span></div>
+                    <div class="card-info"><div class="card-series">WSOP 2024</div><div class="card-title">ME Day 6</div></div>
+                </div>
+                <div class="card">
+                    <div class="card-thumb">🎬<span class="card-duration">2:15</span></div>
+                    <div class="card-info"><div class="card-series">WSOP 2024</div><div class="card-title">ME Day 5</div></div>
+                </div>
+                <div class="card">
+                    <div class="card-thumb">🎬<span class="card-duration">2:20</span></div>
+                    <div class="card-info"><div class="card-series">WSOP 2024</div><div class="card-title">ME Day 4</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

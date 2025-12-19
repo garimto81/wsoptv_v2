@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=300">
+    <title>Browse Search View</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #999; }
+        .capture-area {
+            width: 300px;
+            background: #141414;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .search-bar {
+            background: #1a1a1a;
+            padding: 10px 12px;
+            border-bottom: 1px solid #333;
+        }
+        .search-input {
+            background: #333;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .search-input .icon { color: #888; }
+        .search-input .query { color: #fff; flex: 1; }
+        .search-input .clear { color: #888; }
+        .autocomplete {
+            background: #252525;
+            padding: 8px 12px;
+            border-bottom: 1px solid #333;
+        }
+        .autocomplete-item {
+            color: #ccc;
+            font-size: 10px;
+            padding: 4px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .autocomplete-item .icon { color: #888; font-size: 8px; }
+        .autocomplete-item .highlight { color: #fff; font-weight: 600; }
+        .search-results { padding: 10px 12px; }
+        .search-header {
+            color: #888;
+            font-size: 10px;
+            margin-bottom: 10px;
+        }
+        .search-header span { color: #fff; }
+        .result-item {
+            display: flex;
+            gap: 8px;
+            background: #1a1a1a;
+            border-radius: 4px;
+            padding: 8px;
+            margin-bottom: 8px;
+        }
+        .result-thumb {
+            width: 80px;
+            aspect-ratio: 16/9;
+            background: #333;
+            border-radius: 4px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            font-size: 14px;
+        }
+        .result-info { flex: 1; }
+        .result-series { color: #888; font-size: 8px; }
+        .result-title {
+            color: #fff;
+            font-size: 10px;
+            font-weight: 600;
+            margin: 2px 0;
+        }
+        .result-meta { color: #666; font-size: 8px; }
+        .result-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 3px;
+        }
+        .result-duration { color: #fff; font-size: 10px; font-weight: 600; }
+        .badge-small {
+            font-size: 7px;
+            font-weight: 700;
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+        .badge-small.new { background: #e50914; color: #fff; }
+        .badge-small.k4 { background: #ffc107; color: #000; }
+    </style>
+</head>
+<body>
+<div class="capture-area">
+    <div class="search-bar">
+        <div class="search-input">
+            <span class="icon">🔍</span>
+            <span class="query">wsop 2024 main</span>
+            <span class="clear">✕</span>
+        </div>
+    </div>
+    <div class="autocomplete">
+        <div class="autocomplete-item">
+            <span class="icon">🔍</span>
+            <span><span class="highlight">wsop 2024 main</span> event</span>
+        </div>
+        <div class="autocomplete-item">
+            <span class="icon">🔍</span>
+            <span><span class="highlight">wsop 2024 main</span> event final</span>
+        </div>
+    </div>
+    <div class="search-results">
+        <div class="search-header">"<span>wsop 2024 main</span>" 12개</div>
+        <div class="result-item">
+            <div class="result-thumb">🎬</div>
+            <div class="result-info">
+                <div class="result-series">WSOP 2024</div>
+                <div class="result-title">Main Event Day 7</div>
+                <div class="result-meta">Final Table • 52 Hands</div>
+            </div>
+            <div class="result-right">
+                <span class="result-duration">2:45</span>
+                <span class="badge-small new">NEW</span>
+            </div>
+        </div>
+        <div class="result-item">
+            <div class="result-thumb">🎬</div>
+            <div class="result-info">
+                <div class="result-series">WSOP 2024</div>
+                <div class="result-title">Main Event Day 6</div>
+                <div class="result-meta">48 Hands</div>
+            </div>
+            <div class="result-right">
+                <span class="result-duration">2:30</span>
+                <span class="badge-small k4">4K</span>
+            </div>
+        </div>
+        <div class="result-item">
+            <div class="result-thumb">🎬</div>
+            <div class="result-info">
+                <div class="result-series">WSOP 2024</div>
+                <div class="result-title">Main Event Day 5</div>
+                <div class="result-meta">47 Hands</div>
+            </div>
+            <div class="result-right">
+                <span class="result-duration">2:15</span>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

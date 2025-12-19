@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9.1 글로벌 네비게이션 - WSOPTV</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a2e;
+            color: #eee;
+            margin: 0;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: #e50914;
+            margin-bottom: 5px;
+            font-size: 24px;
+        }
+        h2 {
+            color: #888;
+            font-weight: normal;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .mermaid {
+            background: #16213e;
+            padding: 25px;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>9.1 글로벌 네비게이션</h1>
+    <h2>Navigation Components</h2>
+
+    <div class="mermaid">
+flowchart TB
+    subgraph DESKTOP["Desktop"]
+        D1["Logo | Nav | Icons"]
+    end
+
+    subgraph DROPDOWN["Dropdown"]
+        direction TB
+        DD1["프로필 | 구독"]
+        DD2["기록 | 설정"]
+        DD3["로그아웃"]
+    end
+
+    subgraph MOBILE["Mobile"]
+        M1["🏠 | 📺 | 🔍"]
+    end
+
+    DESKTOP --> DROPDOWN
+    DESKTOP --> MOBILE
+
+    style DESKTOP fill:#e5091420,stroke:#e50914,stroke-width:2px
+    style DROPDOWN fill:#88888820,stroke:#888,stroke-width:1px
+    style MOBILE fill:#3b82f620,stroke:#3b82f6,stroke-width:2px
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis',
+                rankSpacing: 40,
+                nodeSpacing: 20
+            }
+        });
+    </script>
+</body>
+</html>

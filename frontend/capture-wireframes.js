@@ -27,7 +27,20 @@ const files = [
   'card-badges',
   // Individual images for section 4
   'subscription-paywall',
-  'subscription-plans'
+  'subscription-plans',
+  // Section 5 Browse
+  'browse-grid',
+  'browse-search',
+  // Section 6 Player
+  'player-controls',
+  'player-besthands',
+  // Section 7 Account
+  'account-sidebar',
+  'account-sections',
+  // Section 8 Auth
+  'auth-login',
+  'auth-register',
+  'auth-reset'
 ];
 
 (async () => {

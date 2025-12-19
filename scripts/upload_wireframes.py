@@ -40,6 +40,21 @@ FILES = [
     # Section 4 subscription images
     "subscription-paywall.png",
     "subscription-plans.png",
+    # Section 5 Browse
+    "browse-grid.png",
+    "browse-search.png",
+    # Section 6 Player
+    "player-controls.png",
+    "player-besthands.png",
+    # Section 7 Account
+    "account-sidebar.png",
+    "account-sections.png",
+    # Section 8 Auth
+    "auth-login.png",
+    "auth-register.png",
+    "auth-reset.png",
+    # Section 9 Navigation
+    "nav-sitemap.png",
 ]
 
 

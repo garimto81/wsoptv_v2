@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9.2 사용자 흐름 - WSOPTV Navigation Map</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a2e;
+            color: #eee;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: #e50914;
+            margin-bottom: 10px;
+        }
+        h2 {
+            color: #888;
+            font-weight: normal;
+            margin-bottom: 30px;
+        }
+        .mermaid {
+            background: #16213e;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+        }
+        .flow-title {
+            color: #ffc107;
+            font-size: 18px;
+            margin: 30px 0 15px 0;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 600px;
+        }
+    </style>
+</head>
+<body>
+    <h1>9.2 사용자 흐름</h1>
+    <h2>WSOPTV User Flow Patterns</h2>
+
+    <div class="container">
+        <div class="flow-title">1. 신규 사용자 흐름</div>
+        <div class="mermaid">
+flowchart TB
+    A[Landing] --> B[Browse]
+    B --> C{Click}
+    C --> D[Paywall]
+    D --> E[Register]
+    E --> F[Subscribe]
+    F --> G[Watch]
+
+    style A fill:#22c55e,color:#000
+    style B fill:#22c55e,color:#000
+    style C fill:#f59e0b,color:#000
+    style D fill:#ef4444,color:#fff
+    style E fill:#3b82f6,color:#fff
+    style F fill:#8b5cf6,color:#fff
+    style G fill:#22c55e,color:#000
+        </div>
+
+        <div class="flow-title">2. 기존 사용자 흐름</div>
+        <div class="mermaid">
+flowchart TB
+    A[Home] --> B[Continue]
+    B --> C[Resume]
+    C --> D{End?}
+    D -->|Auto| E[Next]
+    D -->|Manual| F[Browse]
+
+    style A fill:#22c55e,color:#000
+    style B fill:#3b82f6,color:#fff
+    style C fill:#22c55e,color:#000
+    style D fill:#f59e0b,color:#000
+    style E fill:#22c55e,color:#000
+    style F fill:#22c55e,color:#000
+        </div>
+
+        <div class="flow-title">3. 검색 흐름</div>
+        <div class="mermaid">
+flowchart TB
+    A[Any Page] --> B[Search]
+    B --> C[Input]
+    C --> D[Results]
+    D --> E[Click]
+    E --> F[Watch]
+
+    style A fill:#666,color:#fff
+    style B fill:#3b82f6,color:#fff
+    style C fill:#3b82f6,color:#fff
+    style D fill:#22c55e,color:#000
+    style E fill:#f59e0b,color:#000
+    style F fill:#22c55e,color:#000
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9.0 사이트 구조 - WSOPTV</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a2e;
+            color: #eee;
+            margin: 0;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: #e50914;
+            margin-bottom: 5px;
+            font-size: 24px;
+        }
+        h2 {
+            color: #888;
+            font-weight: normal;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .mermaid {
+            background: #16213e;
+            padding: 25px;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>9.0 사이트 구조</h1>
+    <h2>Page Hierarchy</h2>
+
+    <div class="mermaid">
+flowchart TB
+    subgraph L1["Entry"]
+        HOME["🏠 Home"]
+    end
+
+    subgraph L2["Discovery"]
+        BROWSE["📺 Browse"]
+        LOGIN["🔑 Login"]
+    end
+
+    subgraph L3["Content"]
+        direction TB
+        WATCH["▶️ Watch"]
+        ACCOUNT["👤 Account"]
+        ADMIN["🛡️ Admin"]
+    end
+
+    HOME --> BROWSE
+    HOME --> LOGIN
+    BROWSE --> WATCH
+    LOGIN --> ACCOUNT
+    ACCOUNT -.-> ADMIN
+
+    style L1 fill:#22c55e20,stroke:#22c55e,stroke-width:2px
+    style L2 fill:#3b82f620,stroke:#3b82f6,stroke-width:2px
+    style L3 fill:#f59e0b20,stroke:#f59e0b,stroke-width:2px
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis',
+                rankSpacing: 50,
+                nodeSpacing: 30
+            }
+        });
+    </script>
+</body>
+</html>

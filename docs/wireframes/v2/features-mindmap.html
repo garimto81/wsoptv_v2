@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best Hands Categories - Mind Map</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            background: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="mermaid">
+mindmap
+  root((Best Hands))
+    Action Type
+      All-in Showdowns
+      Bluff Catches
+      Hero Calls
+      Hero Folds
+      Big Bluffs
+    Outcome
+      Bad Beats
+      Coolers
+      Monster Pots
+      Miracle Rivers
+    Player
+      Player Highlights
+      Heads-up Battles
+    Special
+      Tournament Winning Hands
+      Bracelet Clinchers
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+            }
+        });
+    </script>
+</body>
+</html>

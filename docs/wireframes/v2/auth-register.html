@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=280">
+    <title>Register</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #999; }
+        .capture-area {
+            width: 280px;
+            background: #141414;
+            border-radius: 8px;
+            overflow: hidden;
+            padding: 20px;
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .logo-text {
+            background: #e50914;
+            color: #fff;
+            font-weight: 700;
+            font-size: 16px;
+            padding: 6px 14px;
+            display: inline-block;
+        }
+        .title {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .form-group {
+            margin-bottom: 12px;
+        }
+        .form-label {
+            color: #888;
+            font-size: 10px;
+            margin-bottom: 4px;
+            display: block;
+        }
+        .form-input {
+            width: 100%;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 10px 12px;
+            color: #fff;
+            font-size: 12px;
+        }
+        .form-input.error {
+            border-color: #e50914;
+        }
+        .form-input.success {
+            border-color: #22c55e;
+        }
+        .input-hint {
+            font-size: 9px;
+            margin-top: 4px;
+        }
+        .input-hint.error {
+            color: #e50914;
+        }
+        .input-hint.success {
+            color: #22c55e;
+        }
+        .password-strength {
+            display: flex;
+            gap: 4px;
+            margin-top: 6px;
+        }
+        .strength-bar {
+            flex: 1;
+            height: 3px;
+            background: #333;
+            border-radius: 2px;
+        }
+        .strength-bar.weak { background: #e50914; }
+        .strength-bar.medium { background: #ffc107; }
+        .strength-bar.strong { background: #22c55e; }
+        .strength-label {
+            font-size: 9px;
+            margin-top: 4px;
+        }
+        .strength-label.weak { color: #e50914; }
+        .strength-label.medium { color: #ffc107; }
+        .strength-label.strong { color: #22c55e; }
+        .checkbox-group {
+            margin: 14px 0;
+        }
+        .checkbox-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            color: #888;
+            font-size: 10px;
+            line-height: 1.4;
+        }
+        .checkbox-label input {
+            accent-color: #e50914;
+            margin-top: 2px;
+        }
+        .checkbox-label a {
+            color: #e50914;
+            text-decoration: none;
+        }
+        .submit-btn {
+            width: 100%;
+            background: #e50914;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 12px;
+        }
+        .login-link {
+            text-align: center;
+            color: #888;
+            font-size: 11px;
+        }
+        .login-link a {
+            color: #e50914;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="capture-area">
+    <div class="logo">
+        <span class="logo-text">WSOPTV</span>
+    </div>
+    <h1 class="title">회원가입</h1>
+
+    <div class="form-group">
+        <label class="form-label">이름</label>
+        <input type="text" class="form-input" placeholder="홍길동">
+    </div>
+    <div class="form-group">
+        <label class="form-label">이메일</label>
+        <input type="email" class="form-input success" value="john@example.com">
+        <div class="input-hint success">✓ 사용 가능한 이메일입니다</div>
+    </div>
+    <div class="form-group">
+        <label class="form-label">비밀번호</label>
+        <input type="password" class="form-input" value="••••••••••">
+        <div class="password-strength">
+            <div class="strength-bar strong"></div>
+            <div class="strength-bar strong"></div>
+            <div class="strength-bar strong"></div>
+        </div>
+        <div class="strength-label strong">강함</div>
+    </div>
+    <div class="form-group">
+        <label class="form-label">비밀번호 확인</label>
+        <input type="password" class="form-input success" value="••••••••••">
+        <div class="input-hint success">✓ 비밀번호가 일치합니다</div>
+    </div>
+
+    <div class="checkbox-group">
+        <label class="checkbox-label">
+            <input type="checkbox" checked>
+            <span><a href="#">서비스 약관</a> 및 <a href="#">개인정보 처리방침</a>에 동의합니다</span>
+        </label>
+    </div>
+
+    <button class="submit-btn">가입하기</button>
+
+    <div class="login-link">
+        이미 계정이 있으신가요? <a href="#">로그인</a>
+    </div>
+</div>
+</body>
+</html>

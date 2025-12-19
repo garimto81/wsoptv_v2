@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>섹션 9. 네비게이션 맵 - WSOPTV UX Design</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f0f1a;
+            color: #eee;
+            margin: 0;
+            padding: 40px;
+        }
+        h1 {
+            color: #e50914;
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 40px;
+        }
+        .section {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        .section-title {
+            color: #ffc107;
+            font-size: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+        .column {
+            background: #16213e;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .column-title {
+            color: #3b82f6;
+            font-size: 16px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .mermaid {
+            background: transparent;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+        th {
+            background: #0f3460;
+            color: #ffc107;
+            font-weight: 600;
+        }
+        tr:hover {
+            background: #1e3a5f;
+        }
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .badge-public { background: #22c55e; color: #000; }
+        .badge-auth { background: #3b82f6; color: #fff; }
+        .badge-premium { background: #f59e0b; color: #000; }
+        .badge-admin { background: #ef4444; color: #fff; }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #333;
+        }
+        .nav-icon {
+            width: 32px;
+            height: 32px;
+            background: #333;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header-preview {
+            background: #141414;
+            padding: 15px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .header-logo {
+            background: #e50914;
+            color: white;
+            padding: 8px 16px;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+        .header-nav {
+            display: flex;
+            gap: 24px;
+        }
+        .header-nav span {
+            color: #888;
+            cursor: pointer;
+        }
+        .header-nav span.active {
+            color: #fff;
+            border-bottom: 2px solid #e50914;
+        }
+        .header-icons {
+            display: flex;
+            gap: 16px;
+        }
+        .mobile-nav {
+            background: #141414;
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-around;
+        }
+        .mobile-tab {
+            text-align: center;
+            color: #888;
+        }
+        .mobile-tab.active {
+            color: #e50914;
+        }
+        .flow-diagram {
+            margin: 15px 0;
+        }
+        .check { color: #22c55e; }
+        .cross { color: #ef4444; }
+        .partial { color: #f59e0b; }
+        ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        li {
+            padding: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>9. 네비게이션 맵</h1>
+
+    <!-- 9.0 사이트 구조 -->
+    <div class="section">
+        <div class="section-title">9.0 사이트 구조</div>
+        <div class="two-column">
+            <div class="column">
+                <div class="mermaid">
+flowchart TB
+    subgraph PUBLIC["Public"]
+        HOME["/ Home"]
+        BROWSE["/browse"]
+        LOGIN["/login"]
+    end
+    subgraph AUTH["Auth Required"]
+        ACCOUNT["/account"]
+        WATCH["/watch/:id"]
+    end
+    subgraph ADMIN["Admin Only"]
+        DASHBOARD["/admin"]
+    end
+    HOME --> BROWSE
+    BROWSE --> WATCH
+    LOGIN --> ACCOUNT
+    ACCOUNT -.-> DASHBOARD
+    style PUBLIC fill:#22c55e20,stroke:#22c55e
+    style AUTH fill:#3b82f620,stroke:#3b82f6
+    style ADMIN fill:#ef444420,stroke:#ef4444
+                </div>
+            </div>
+            <div class="column">
+                <div class="column-title">주요 페이지</div>
+                <table>
+                    <tr>
+                        <th>페이지</th>
+                        <th>경로</th>
+                        <th>접근 권한</th>
+                    </tr>
+                    <tr>
+                        <td>Home</td>
+                        <td><code>/</code></td>
+                        <td><span class="badge badge-public">Public</span></td>
+                    </tr>
+                    <tr>
+                        <td>Browse</td>
+                        <td><code>/browse</code></td>
+                        <td><span class="badge badge-public">Public</span></td>
+                    </tr>
+                    <tr>
+                        <td>Search</td>
+                        <td><code>/browse?q=</code></td>
+                        <td><span class="badge badge-public">Public</span></td>
+                    </tr>
+                    <tr>
+                        <td>Watch</td>
+                        <td><code>/watch/:id</code></td>
+                        <td><span class="badge badge-premium">Premium</span></td>
+                    </tr>
+                    <tr>
+                        <td>Account</td>
+                        <td><code>/account</code></td>
+                        <td><span class="badge badge-auth">Auth</span></td>
+                    </tr>
+                    <tr>
+                        <td>Admin</td>
+                        <td><code>/admin</code></td>
+                        <td><span class="badge badge-admin">Admin</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 9.1 글로벌 네비게이션 -->
+    <div class="section">
+        <div class="section-title">9.1 글로벌 네비게이션</div>
+        <div class="two-column">
+            <div class="column">
+                <div class="column-title">Desktop 헤더</div>
+                <div class="header-preview">
+                    <div class="header-logo">WSOPTV</div>
+                    <div class="header-nav">
+                        <span class="active">Home</span>
+                        <span>Browse</span>
+                        <span>Search</span>
+                    </div>
+                    <div class="header-icons">
+                        <span>🔍</span>
+                        <span>👤</span>
+                    </div>
+                </div>
+                <div class="column-title" style="margin-top: 20px;">Mobile 바텀 탭</div>
+                <div class="mobile-nav">
+                    <div class="mobile-tab active">
+                        <div>🏠</div>
+                        <div>Home</div>
+                    </div>
+                    <div class="mobile-tab">
+                        <div>📺</div>
+                        <div>Browse</div>
+                    </div>
+                    <div class="mobile-tab">
+                        <div>🔍</div>
+                        <div>Search</div>
+                    </div>
+                    <div class="mobile-tab">
+                        <div>👤</div>
+                        <div>Account</div>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="column-title">프로필 드롭다운</div>
+                <div class="nav-item">
+                    <div class="nav-icon">👤</div>
+                    <div>
+                        <div>프로필</div>
+                        <div style="color: #666; font-size: 12px;">/account</div>
+                    </div>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">💳</div>
+                    <div>
+                        <div>구독 관리</div>
+                        <div style="color: #666; font-size: 12px;">/account/subscription</div>
+                    </div>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">📜</div>
+                    <div>
+                        <div>시청 기록</div>
+                        <div style="color: #666; font-size: 12px;">/account/history</div>
+                    </div>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon">⚙️</div>
+                    <div>
+                        <div>설정</div>
+                        <div style="color: #666; font-size: 12px;">/account/settings</div>
+                    </div>
+                </div>
+                <div class="nav-item" style="border-bottom: none; color: #ef4444;">
+                    <div class="nav-icon">🚪</div>
+                    <div>로그아웃</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 9.2 사용자 흐름 -->
+    <div class="section">
+        <div class="section-title">9.2 사용자 흐름</div>
+        <div class="two-column">
+            <div class="column">
+                <div class="column-title">신규 사용자 흐름</div>
+                <div class="mermaid">
+flowchart LR
+    A[Landing] --> B[Browse]
+    B --> C[Content]
+    C --> D[Paywall]
+    D --> E[Register]
+    E --> F[Watch]
+    style D fill:#ef4444,color:#fff
+    style E fill:#3b82f6,color:#fff
+                </div>
+                <div class="column-title" style="margin-top: 20px;">기존 사용자 흐름</div>
+                <div class="mermaid">
+flowchart LR
+    A[Home] --> B[Continue]
+    B --> C[Resume]
+    C --> D[Next Ep]
+    style B fill:#3b82f6,color:#fff
+                </div>
+            </div>
+            <div class="column">
+                <div class="column-title">검색 흐름</div>
+                <div class="mermaid">
+flowchart LR
+    A[Any Page] --> B[Search]
+    B --> C[Results]
+    C --> D[Watch]
+    style B fill:#8b5cf6,color:#fff
+                </div>
+                <div class="column-title" style="margin-top: 20px;">흐름 설명</div>
+                <ul>
+                    <li><strong>신규 사용자:</strong> 콘텐츠 발견 → Paywall → 가입 → 구독</li>
+                    <li><strong>기존 사용자:</strong> 이어보기 → 자동 재생 → 정주행</li>
+                    <li><strong>검색:</strong> 키워드 입력 → 자동완성 → 바로 시청</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 9.3 접근 제어 -->
+    <div class="section">
+        <div class="section-title">9.3 접근 제어</div>
+        <div class="two-column">
+            <div class="column">
+                <div class="column-title">페이지별 접근 권한 매트릭스</div>
+                <table>
+                    <tr>
+                        <th>페이지</th>
+                        <th>비로그인</th>
+                        <th>로그인</th>
+                        <th>Premium</th>
+                        <th>Admin</th>
+                    </tr>
+                    <tr>
+                        <td>Home</td>
+                        <td class="check">✓</td>
+                        <td class="check">✓</td>
+                        <td class="check">✓</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Browse</td>
+                        <td class="check">✓</td>
+                        <td class="check">✓</td>
+                        <td class="check">✓</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Watch (Preview)</td>
+                        <td class="partial">30초</td>
+                        <td class="partial">30초</td>
+                        <td class="check">✓</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Watch (Full)</td>
+                        <td class="cross">✗</td>
+                        <td class="cross">✗</td>
+                        <td class="check">✓</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Account</td>
+                        <td class="cross">✗</td>
+                        <td class="check">✓</td>
+                        <td class="check">✓</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Admin</td>
+                        <td class="cross">✗</td>
+                        <td class="cross">✗</td>
+                        <td class="cross">✗</td>
+                        <td class="check">✓</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="column">
+                <div class="column-title">접근 제어 정책</div>
+                <ul>
+                    <li><strong>Public 페이지:</strong> 콘텐츠 탐색 허용, 가입 유도</li>
+                    <li><strong>Preview:</strong> 30초 미리보기로 콘텐츠 맛보기</li>
+                    <li><strong>Premium:</strong> 전체 콘텐츠 시청, Hand Skip, Best Hands</li>
+                    <li><strong>Admin:</strong> 사용자 관리, 시스템 모니터링</li>
+                </ul>
+                <div class="column-title" style="margin-top: 20px;">리다이렉트 정책</div>
+                <table>
+                    <tr>
+                        <th>상황</th>
+                        <th>리다이렉트</th>
+                    </tr>
+                    <tr>
+                        <td>비로그인 → Account</td>
+                        <td>/login?redirect=/account</td>
+                    </tr>
+                    <tr>
+                        <td>비구독 → Watch</td>
+                        <td>/subscribe</td>
+                    </tr>
+                    <tr>
+                        <td>비관리자 → Admin</td>
+                        <td>/403</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+</body>
+</html>

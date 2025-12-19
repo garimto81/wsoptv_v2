@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9.2 접근 제어 - WSOPTV</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a2e;
+            color: #eee;
+            margin: 0;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: #e50914;
+            margin-bottom: 5px;
+            font-size: 24px;
+        }
+        h2 {
+            color: #888;
+            font-weight: normal;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .mermaid {
+            background: #16213e;
+            padding: 25px;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>9.2 접근 제어</h1>
+    <h2>Email vs QR Code Registration</h2>
+
+    <div class="mermaid">
+flowchart TB
+    subgraph EMAIL["📧 이메일 가입"]
+        direction TB
+        E1["이메일 + 비밀번호"]
+        E2["가입 완료"]
+        E3["Active"]
+    end
+
+    subgraph QR["📱 QR 코드 가입"]
+        direction TB
+        Q1["QR + 이메일 + 비밀번호"]
+        Q2["인증코드 발급"]
+        Q3["Pending"]
+        Q4["관리자 승인"]
+        Q5["VIP Active"]
+    end
+
+    E1 --> E2 --> E3
+    Q1 --> Q2 --> Q3 --> Q4 --> Q5
+
+    style EMAIL fill:#3b82f620,stroke:#3b82f6,stroke-width:2px
+    style QR fill:#f59e0b20,stroke:#f59e0b,stroke-width:2px
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis',
+                rankSpacing: 40,
+                nodeSpacing: 20
+            }
+        });
+    </script>
+</body>
+</html>

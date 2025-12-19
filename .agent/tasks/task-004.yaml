@@ -1,0 +1,24 @@
+# Task 004: WSOP 콘텐츠 심층 정보 수집
+id: task-004
+created_at: 2025-12-19T00:00:00Z
+status: assigned
+
+task:
+  description: "WSOP 콘텐츠 관련 심층 정보 수집으로 정보 부족 해결"
+  type: research
+  scope:
+    - "WSOP 역사 및 문화적 의미"
+    - "Main Event의 드라마틱한 스토리"
+    - "레전드 플레이어들의 이야기"
+    - "포커 붐(2003)의 역사적 맥락"
+    - "WSOP 콘텐츠의 가치 proposition"
+  expected_output:
+    format: enriched_content
+    save_to: .agent/results/result-004.yaml
+
+agent:
+  type: research
+  model: sonnet
+  timeout: 300
+
+dependencies: []

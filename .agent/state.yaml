@@ -1,0 +1,63 @@
+version: 1
+updated_at: 2025-12-19T15:00:00Z
+
+workflow:
+  id: workflow-html-diagrams
+  instruction: "HTML 기반으로 디자인을 작업하여 스크린캡쳐하여 삽입"
+  status: completed
+  started_at: 2025-12-19T14:40:00Z
+  completed_at: 2025-12-19T15:00:00Z
+
+tasks:
+  total: 3
+  completed: 3
+  failed: 0
+  pending: 0
+
+  items:
+    - id: task-html
+      description: "HTML 다이어그램 3개 제작 (CSS/SVG 기반)"
+      status: completed
+      files_created:
+        - docs/wireframes/v2/cs-content-composition.html
+        - docs/wireframes/v2/cs-youtube-vs-wsoptv.html
+        - docs/wireframes/v2/cs-season-calendar.html
+    - id: task-capture
+      description: "Playwright 스크린캡처 실행"
+      status: completed
+      files_created:
+        - docs/wireframes/v2/cs-content-composition.png
+        - docs/wireframes/v2/cs-youtube-vs-wsoptv.png
+        - docs/wireframes/v2/cs-season-calendar.png
+    - id: task-update
+      description: "문서 이미지 경로 업데이트"
+      status: completed
+      files_modified:
+        - tasks/prds/0010-prd-wsoptv/03-content-strategy-gdocs.md
+
+summary:
+  files_created: 7
+  files_modified: 1
+  version_updated: "3.1.0 → 3.2.0"
+
+  html_diagrams:
+    - name: cs-content-composition
+      description: "도넛 차트 - WSOPTV 콘텐츠 구성 (80%/10%/10%)"
+      style: "다크 테마 + CSS 도넛 차트"
+    - name: cs-youtube-vs-wsoptv
+      description: "2열 비교 레이아웃 - 투트랙 전략"
+      style: "다크 테마 + 카드 기반 비교"
+    - name: cs-season-calendar
+      description: "타임라인 - 연간 시즌 캘린더"
+      style: "다크 테마 + 프로그레스바 + 이벤트 리스트"
+
+  image_paths_updated:
+    - old: "https://drive.google.com/uc?export=view&id={{cs-content-composition}}"
+      new: "../../docs/wireframes/v2/cs-content-composition.png"
+      line: 77
+    - old: "https://drive.google.com/uc?export=view&id={{cs-youtube-wsoptv}}"
+      new: "../../docs/wireframes/v2/cs-youtube-vs-wsoptv.png"
+      line: 143
+    - old: "https://drive.google.com/uc?export=view&id={{cs-season-calendar}}"
+      new: "../../docs/wireframes/v2/cs-season-calendar.png"
+      line: 248

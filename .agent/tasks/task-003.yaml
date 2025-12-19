@@ -1,0 +1,20 @@
+id: task-003
+created_at: 2025-12-19T14:00:00Z
+status: assigned
+
+task:
+  description: "섹션 5-6 및 부록 재설계: 진화 로드맵 ~ 기술 참조"
+  type: docs
+  scope:
+    - "Google Docs 최적화 포맷으로 변환"
+    - "진화 로드맵 4단계 테이블화"
+    - "Feature Matrix 표 최적화"
+    - "아카이브 시대 구분 시각화"
+    - "부록 메타데이터/검색/플레이어 정보 정리"
+
+agent:
+  type: docs-writer
+  model: sonnet
+  timeout: 300
+
+dependencies: []

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=280">
+    <title>Login</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #999; }
+        .capture-area {
+            width: 280px;
+            background: #141414;
+            border-radius: 8px;
+            overflow: hidden;
+            padding: 20px;
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo-text {
+            background: #e50914;
+            color: #fff;
+            font-weight: 700;
+            font-size: 16px;
+            padding: 6px 14px;
+            display: inline-block;
+        }
+        .title {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .social-btns {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+        }
+        .social-btn.apple {
+            background: #fff;
+            color: #000;
+        }
+        .social-btn.google {
+            background: #fff;
+            color: #000;
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: #333;
+        }
+        .divider-text {
+            color: #888;
+            font-size: 10px;
+        }
+        .form-group {
+            margin-bottom: 12px;
+        }
+        .form-label {
+            color: #888;
+            font-size: 10px;
+            margin-bottom: 4px;
+            display: block;
+        }
+        .form-input {
+            width: 100%;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 10px 12px;
+            color: #fff;
+            font-size: 12px;
+        }
+        .form-input:focus {
+            border-color: #e50914;
+            outline: none;
+        }
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #888;
+            font-size: 10px;
+        }
+        .checkbox-label input {
+            accent-color: #e50914;
+        }
+        .forgot-link {
+            color: #888;
+            font-size: 10px;
+            text-decoration: none;
+        }
+        .forgot-link:hover {
+            color: #e50914;
+        }
+        .submit-btn {
+            width: 100%;
+            background: #e50914;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 12px;
+        }
+        .register-link {
+            text-align: center;
+            color: #888;
+            font-size: 11px;
+        }
+        .register-link a {
+            color: #e50914;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="capture-area">
+    <div class="logo">
+        <span class="logo-text">WSOPTV</span>
+    </div>
+    <h1 class="title">로그인</h1>
+
+    <div class="social-btns">
+        <button class="social-btn apple">🍎 Apple로 계속하기</button>
+        <button class="social-btn google">G Google로 계속하기</button>
+    </div>
+
+    <div class="divider">
+        <div class="divider-line"></div>
+        <span class="divider-text">또는 이메일로 로그인</span>
+        <div class="divider-line"></div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">이메일</label>
+        <input type="email" class="form-input" placeholder="email@example.com">
+    </div>
+    <div class="form-group">
+        <label class="form-label">비밀번호</label>
+        <input type="password" class="form-input" placeholder="••••••••">
+    </div>
+
+    <div class="form-row">
+        <label class="checkbox-label">
+            <input type="checkbox"> 로그인 유지
+        </label>
+        <a href="#" class="forgot-link">비밀번호 찾기</a>
+    </div>
+
+    <button class="submit-btn">로그인</button>
+
+    <div class="register-link">
+        계정이 없으신가요? <a href="#">회원가입</a>
+    </div>
+</div>
+</body>
+</html>

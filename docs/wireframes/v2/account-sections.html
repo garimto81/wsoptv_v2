@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=300">
+    <title>Account Sections</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #999; }
+        .capture-area {
+            width: 300px;
+            background: #141414;
+            border-radius: 8px;
+            overflow: hidden;
+            padding: 16px;
+        }
+        .section {
+            margin-bottom: 16px;
+        }
+        .section-title {
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #333;
+        }
+        .form-group {
+            margin-bottom: 10px;
+        }
+        .form-label {
+            color: #888;
+            font-size: 9px;
+            margin-bottom: 4px;
+            display: block;
+        }
+        .form-input {
+            width: 100%;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 8px 10px;
+            color: #fff;
+            font-size: 11px;
+        }
+        .subscription-card {
+            background: #1a1a1a;
+            border-radius: 6px;
+            padding: 12px;
+        }
+        .sub-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .sub-label {
+            color: #888;
+            font-size: 10px;
+        }
+        .sub-value {
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .sub-value.premium {
+            color: #ffc107;
+        }
+        .sub-value.date {
+            color: #22c55e;
+        }
+        .history-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .tab {
+            flex: 1;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 6px;
+            text-align: center;
+            color: #888;
+            font-size: 10px;
+            cursor: pointer;
+        }
+        .tab.active {
+            background: #e50914;
+            border-color: #e50914;
+            color: #fff;
+        }
+        .history-item {
+            display: flex;
+            gap: 8px;
+            background: #1a1a1a;
+            border-radius: 4px;
+            padding: 8px;
+            margin-bottom: 6px;
+        }
+        .history-thumb {
+            width: 50px;
+            aspect-ratio: 16/9;
+            background: #333;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            font-size: 12px;
+        }
+        .history-info {
+            flex: 1;
+        }
+        .history-title {
+            color: #fff;
+            font-size: 10px;
+            font-weight: 600;
+        }
+        .history-meta {
+            color: #888;
+            font-size: 8px;
+        }
+        .progress-mini {
+            height: 2px;
+            background: #333;
+            border-radius: 1px;
+            margin-top: 4px;
+        }
+        .progress-mini-fill {
+            height: 100%;
+            background: #e50914;
+            border-radius: 1px;
+        }
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #252525;
+        }
+        .setting-label {
+            color: #fff;
+            font-size: 10px;
+        }
+        .setting-value {
+            color: #888;
+            font-size: 10px;
+        }
+        .toggle-small {
+            width: 28px;
+            height: 14px;
+            background: #444;
+            border-radius: 7px;
+            position: relative;
+        }
+        .toggle-small.on { background: #e50914; }
+        .toggle-small::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            border-radius: 50%;
+            top: 1px;
+            left: 1px;
+        }
+        .toggle-small.on::after { left: 15px; }
+    </style>
+</head>
+<body>
+<div class="capture-area">
+    <!-- Profile Section -->
+    <div class="section">
+        <div class="section-title">프로필</div>
+        <div class="form-group">
+            <label class="form-label">이름</label>
+            <input type="text" class="form-input" value="John Doe">
+        </div>
+        <div class="form-group">
+            <label class="form-label">이메일</label>
+            <input type="email" class="form-input" value="john@example.com">
+        </div>
+    </div>
+
+    <!-- Subscription Section -->
+    <div class="section">
+        <div class="section-title">구독 관리</div>
+        <div class="subscription-card">
+            <div class="sub-row">
+                <span class="sub-label">현재 플랜</span>
+                <span class="sub-value premium">Premium (Yearly)</span>
+            </div>
+            <div class="sub-row">
+                <span class="sub-label">다음 결제일</span>
+                <span class="sub-value date">2025-12-18</span>
+            </div>
+            <div class="sub-row">
+                <span class="sub-label">결제 수단</span>
+                <span class="sub-value">•••• 4242</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- History Section -->
+    <div class="section">
+        <div class="section-title">시청 기록</div>
+        <div class="history-tabs">
+            <div class="tab active">이어보기</div>
+            <div class="tab">시청 완료</div>
+        </div>
+        <div class="history-item">
+            <div class="history-thumb">🎬</div>
+            <div class="history-info">
+                <div class="history-title">WSOP 2024 ME Day 7</div>
+                <div class="history-meta">남은 시간: 1:23:00</div>
+                <div class="progress-mini"><div class="progress-mini-fill" style="width: 52%"></div></div>
+            </div>
+        </div>
+        <div class="history-item">
+            <div class="history-thumb">🎬</div>
+            <div class="history-info">
+                <div class="history-title">HCL S2 E15</div>
+                <div class="history-meta">남은 시간: 0:45:00</div>
+                <div class="progress-mini"><div class="progress-mini-fill" style="width: 70%"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Section -->
+    <div class="section">
+        <div class="section-title">설정</div>
+        <div class="setting-row">
+            <span class="setting-label">자동 재생</span>
+            <div class="toggle-small on"></div>
+        </div>
+        <div class="setting-row">
+            <span class="setting-label">Hand Skip 기본값</span>
+            <div class="toggle-small on"></div>
+        </div>
+        <div class="setting-row">
+            <span class="setting-label">새 콘텐츠 알림</span>
+            <div class="toggle-small"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

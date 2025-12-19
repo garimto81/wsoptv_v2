@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=320">
+    <title>Player Controls</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #999; }
+        .capture-area {
+            width: 320px;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .video-area {
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .play-btn {
+            width: 50px;
+            height: 50px;
+            background: rgba(229, 9, 20, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 20px;
+        }
+        .controls {
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 12px 10px;
+        }
+        .progress-bar {
+            height: 4px;
+            background: #444;
+            border-radius: 2px;
+            margin-bottom: 8px;
+            position: relative;
+        }
+        .progress-fill {
+            width: 35%;
+            height: 100%;
+            background: #e50914;
+            border-radius: 2px;
+        }
+        .progress-marker {
+            position: absolute;
+            top: -2px;
+            width: 2px;
+            height: 8px;
+            background: #ffc107;
+        }
+        .control-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .control-left, .control-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .ctrl-btn {
+            color: #fff;
+            font-size: 12px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .time {
+            color: #fff;
+            font-size: 10px;
+        }
+        .poker-controls {
+            padding: 8px 12px;
+            display: flex;
+            gap: 8px;
+        }
+        .poker-btn {
+            flex: 1;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 6px 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .poker-btn-label {
+            color: #fff;
+            font-size: 9px;
+            font-weight: 600;
+        }
+        .poker-btn-value {
+            font-size: 8px;
+            color: #888;
+        }
+        .poker-btn.active {
+            border-color: #e50914;
+            background: rgba(229, 9, 20, 0.1);
+        }
+        .poker-btn.active .poker-btn-label {
+            color: #e50914;
+        }
+        .toggle {
+            width: 24px;
+            height: 12px;
+            background: #444;
+            border-radius: 6px;
+            position: relative;
+        }
+        .toggle.on {
+            background: #e50914;
+        }
+        .toggle::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            border-radius: 50%;
+            top: 1px;
+            left: 1px;
+            transition: 0.2s;
+        }
+        .toggle.on::after {
+            left: 13px;
+        }
+        .keyboard-hints {
+            padding: 8px 12px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+        }
+        .hint {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #666;
+            font-size: 8px;
+        }
+        .hint kbd {
+            background: #333;
+            color: #fff;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 8px;
+        }
+    </style>
+</head>
+<body>
+<div class="capture-area">
+    <div class="video-area">
+        <div class="play-btn">▶</div>
+        <div class="controls">
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+                <div class="progress-marker" style="left: 20%"></div>
+                <div class="progress-marker" style="left: 45%"></div>
+                <div class="progress-marker" style="left: 68%"></div>
+                <div class="progress-marker" style="left: 85%"></div>
+            </div>
+            <div class="control-row">
+                <div class="control-left">
+                    <button class="ctrl-btn">⏮</button>
+                    <button class="ctrl-btn">▶</button>
+                    <button class="ctrl-btn">⏭</button>
+                    <span class="time">0:52:30 / 2:45:00</span>
+                </div>
+                <div class="control-right">
+                    <button class="ctrl-btn">🔊</button>
+                    <button class="ctrl-btn">⛶</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="poker-controls">
+        <div class="poker-btn active">
+            <div>
+                <div class="poker-btn-label">Hand Skip</div>
+                <div class="poker-btn-value">다음 핸드 1:23</div>
+            </div>
+            <div class="toggle on"></div>
+        </div>
+        <div class="poker-btn">
+            <div>
+                <div class="poker-btn-label">Best Hands</div>
+                <div class="poker-btn-value">12개</div>
+            </div>
+            <div class="toggle"></div>
+        </div>
+    </div>
+    <div class="keyboard-hints">
+        <div class="hint"><kbd>Space</kbd> 재생</div>
+        <div class="hint"><kbd>N</kbd> 다음 핸드</div>
+        <div class="hint"><kbd>B</kbd> Best Hands</div>
+        <div class="hint"><kbd>F</kbd> 전체화면</div>
+    </div>
+</div>
+</body>
+</html>

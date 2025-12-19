@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=280">
+    <title>Password Reset</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #999; }
+        .capture-area {
+            width: 280px;
+            background: #141414;
+            border-radius: 8px;
+            overflow: hidden;
+            padding: 20px;
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .logo-text {
+            background: #e50914;
+            color: #fff;
+            font-weight: 700;
+            font-size: 16px;
+            padding: 6px 14px;
+            display: inline-block;
+        }
+        .title {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+        .subtitle {
+            color: #888;
+            font-size: 11px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .steps {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        .step-circle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #333;
+            color: #888;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .step.active .step-circle {
+            background: #e50914;
+            color: #fff;
+        }
+        .step.done .step-circle {
+            background: #22c55e;
+            color: #fff;
+        }
+        .step-label {
+            color: #666;
+            font-size: 8px;
+        }
+        .step.active .step-label {
+            color: #fff;
+        }
+        .step-line {
+            width: 30px;
+            height: 2px;
+            background: #333;
+            align-self: center;
+            margin-bottom: 12px;
+        }
+        .step-line.done {
+            background: #22c55e;
+        }
+        .form-group {
+            margin-bottom: 14px;
+        }
+        .form-label {
+            color: #888;
+            font-size: 10px;
+            margin-bottom: 4px;
+            display: block;
+        }
+        .form-input {
+            width: 100%;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 10px 12px;
+            color: #fff;
+            font-size: 12px;
+        }
+        .code-inputs {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+        .code-input {
+            width: 36px;
+            height: 44px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+        }
+        .code-input.filled {
+            border-color: #e50914;
+        }
+        .resend-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .resend-link a {
+            color: #888;
+            font-size: 10px;
+            text-decoration: none;
+        }
+        .resend-link a:hover {
+            color: #e50914;
+        }
+        .submit-btn {
+            width: 100%;
+            background: #e50914;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 16px;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 12px;
+        }
+        .back-link a {
+            color: #888;
+            font-size: 11px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="capture-area">
+    <div class="logo">
+        <span class="logo-text">WSOPTV</span>
+    </div>
+    <h1 class="title">비밀번호 재설정</h1>
+    <p class="subtitle">이메일로 전송된 인증 코드를 입력하세요</p>
+
+    <div class="steps">
+        <div class="step done">
+            <div class="step-circle">✓</div>
+            <span class="step-label">이메일</span>
+        </div>
+        <div class="step-line done"></div>
+        <div class="step active">
+            <div class="step-circle">2</div>
+            <span class="step-label">인증</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step">
+            <div class="step-circle">3</div>
+            <span class="step-label">변경</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">인증 코드 (6자리)</label>
+        <div class="code-inputs">
+            <input type="text" class="code-input filled" value="4" maxlength="1">
+            <input type="text" class="code-input filled" value="7" maxlength="1">
+            <input type="text" class="code-input filled" value="2" maxlength="1">
+            <input type="text" class="code-input" maxlength="1">
+            <input type="text" class="code-input" maxlength="1">
+            <input type="text" class="code-input" maxlength="1">
+        </div>
+        <div class="resend-link">
+            <a href="#">코드 재전송 (2:45)</a>
+        </div>
+    </div>
+
+    <button class="submit-btn">다음</button>
+
+    <div class="back-link">
+        <a href="#">← 로그인으로 돌아가기</a>
+    </div>
+</div>
+</body>
+</html>

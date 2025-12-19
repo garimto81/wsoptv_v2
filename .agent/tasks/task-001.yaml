@@ -1,0 +1,20 @@
+id: task-001
+created_at: 2025-12-19T14:00:00Z
+status: assigned
+
+task:
+  description: "섹션 1-2 재설계: Executive Summary ~ 콘텐츠 왕국"
+  type: docs
+  scope:
+    - "Google Docs 최적화 포맷으로 변환"
+    - "이미지 플레이스홀더를 적절한 텍스트/테이블로 대체"
+    - "Mermaid 다이어그램 → 구글 문서용 텍스트/테이블 변환"
+    - "시각적 계층 구조 명확히"
+    - "표 정렬 및 공백 최적화"
+
+agent:
+  type: docs-writer
+  model: sonnet
+  timeout: 300
+
+dependencies: []

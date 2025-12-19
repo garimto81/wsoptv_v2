@@ -1,0 +1,20 @@
+id: task-002
+created_at: 2025-12-19T14:00:00Z
+status: assigned
+
+task:
+  description: "섹션 3-4 재설계: 차별화 전략 ~ 콘텐츠 캘린더"
+  type: docs
+  scope:
+    - "Google Docs 최적화 포맷으로 변환"
+    - "YouTube vs WSOPTV 비교표 최적화"
+    - "독점 기능 설명 시각화"
+    - "연간 캘린더 테이블 형태로 재구성"
+    - "확장 계획 테이블 정리"
+
+agent:
+  type: docs-writer
+  model: sonnet
+  timeout: 300
+
+dependencies: []

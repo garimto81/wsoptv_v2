@@ -219,15 +219,15 @@ def build_full_document(image_ids: dict):
 
     builder.add_text("\n1.1 신규 사용자 여정\n", heading="HEADING_2")
     builder.add_text("\n진입 경로 1: YouTube (신규 유저층 확보)\n\n", bold=True)
-    builder.add_image("mermaid-youtube-entry.png", width_pt=480)
+    builder.add_image("mermaid-youtube-entry.png", width_pt=227)  # 8cm
     builder.add_text("\n\n진입 경로 2: WSOPTV 직접 접속\n\n", bold=True)
-    builder.add_image("mermaid-direct-entry.png", width_pt=420)
+    builder.add_image("mermaid-direct-entry.png", width_pt=227)  # 8cm
     builder.add_text("\n\n")
     builder.add_text("투트랙 전략: ", bold=True)
     builder.add_text("YouTube는 신규 유저층이 많아 무료 콘텐츠(쇼츠, 하이라이트)로 유입을 유도합니다. WSOPTV는 구독자 전용 풀 에피소드 서비스입니다.\n\n")
 
     builder.add_text("\n1.2 기존 사용자 여정\n", heading="HEADING_2")
-    builder.add_image("mermaid-existing-user.png", width_pt=450)
+    builder.add_image("mermaid-existing-user.png", width_pt=283)  # 10cm
     builder.add_text("\n\n에피소드 내 기능:\n")
     builder.add_text("  • Hand Skip: 액션 구간만 빠르게 시청\n")
     builder.add_text("  • Best Hands: 에피소드별 하이라이트 점프\n\n")
@@ -249,7 +249,7 @@ def build_full_document(image_ids: dict):
 
     builder.add_text("\n2.1 전체 화면 구성\n", heading="HEADING_2")
     builder.add_text("\nNetflix 스타일의 다크 테마 기반으로 설계된 WSOPTV 홈페이지 전체 구조입니다.\n\n")
-    builder.add_image("00-full-page.png", width_pt=550)
+    builder.add_image("00-full-page.png", width_pt=510)  # 18cm
     builder.add_text("\n\n페이지 구성 요소:\n")
     builder.add_text("  A. Header - 상단 고정 네비게이션\n")
     builder.add_text("  B. Hero Banner - 메인 추천 콘텐츠\n")
@@ -353,23 +353,8 @@ def build_full_document(image_ids: dict):
     builder.add_text("  • 필터 사이드바 - 시리즈/연도/언어별 빠른 필터링\n")
     builder.add_text("  • 실시간 검색 - 타이핑 중 자동완성으로 탐색 시간 단축\n\n")
 
-    builder.add_text("\n5.1 기본 상태 (Grid View)\n", heading="HEADING_2")
-    builder.add_text("검색어 없이 페이지 접근 시 기본 레이아웃입니다.\n")
-    builder.add_text("  • 검색 바: 상단 고정\n")
-    builder.add_text("  • 필터 사이드바: 좌측 (시리즈/연도/언어 필터)\n")
-    builder.add_text("  • 콘텐츠 그리드: 4열 카드 그리드\n")
-    builder.add_text("  • 정렬 옵션: 최신순, 인기순, 제목순\n\n")
-    builder.add_text("필터 카테고리:\n")
-    builder.add_text("  • 시리즈: WSOP, HCL, GGPoker, PAD, MPP 등\n")
-    builder.add_text("  • 연도: 2024, 2023, 2022...\n")
-    builder.add_text("  • 언어: 영어, 한국어 자막\n")
-    builder.add_text("  • 품질: 4K, HD\n\n")
-
-    builder.add_text("\n5.2 검색 활성 상태 (List View)\n", heading="HEADING_2")
-    builder.add_text("검색어 입력 시 리스트 뷰로 전환됩니다.\n")
-    builder.add_text("  • 자동완성: 최대 5개 추천 결과\n")
-    builder.add_text("  • 검색 결과 수: \"'검색어' 검색 결과: N개\"\n")
-    builder.add_text("  • 결과 목록: 리스트 형식, 상세 정보 표시\n\n")
+    # Marker for browse tables
+    builder.add_text("\n[BROWSE_TABLES_PLACEHOLDER]\n\n")
 
     builder.add_divider()
 
@@ -386,27 +371,8 @@ def build_full_document(image_ids: dict):
     builder.add_text("  • 핸드 마커 - 프로그레스 바에 핸드 시작점 시각화\n")
     builder.add_text("  • 키보드 중심 - N키로 다음 핸드, B키로 Best Hands\n\n")
 
-    builder.add_text("\n6.1 플레이어 컨트롤\n", heading="HEADING_2")
-    builder.add_text("기본 컨트롤:\n")
-    builder.add_text("  • 재생/일시정지: 중앙 대형 버튼\n")
-    builder.add_text("  • 프로그레스 바: 드래그로 탐색, 핸드 마커 표시\n")
-    builder.add_text("  • 볼륨: 슬라이더 + 음소거 버튼\n")
-    builder.add_text("  • 전체화면: 우측 버튼\n\n")
-    builder.add_text("포커 전용 컨트롤:\n")
-    builder.add_text("  • Hand Skip (ON/OFF): 다음 핸드까지 남은 시간 표시\n")
-    builder.add_text("  • Best Hands (ON/OFF): 하이라이트 개수 표시\n\n")
-
-    builder.add_text("\n6.2 Best Hands 패널\n", heading="HEADING_2")
-    builder.add_text("  • 핸드 카드: 썸네일 + 액션 배지 + 타임스탬프\n")
-    builder.add_text("  • 플레이어 정보: 대결 구도 (vs)\n")
-    builder.add_text("  • 팟 사이즈: 금색 강조\n")
-    builder.add_text("  • 클릭 동작: 해당 시점으로 점프\n\n")
-    builder.add_text("키보드 단축키:\n")
-    builder.add_text("  • Space: 재생/일시정지\n")
-    builder.add_text("  • N: 다음 핸드로 스킵\n")
-    builder.add_text("  • B: Best Hands 패널 토글\n")
-    builder.add_text("  • F: 전체화면\n")
-    builder.add_text("  • M: 음소거\n\n")
+    # Marker for player tables
+    builder.add_text("\n[PLAYER_TABLES_PLACEHOLDER]\n\n")
 
     builder.add_divider()
 
@@ -423,24 +389,8 @@ def build_full_document(image_ids: dict):
     builder.add_text("  • 구독 상태 강조 - 현재 플랜과 갱신일 명확히 표시\n")
     builder.add_text("  • 시청 기록 통합 - 이어보기와 시청 완료 구분\n\n")
 
-    builder.add_text("\n7.1 사이드바 메뉴\n", heading="HEADING_2")
-    builder.add_text("  • 프로필 - 사용자 정보 관리\n")
-    builder.add_text("  • 구독 관리 - 플랜, 결제 정보\n")
-    builder.add_text("  • 시청 기록 - 이어보기, 시청 완료 목록\n")
-    builder.add_text("  • 설정 - 재생, 자막, 알림 설정\n\n")
-
-    builder.add_text("\n7.2 각 섹션 상세\n", heading="HEADING_2")
-    builder.add_text("프로필:\n")
-    builder.add_text("  • 프로필 이미지, 이름, 이메일, 비밀번호 변경\n\n")
-    builder.add_text("구독 관리:\n")
-    builder.add_text("  • 현재 플랜 (Premium/Free), 다음 결제일, 결제 수단\n\n")
-    builder.add_text("시청 기록:\n")
-    builder.add_text("  • 이어보기 탭: 진행 중인 콘텐츠\n")
-    builder.add_text("  • 시청 완료 탭: 완료된 콘텐츠\n\n")
-    builder.add_text("설정:\n")
-    builder.add_text("  • 재생: 자동 재생, 품질, Hand Skip 기본값\n")
-    builder.add_text("  • 자막: 언어, 크기, 스타일\n")
-    builder.add_text("  • 알림: 새 콘텐츠, 이메일 수신\n\n")
+    # Marker for account tables
+    builder.add_text("\n[ACCOUNT_TABLES_PLACEHOLDER]\n\n")
 
     builder.add_divider()
 
@@ -457,71 +407,24 @@ def build_full_document(image_ids: dict):
     builder.add_text("  • 비밀번호 강도 표시 - 보안 의식 향상\n")
     builder.add_text("  • 단계별 비밀번호 재설정 - 명확한 진행 상태\n\n")
 
-    builder.add_text("\n8.1 로그인\n", heading="HEADING_2")
-    builder.add_text("  • 소셜 로그인: Apple, Google 버튼\n")
-    builder.add_text("  • 구분선: \"또는 이메일로 로그인\"\n")
-    builder.add_text("  • 이메일/비밀번호 입력 (유효성 검사)\n")
-    builder.add_text("  • 로그인 유지 체크박스\n")
-    builder.add_text("  • 비밀번호 찾기, 회원가입 링크\n\n")
-
-    builder.add_text("\n8.2 회원가입\n", heading="HEADING_2")
-    builder.add_text("  • 기본 정보: 이름, 이메일\n")
-    builder.add_text("  • 보안: 비밀번호 (강도 표시), 비밀번호 확인\n")
-    builder.add_text("  • 동의: 서비스 약관, 개인정보 처리방침\n\n")
-    builder.add_text("비밀번호 요구사항:\n")
-    builder.add_text("  • 최소 8자\n")
-    builder.add_text("  • 대문자, 소문자, 숫자 포함\n")
-    builder.add_text("  • 강도 표시 (약함/보통/강함)\n\n")
-
-    builder.add_text("\n8.3 비밀번호 재설정\n", heading="HEADING_2")
-    builder.add_text("3단계 프로세스:\n")
-    builder.add_text("  1. 이메일 입력 - 가입된 이메일 확인\n")
-    builder.add_text("  2. 인증 코드 - 이메일로 전송된 6자리 코드 입력\n")
-    builder.add_text("  3. 새 비밀번호 - 새 비밀번호 설정\n\n")
+    # Marker for auth tables
+    builder.add_text("\n[AUTH_TABLES_PLACEHOLDER]\n\n")
 
     builder.add_divider()
 
     # ========== Section 9: Navigation Map ==========
     builder.add_text("9. 네비게이션 맵\n", heading="HEADING_1")
-    builder.add_image("07-navigation.png", width_pt=500)
 
-    builder.add_text("\n\n9.0 사이트 구조\n", heading="HEADING_2")
-    builder.add_text("주요 페이지:\n")
+    # 9.0 사이트 구조
+    builder.add_text("\n9.0 사이트 구조\n", heading="HEADING_2")
+    builder.add_image("nav-sitemap.png", width_pt=400)
+    builder.add_text("\n\n주요 페이지:\n")
     builder.add_text("  • Home (/) - Public\n")
     builder.add_text("  • Browse (/browse) - Public\n")
     builder.add_text("  • Search (/browse?q=) - Public\n")
-    builder.add_text("  • Watch (/watch/:id) - Auth Required\n")
-    builder.add_text("  • Account (/account) - Auth Required\n")
-    builder.add_text("  • Login (/login) - Public\n")
-    builder.add_text("  • Register (/register) - Public\n")
-    builder.add_text("  • Admin (/admin) - Admin Only\n\n")
-
-    builder.add_text("\n9.1 글로벌 네비게이션\n", heading="HEADING_2")
-    builder.add_text("Desktop 헤더:\n")
-    builder.add_text("  [Logo] [Home] [Browse] [Search] [검색아이콘] [프로필]\n\n")
-    builder.add_text("Mobile 바텀 탭:\n")
-    builder.add_text("  [Home] [Browse] [Search] [Account]\n\n")
-    builder.add_text("프로필 드롭다운:\n")
-    builder.add_text("  • 프로필 → /account\n")
-    builder.add_text("  • 구독 관리 → /account/subscription\n")
-    builder.add_text("  • 시청 기록 → /account/history\n")
-    builder.add_text("  • 설정 → /account/settings\n")
-    builder.add_text("  • 로그아웃\n\n")
-
-    builder.add_text("\n9.2 사용자 흐름\n", heading="HEADING_2")
-    builder.add_text("신규 사용자:\n")
-    builder.add_text("  Landing → Browse → Content Click → Paywall → Register → Subscribe → Watch\n\n")
-    builder.add_text("기존 사용자:\n")
-    builder.add_text("  Home → Continue Watching Click → Watch (Resume) → Next Episode\n\n")
-    builder.add_text("검색 흐름:\n")
-    builder.add_text("  Any Page → Search Icon → Search Input → Results → Content Click → Watch\n\n")
-
-    builder.add_text("\n9.3 접근 제어\n", heading="HEADING_2")
-    builder.add_text("  • Home, Browse: 모든 사용자\n")
-    builder.add_text("  • Watch (Preview): 30초 미리보기\n")
-    builder.add_text("  • Watch (Full): Premium 구독자만\n")
-    builder.add_text("  • Account: 로그인 필요\n")
-    builder.add_text("  • Admin: 관리자만\n\n")
+    builder.add_text("  • Watch (/watch/:id) - Premium 구독자 전용\n")
+    builder.add_text("  • Account (/account) - 로그인 필요\n")
+    builder.add_text("  • Admin (/admin) - 관리자 전용\n\n")
 
     builder.add_divider()
     builder.add_text("\n— End of Document —\n")
@@ -622,6 +525,184 @@ def insert_table_with_content(docs_service, doc_id, image_ids, table_data):
             documentId=doc_id,
             body={"requests": requests}
         ).execute()
+
+        print(f"  Added table: {title}")
+
+
+def _insert_section_tables(docs_service, doc_id, image_ids, marker_text, tables, image_left=True, image_width=160):
+    """Insert 2-column tables at a placeholder location.
+
+    Args:
+        docs_service: Google Docs API service
+        doc_id: Document ID
+        image_ids: Dict of image filename to Drive ID
+        marker_text: Placeholder text to find and replace
+        tables: List of (image_key, title, description_lines)
+        image_left: If True, image on left; if False, image on right
+        image_width: Width of image in points
+    """
+    # Find the placeholder location
+    doc = docs_service.documents().get(documentId=doc_id).execute()
+    content = doc.get("body", {}).get("content", [])
+
+    placeholder_start = None
+    placeholder_end = None
+
+    for element in content:
+        if "paragraph" in element:
+            paragraph = element["paragraph"]
+            for elem in paragraph.get("elements", []):
+                if "textRun" in elem:
+                    text = elem["textRun"].get("content", "")
+                    if marker_text in text:
+                        placeholder_start = elem["startIndex"]
+                        placeholder_end = elem["endIndex"]
+                        break
+
+    if not placeholder_start:
+        print(f"  Warning: {marker_text} not found, skipping")
+        return
+
+    # Delete the placeholder text
+    docs_service.documents().batchUpdate(
+        documentId=doc_id,
+        body={"requests": [{
+            "deleteContentRange": {
+                "range": {
+                    "startIndex": placeholder_start,
+                    "endIndex": placeholder_end,
+                }
+            }
+        }]}
+    ).execute()
+    print(f"  Removed placeholder at index {placeholder_start}")
+
+    # Insert tables in reverse order
+    for image_key, title, desc_lines in reversed(tables):
+        # Insert table at placeholder location
+        docs_service.documents().batchUpdate(
+            documentId=doc_id,
+            body={"requests": [{
+                "insertTable": {
+                    "location": {"index": placeholder_start},
+                    "rows": 1,
+                    "columns": 2,
+                }
+            }]}
+        ).execute()
+
+        # Get updated document to find cell indices
+        doc = docs_service.documents().get(documentId=doc_id).execute()
+        content = doc.get("body", {}).get("content", [])
+
+        # Find the table at the placeholder location
+        table_element = None
+        for element in content:
+            if "table" in element:
+                if element["startIndex"] >= placeholder_start - 5:
+                    table_element = element
+                    break
+
+        if not table_element:
+            print(f"  Warning: Could not find table for {title}")
+            continue
+
+        # Get cell paragraph indices
+        table = table_element["table"]
+        row = table["tableRows"][0]
+        left_cell = row["tableCells"][0]
+        right_cell = row["tableCells"][1]
+
+        left_para = left_cell["content"][0]
+        right_para = right_cell["content"][0]
+
+        left_para_index = left_para["startIndex"]
+        right_para_index = right_para["startIndex"]
+
+        image_id = image_ids.get(image_key)
+
+        if image_left:
+            # Image on left, text on right
+            # Step 1: Insert text in right cell (higher index first)
+            text_content = f"{title}\n" + "\n".join(desc_lines)
+            docs_service.documents().batchUpdate(
+                documentId=doc_id,
+                body={"requests": [
+                    {
+                        "insertText": {
+                            "location": {"index": right_para_index},
+                            "text": text_content,
+                        }
+                    },
+                    {
+                        "updateTextStyle": {
+                            "range": {
+                                "startIndex": right_para_index,
+                                "endIndex": right_para_index + len(title)
+                            },
+                            "textStyle": {"bold": True},
+                            "fields": "bold",
+                        }
+                    }
+                ]}
+            ).execute()
+
+            # Step 2: Insert image in left cell
+            if image_id:
+                uri = f"https://drive.google.com/uc?id={image_id}"
+                docs_service.documents().batchUpdate(
+                    documentId=doc_id,
+                    body={"requests": [{
+                        "insertInlineImage": {
+                            "location": {"index": left_para_index},
+                            "uri": uri,
+                            "objectSize": {
+                                "width": {"magnitude": image_width, "unit": "PT"}
+                            },
+                        }
+                    }]}
+                ).execute()
+        else:
+            # Text on left, image on right
+            # Step 1: Insert image in right cell (higher index first)
+            if image_id:
+                uri = f"https://drive.google.com/uc?id={image_id}"
+                docs_service.documents().batchUpdate(
+                    documentId=doc_id,
+                    body={"requests": [{
+                        "insertInlineImage": {
+                            "location": {"index": right_para_index},
+                            "uri": uri,
+                            "objectSize": {
+                                "width": {"magnitude": image_width, "unit": "PT"}
+                            },
+                        }
+                    }]}
+                ).execute()
+
+            # Step 2: Insert text in left cell
+            text_content = f"{title}\n" + "\n".join(desc_lines)
+            docs_service.documents().batchUpdate(
+                documentId=doc_id,
+                body={"requests": [
+                    {
+                        "insertText": {
+                            "location": {"index": left_para_index},
+                            "text": text_content,
+                        }
+                    },
+                    {
+                        "updateTextStyle": {
+                            "range": {
+                                "startIndex": left_para_index,
+                                "endIndex": left_para_index + len(title)
+                            },
+                            "textStyle": {"bold": True},
+                            "fields": "bold",
+                        }
+                    }
+                ]}
+            ).execute()
 
         print(f"  Added table: {title}")
 
@@ -985,6 +1066,98 @@ def main():
             print(f"  Added table: {title}")
     else:
         print("  Warning: Subscription placeholder not found, skipping table insertion")
+
+    # ========== Section 5: Browse Tables ==========
+    print("\nAdding 2-column browse tables...")
+    browse_tables = [
+        ("browse-grid.png", "5.1 기본 상태 (Grid View)", [
+            "검색어 없이 페이지 접근 시 기본 레이아웃",
+            "",
+            "• 검색 바: 상단 고정",
+            "• 필터 사이드바: 좌측",
+            "  → 시리즈/연도/언어/품질 필터",
+            "• 콘텐츠 그리드: 4열 카드",
+            "• 정렬: 최신순, 인기순, 제목순",
+        ]),
+        ("browse-search.png", "5.2 검색 활성 상태 (List View)", [
+            "검색어 입력 시 리스트 뷰로 전환",
+            "",
+            "• 자동완성: 최대 5개 추천",
+            "• 검색 결과 수 표시",
+            "• 리스트 형식 상세 정보",
+            "• 썸네일 + 메타 정보",
+        ]),
+    ]
+    _insert_section_tables(docs_service, GOOGLE_DOC_ID, image_ids, "[BROWSE_TABLES_PLACEHOLDER]", browse_tables, image_left=True)
+
+    # ========== Section 6: Player Tables ==========
+    print("\nAdding 2-column player tables...")
+    player_tables = [
+        ("player-controls.png", "6.1 플레이어 컨트롤", [
+            "기본 컨트롤:",
+            "• 재생/일시정지: 중앙 버튼",
+            "• 프로그레스 바 + 핸드 마커",
+            "• 볼륨, 전체화면",
+            "",
+            "포커 전용 컨트롤:",
+            "• Hand Skip (ON/OFF)",
+            "• Best Hands (ON/OFF)",
+        ]),
+        ("player-besthands.png", "6.2 Best Hands 패널", [
+            "• 핸드 카드: 썸네일 + 배지",
+            "• 플레이어: 대결 구도 (vs)",
+            "• 팟 사이즈: 금색 강조",
+            "• 클릭 → 해당 시점 점프",
+            "",
+            "키보드 단축키:",
+            "Space, N, B, F, M",
+        ]),
+    ]
+    _insert_section_tables(docs_service, GOOGLE_DOC_ID, image_ids, "[PLAYER_TABLES_PLACEHOLDER]", player_tables, image_left=True)
+
+    # ========== Section 7: Account Tables ==========
+    print("\nAdding 2-column account tables...")
+    account_tables = [
+        ("account-sidebar.png", "7.1 사이드바 메뉴", [
+            "• 프로필 - 사용자 정보 관리",
+            "• 구독 관리 - 플랜, 결제",
+            "• 시청 기록 - 이어보기/완료",
+            "• 설정 - 재생, 자막, 알림",
+            "• 로그아웃",
+        ]),
+        ("account-sections.png", "7.2 각 섹션 상세", [
+            "프로필: 이름, 이메일, 비번",
+            "구독: 플랜, 결제일, 결제수단",
+            "시청기록: 이어보기/완료 탭",
+            "설정: 자동재생, Hand Skip 등",
+        ]),
+    ]
+    _insert_section_tables(docs_service, GOOGLE_DOC_ID, image_ids, "[ACCOUNT_TABLES_PLACEHOLDER]", account_tables, image_left=True)
+
+    # ========== Section 8: Auth Tables ==========
+    print("\nAdding 2-column auth tables...")
+    auth_tables = [
+        ("auth-login.png", "8.1 로그인", [
+            "• 소셜 로그인: Apple, Google",
+            "• 구분선: 또는 이메일로",
+            "• 이메일/비밀번호 입력",
+            "• 로그인 유지 체크박스",
+            "• 비밀번호 찾기 링크",
+        ]),
+        ("auth-register.png", "8.2 회원가입", [
+            "• 기본 정보: 이름, 이메일",
+            "• 비밀번호 (강도 표시)",
+            "• 비밀번호 확인",
+            "• 약관 동의 체크박스",
+        ]),
+        ("auth-reset.png", "8.3 비밀번호 재설정", [
+            "3단계 프로세스:",
+            "1. 이메일 입력",
+            "2. 인증 코드 (6자리)",
+            "3. 새 비밀번호 설정",
+        ]),
+    ]
+    _insert_section_tables(docs_service, GOOGLE_DOC_ID, image_ids, "[AUTH_TABLES_PLACEHOLDER]", auth_tables, image_left=True)
 
     print(f"\nDocument updated successfully!")
     print(f"View at: https://docs.google.com/document/d/{GOOGLE_DOC_ID}/edit")
