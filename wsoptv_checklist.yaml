@@ -1,0 +1,159 @@
+# WSOPTV PRD 문서 작업 체크리스트
+# 서브 에이전트가 작업 결과를 기록, 메인이 확인하여 관리
+
+version: "1.4"
+last_updated: "2025-12-19T15:30:00"
+
+# PRD 0010 문서 목록
+documents:
+  - id: prd-0010-readme
+    name: README.md
+    path: tasks/prds/0010-prd-wsoptv/README.md
+    google_doc_id: null
+    status: skip  # 인덱스 파일, Google Docs 불필요
+    last_sync: null
+
+  - id: prd-0010-01-features
+    name: 01-features.md
+    path: tasks/prds/0010-prd-wsoptv/01-features.md
+    google_doc_id: 14jC4BBUFBAbofvFmMgLb5QYu1oP0xIkftdy4gha8a2I
+    status: completed
+    last_sync: "2025-12-19T11:40:00"
+
+  - id: prd-0010-01-features-opt
+    name: 01-features-optimized.md
+    path: tasks/prds/0010-prd-wsoptv/01-features-optimized.md
+    google_doc_id: null
+    status: pending
+    last_sync: null
+
+  - id: prd-0010-02-ux
+    name: 02-user-experience.md
+    path: tasks/prds/0010-prd-wsoptv/02-user-experience.md
+    google_doc_id: 1tghlhpQiWttpB-0CP5c1DiL5BJa4ttWj-2R77xaoVI8
+    status: completed
+    last_sync: "2025-12-19T10:00:00"
+
+  - id: prd-0010-02-ux-gdocs
+    name: 02-user-experience-gdocs.md
+    path: tasks/prds/0010-prd-wsoptv/02-user-experience-gdocs.md
+    google_doc_id: null
+    status: skip  # Google Docs 변환용 파일
+    last_sync: null
+
+  - id: prd-0010-03-content
+    name: 03-content-strategy.md
+    path: tasks/prds/0010-prd-wsoptv/03-content-strategy.md
+    google_doc_id: 1gelKPXZBtNoJpTJOg7aCWqWYdHdUk5VwvL8by8ln82o
+    google_doc_id_new: 1MWdx4SbQiHfch19Eus9J39Rt0pWzDGxop3dGfGKioW8  # 삭제 예정 (잘못 생성된 문서)
+    status: completed
+    last_sync: "2025-12-19T14:00:00"
+
+  - id: prd-0010-03-content-gdocs
+    name: 03-content-strategy-gdocs.md
+    path: tasks/prds/0010-prd-wsoptv/03-content-strategy-gdocs.md
+    google_doc_id: 1gelKPXZBtNoJpTJOg7aCWqWYdHdUk5VwvL8by8ln82o
+    status: completed
+    last_sync: "2025-12-19T14:00:00"
+
+  - id: prd-0010-03-screen
+    name: 03-screen-design.md
+    path: tasks/prds/0010-prd-wsoptv/03-screen-design.md
+    google_doc_id: null
+    status: pending
+    last_sync: null
+
+# 작업 이력
+tasks:
+  - id: task-001
+    type: google_docs_upload
+    document_id: prd-0010-02-ux
+    status: completed
+    agent: docs-writer
+    started_at: "2025-12-18T14:00:00"
+    completed_at: "2025-12-18T14:30:00"
+    result: success
+    notes: "UX 문서 업로드 완료, 와이어프레임 이미지 포함"
+
+  - id: task-002
+    type: google_docs_upload
+    document_id: prd-0010-03-content
+    status: completed
+    agent: docs-writer
+    started_at: "2025-12-19T11:00:00"
+    completed_at: "2025-12-19T11:25:00"
+    result: success
+    notes: "콘텐츠 전략 문서 업로드 완료, 24개 테이블 + 8개 다이어그램 삽입"
+
+  - id: task-003
+    type: google_docs_upload
+    document_id: prd-0010-01-features
+    status: completed
+    agent: docs-writer
+    started_at: "2025-12-19T11:35:00"
+    completed_at: "2025-12-19T11:40:00"
+    result: success
+    notes: "핵심 기능 명세 문서 업로드 완료, 12개 테이블 + 1개 다이어그램 삽입"
+
+  - id: task-004
+    type: content_strategy_refactor
+    document_id: prd-0010-03-content
+    status: completed
+    agent: docs-writer
+    started_at: "2025-12-19T12:00:00"
+    completed_at: "2025-12-19T13:30:00"
+    result: success
+    notes: |
+      콘텐츠 전략 Google Docs 최적화 작업 완료
+      - Mermaid 다이어그램 9개 → PNG 이미지 캡처 완료
+      - Google Drive 업로드 완료 (9개 이미지)
+      - Google Docs 새 문서 생성 (235개 업데이트 + 24개 테이블)
+      - 새 문서 URL: https://docs.google.com/document/d/1MWdx4SbQiHfch19Eus9J39Rt0pWzDGxop3dGfGKioW8/edit
+      - 기존 복붙 문서는 보관 (ID: 1gelKPXZBtNoJpTJOg7aCWqWYdHdUk5VwvL8by8ln82o)
+
+  - id: task-005
+    type: content_strategy_reupload
+    document_id: prd-0010-03-content
+    status: completed
+    agent: docs-writer
+    started_at: "2025-12-19T13:45:00"
+    completed_at: "2025-12-19T14:00:00"
+    result: success
+    notes: |
+      콘텐츠 전략 기존 문서 재업로드 완료
+      - 기존 문서 내용 삭제 (5071 characters)
+      - 9개 이미지 삽입 (Google Drive 연동)
+      - 24개 테이블 삽입
+      - 235개 서식 요청 적용
+      - 문서 URL: https://docs.google.com/document/d/1gelKPXZBtNoJpTJOg7aCWqWYdHdUk5VwvL8by8ln82o/edit
+
+  - id: task-006
+    type: content_strategy_quality_improvement
+    document_id: prd-0010-03-content
+    status: completed
+    agent: docs-writer
+    started_at: "2025-12-19T14:30:00"
+    completed_at: "2025-12-19T15:30:00"
+    result: partial_success
+    notes: |
+      콘텐츠 전략 문서 품질 개선 작업
+      성공:
+      - 인라인 마크다운 파싱 (**bold**, *italic*) 추가
+      - 이미지 크기 다이어그램별 자동 조절 (300-480pt)
+      - 인용문 스타일 개선 (들여쓰기 + 금색 텍스트 + 배경)
+      - 구분선 깔끔하게 처리
+      - 256개 서식 요청 적용
+
+      미완료:
+      - 테이블 포커 테마 스타일링 (API 구조 오류)
+        → Google Docs API의 updateTableCellStyle 구조 복잡
+        → 사용자 요청에 따라 기본 테이블 스타일로 유지
+
+      문서 URL: https://docs.google.com/document/d/1gelKPXZBtNoJpTJOg7aCWqWYdHdUk5VwvL8by8ln82o/edit
+
+# 상태 정의
+# - pending: 대기 중
+# - in_progress: 작업 중
+# - completed: 완료
+# - failed: 실패
+# - skip: 건너뜀 (불필요)

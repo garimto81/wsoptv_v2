@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>콘텐츠 전략 다이어그램 - WSOPTV</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a2e;
+            color: #eee;
+            margin: 0;
+            padding: 30px;
+        }
+        h1 {
+            color: #e50914;
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        h2 {
+            color: #888;
+            font-weight: normal;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .diagram-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .diagram-box {
+            background: #16213e;
+            padding: 20px;
+            border-radius: 12px;
+            min-width: 300px;
+            max-width: 500px;
+        }
+        .diagram-box h3 {
+            color: #3b82f6;
+            font-size: 14px;
+            margin: 0 0 15px 0;
+        }
+        .mermaid {
+            background: transparent;
+        }
+    </style>
+</head>
+<body>
+    <h1>콘텐츠 전략 다이어그램</h1>
+    <h2>flowchart TB + direction LR 패턴 적용</h2>
+
+    <div class="diagram-container">
+        <div class="diagram-box" id="cs-diagram1">
+            <h3>1.1 WSOP Las Vegas 핵심 콘텐츠</h3>
+            <div class="mermaid">
+flowchart TB
+    subgraph Core["WSOP Las Vegas (80%)"]
+        direction LR
+        ME["Main Event"]
+        BR["Bracelet 80+"]
+        BH["Best Hands"]
+    end
+
+    subgraph Sub["기타 대회 (20%)"]
+        direction LR
+        PR["Paradise"]
+        EU["Europe"]
+        SC["Circuit"]
+    end
+
+    Core --> Sub
+            </div>
+        </div>
+
+        <div class="diagram-box" id="cs-diagram-pie">
+            <h3>1.2 콘텐츠 구성 (파이차트)</h3>
+            <div class="mermaid">
+pie title WSOPTV 콘텐츠 구성
+    "WSOP Las Vegas" : 80
+    "기타 대회" : 10
+    "오리지널" : 10
+            </div>
+        </div>
+
+        <div class="diagram-box" id="cs-diagram2">
+            <h3>1.3 WSOP Las Vegas 콘텐츠 상세</h3>
+            <div class="mermaid">
+flowchart TB
+    LV["WSOP Las Vegas"]
+
+    LV --> Main
+    LV --> Bracelet
+    LV --> Curation
+
+    subgraph Main["Main Event 35%"]
+        direction LR
+        ME1["Day 1"]
+        ME2["Day 2-5"]
+        ME3["Final"]
+    end
+
+    subgraph Bracelet["Bracelet 30%"]
+        direction LR
+        BR1["NLH"]
+        BR2["PLO"]
+        BR3["Mixed"]
+    end
+
+    subgraph Curation["큐레이션 15%"]
+        direction LR
+        CU1["Best Hands"]
+        CU2["Classics"]
+    end
+            </div>
+        </div>
+
+        <div class="diagram-box" id="cs-diagram3">
+            <h3>1.4 브레이슬릿 이벤트 구조</h3>
+            <div class="mermaid">
+flowchart TB
+    ME(("Main Event"))
+
+    ME --> NLH["NLH"]
+    ME --> PLO["PLO"]
+    ME --> MIX["Mixed"]
+    ME --> SP["Special"]
+
+    NLH --> NLH_sub
+    PLO --> PLO_sub
+    MIX --> MIX_sub
+    SP --> SP_sub
+
+    subgraph NLH_sub[" "]
+        direction LR
+        N1["$1.5K"]
+        N2["$3K"]
+        N3["$5K"]
+    end
+
+    subgraph PLO_sub[" "]
+        direction LR
+        P1["$1.5K"]
+        P2["$10K"]
+    end
+
+    subgraph MIX_sub[" "]
+        direction LR
+        M1["PPC"]
+        M2["HORSE"]
+    end
+
+    subgraph SP_sub[" "]
+        direction LR
+        S1["Ladies"]
+        S2["Seniors"]
+    end
+            </div>
+        </div>
+
+        <div class="diagram-box" id="cs-diagram4">
+            <h3>1.5 Main Event 구조</h3>
+            <div class="mermaid">
+flowchart TB
+    subgraph Day1["Day 1 (8,000명)"]
+        direction LR
+        D1A["1A"]
+        D1B["1B"]
+        D1C["1C"]
+    end
+
+    D2["Day 2-5 (필드 압축)"]
+    FT["Final Table (9명)"]
+
+    Day1 --> D2 --> FT
+            </div>
+        </div>
+
+        <div class="diagram-box" id="cs-diagram5">
+            <h3>2.1 기타 WSOP 대회</h3>
+            <div class="mermaid">
+flowchart TB
+    subgraph Other["기타 WSOP 대회 (20%)"]
+        direction LR
+        PR["Paradise"]
+        EU["Europe"]
+        SC["Circuit"]
+    end
+            </div>
+        </div>
+
+        <div class="diagram-box" id="cs-diagram6">
+            <h3>4. YouTube vs WSOPTV</h3>
+            <div class="mermaid">
+flowchart TB
+    subgraph YT["YouTube (무료)"]
+        direction LR
+        Y1["생방송"]
+        Y2["쇼츠"]
+        Y3["클립"]
+    end
+
+    subgraph WS["WSOPTV (구독)"]
+        direction LR
+        W1["풀 에피소드"]
+        W2["Hand Skip"]
+        W3["Best Hands"]
+    end
+
+    YT -->|전환| WS
+            </div>
+        </div>
+
+        <div class="diagram-box" id="cs-diagram7">
+            <h3>5.2 큐레이션 로드맵</h3>
+            <div class="mermaid">
+flowchart TB
+    subgraph P1["Phase 1: 수동"]
+        direction LR
+        A1["업로드"]
+        A2["편집팀"]
+        A3["아카이브팀"]
+    end
+
+    subgraph P2["Phase 2: AI"]
+        direction LR
+        B1["AI 감지"]
+        B2["타임스탬프"]
+        B3["품질 검증"]
+    end
+
+    P1 -->|진화| P2
+            </div>
+        </div>
+
+        <div class="diagram-box" id="cs-diagram8">
+            <h3>6. WSOP 시즌 캘린더</h3>
+            <div class="mermaid">
+flowchart TB
+    subgraph Q1["Q1"]
+        direction LR
+        M3["3월 Cyprus"]
+    end
+
+    subgraph Q2["Q2 (메인 시즌)"]
+        direction LR
+        M4["Europe"]
+        M5["Vegas 80%"]
+    end
+
+    subgraph Q4["Q4"]
+        direction LR
+        M10["Canada"]
+        M12["Paradise"]
+    end
+
+    Q1 --> Q2 --> Q4
+            </div>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+</body>
+</html>
