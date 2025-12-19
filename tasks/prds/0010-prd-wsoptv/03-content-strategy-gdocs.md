@@ -2,6 +2,8 @@
 
 **Version**: 4.0.0 | **For**: Google Docs 최적화 버전
 
+> **Google Docs**: [WSOPTV 콘텐츠 전략 v4.0.0](https://docs.google.com/document/d/150uymfx3hYZaXF6yzmU6WghAXMt6RXocMCZth0R0z8k/edit)
+
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ## 포커의 50년 역사, 하나의 플랫폼
