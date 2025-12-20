@@ -1,6 +1,6 @@
 # WSOPTV 콘텐츠 전략
 
-**Version**: 5.0.0 | **Parent**: [00-master.md](./00-master.md)
+**Version**: 5.2.0 | **Parent**: [00-master.md](./00-master.md)
 
 ---
 
@@ -13,24 +13,18 @@ WSOPTV는 **1973년부터 현재까지의 WSOP 아카이브**를 기반으로 �
 - **WSOPTV**: 유료 구독으로 열성 팬 전환
 
 ```mermaid
-flowchart LR
+flowchart TB
     subgraph FREE["YouTube (무료)"]
         Y1["쇼츠/클립"]
-        Y2["생방송"]
-        Y3["하이라이트"]
+        Y2["하이라이트"]
     end
 
     subgraph PAID["WSOPTV ($9.99/월)"]
         W1["풀 에피소드"]
-        W2["Hand Skip"]
-        W3["Best Hands"]
-        W4["4K Remaster"]
+        W2["Hand Skip / Best Hands"]
     end
 
     FREE -->|"전환"| PAID
-
-    style PAID fill:#1a1a2e,stroke:#ffd700,stroke-width:2px
-    style FREE fill:#ff0000,stroke:#cc0000
 ```
 
 ---
@@ -55,15 +49,34 @@ flowchart LR
 | **생방송** | O | O | 동시 송출 |
 | **4K Remaster** | 프로모션만 | 전체 | 프리미엄 독점 |
 
-### 1.3 전환 퍼널
+### 1.3 방송 형식
+
+| 형식 | 설명 | 길이 | 대상 |
+|------|------|------|------|
+| **생방송** | 실시간 중계, 다중 테이블 커버리지 | 4-10시간 | 코어 팬, 현장감 |
+| **에피소드** | 생방송을 편집한 하이라이트 버전 | 1시간 | 캐주얼 시청, 신규 유입 |
 
 ```mermaid
-flowchart LR
-    A["YouTube 시청자"] --> B["쇼츠/클립 소비"]
-    B --> C["풀 영상 관심"]
-    C --> D["WSOPTV 랜딩"]
-    D --> E["30초 미리보기"]
-    E --> F["구독 전환"]
+flowchart TB
+    LIVE["생방송 (4-10시간)"]
+    LIVE --> EDIT["편집"]
+    EDIT --> EP["에피소드 (1시간)"]
+    EP --> SHORTS["쇼츠/클립 (60초)"]
+```
+
+**콘텐츠 파이프라인**
+1. **생방송**: 대회 진행 실시간 중계 (YouTube/WSOPTV 동시 송출)
+2. **에피소드**: 생방송 편집본 (익일 공개, WSOPTV 독점)
+3. **쇼츠/클립**: 에피소드에서 추출 (SNS 배포)
+
+### 1.4 전환 퍼널
+
+```mermaid
+flowchart TB
+    A["YouTube 시청자"] --> B["쇼츠/클립"]
+    B --> C["WSOPTV 랜딩"]
+    C --> D["미리보기"]
+    D --> E["구독 전환"]
 ```
 
 | 단계 | 트리거 | 액션 | KPI |
@@ -135,29 +148,61 @@ flowchart LR
 
 > **Data Source**: [NAS Asset Management (Google Sheets)](https://docs.google.com/spreadsheets/d/1h27Ha7pR-iYK_Gik8F4FfSvsk4s89sxk49CsU3XP_m4)
 
-### 3.1 Event Type
+### 3.1 Event Type (WSOP 대회)
 
 | 코드 | 설명 |
 |------|------|
 | **ME** | Main Event - WSOP 메인 토너먼트 ($10,000 바이인) |
 | **BR** | Bracelet Events - 브레이슬릿 이벤트 (다양한 바이인) |
-| **GOG** | Game of Gold - GGPoker 협업 리얼리티 시리즈 |
 | **TOC** | Tournament of Champions - 챔피언스 토너먼트 |
 | **MXF** | Masters - 마스터즈 시리즈 |
 | **COVERAGE** | 방송 커버리지 - 라이브 중계 편집본 |
 | **BEST** | Best Hands - 베스트 핸드 모음 |
 
-### 3.2 Region
+### 3.2 Region (대륙별)
 
-| 코드 | 설명 |
-|------|------|
-| **LV** | Las Vegas - 본고장 라스베가스 (연중 5-7월) |
-| **EU** | Europe - 유럽 투어 (로젠탈, 프라하 등) |
-| **APAC** | Asia Pacific - 아시아 투어 |
-| **CYPRUS** | Cyprus - 사이프러스 파라다이스 (연말) |
-| **CIRCUIT** | Super Circuit - 글로벌 순회 투어 |
+> **WSOP 목표**: 전 세계에 풍성하게 열리는 대회
 
-### 3.3 메타데이터 스키마
+#### 북미 (North America)
+
+| 지역 | 대회 | 시기 | 상태 |
+|------|------|------|:----:|
+| **Las Vegas** | WSOP Main | 5-7월 | 진행중 |
+| **LA** | WSOP SC LA | 5월 | 준비중 |
+| **Canada** | WSOP SC Canada | 10월 | 진행중 |
+
+#### 유럽 (Europe)
+
+| 지역 | 대회 | 시기 | 상태 |
+|------|------|------|:----:|
+| **Rozvadov** | WSOP Europe | 4월 | 진행중 |
+| **Cyprus** | WSOP SC Cyprus, Paradise | 3월, 12월 | 진행중 |
+
+#### 아시아 (Asia)
+
+| 지역 | 대회 | 시기 | 상태 |
+|------|------|------|:----:|
+| **Asia** | WSOP Asia | 1월 | 준비중 |
+| **India** | WSOP India | 8월 | 준비중 |
+
+#### 남미 (South America)
+
+| 지역 | 대회 | 시기 | 상태 |
+|------|------|------|:----:|
+| **Brazil** | WSOP Brazil | 2월 | 준비중 |
+
+### 3.3 기타 TV 시리즈
+
+> WSOP 대회와 무관한 포커 엔터테인먼트 콘텐츠
+
+| 시리즈 | 설명 |
+|--------|------|
+| **Game of Gold** | GGPoker 협업 리얼리티 쇼 |
+| **High Stakes Poker** | 캐시 게임 시리즈 |
+| **Poker After Dark** | NBC 심야 포커 쇼 |
+| **Hustler Casino Live** | 캐시 게임 라이브 스트리밍 |
+
+### 3.4 메타데이터 스키마
 
 **Master_Catalog 컬럼**
 
@@ -166,7 +211,7 @@ flowchart LR
 | `Entry Key` | 고유 식별자 | `WSOP_2024_ME_D5` |
 | `Category` | 카테고리 | `WSOP 2024 Main Event` |
 | `Title` | 에피소드 제목 | `Main Event Day 5` |
-| `Event Type` | 이벤트 유형 | `ME`, `BR`, `GOG` |
+| `Event Type` | 이벤트 유형 | `ME`, `BR` |
 | `Region` | 지역 | `LV`, `EU`, `APAC` |
 | `Day` | 방송일차 | `D1`, `D2`, `FT` |
 | `Part` | 파트 | `P1`, `P2` |
@@ -178,7 +223,6 @@ WSOP {YEAR} Main Event
 WSOP {YEAR} Bracelet Events
 WSOP Europe {YEAR} - Main Event
 WSOP Europe {YEAR} - Bracelet Events
-Game of Gold {YEAR}
 ```
 
 **핸드 메타데이터 (GGP Archive 제공)**
@@ -196,65 +240,71 @@ Game of Gold {YEAR}
 
 ---
 
-## 4. 콘텐츠 캘린더
+## 4. 연간 대회 캘린더
 
-### 4.1 연간 흐름
+> 매월 대회 콘텐츠가 생산되는 구조로 설계. **Best Hands, 4K Remaster는 상시 운영.**
+
+### 4.1 현재 일정 (2025)
 
 ```mermaid
 gantt
-    title WSOP 연간 콘텐츠 캘린더
-    dateFormat  YYYY-MM
+    title 2025 WSOP 대회 캘린더
+    dateFormat YYYY-MM
     axisFormat %b
 
-    section 메인 시즌
-    WSOP Las Vegas   :crit, 2025-05, 3M
-
-    section 서브 시즌
-    WSOP Europe            :2025-04, 1M
-    Super Circuit          :2025-03, 1M
-    WSOP Paradise          :2025-12, 1M
-
-    section 비시즌
-    4K Remaster 릴리스     :2025-08, 2M
-    Best Hands 큐레이션    :2025-01, 2M
+    SC Cyprus    :2025-03, 1M
+    WSOP Europe  :2025-04, 1M
+    WSOP Vegas   :2025-05, 3M
+    SC Canada    :2025-10, 1M
+    Paradise     :2025-12, 1M
 ```
 
-| 시기 | 이벤트 | 운영 전략 |
-|------|--------|-----------|
-| **5-7월** | WSOP Las Vegas | 신규 에피소드 집중 업로드 |
-| 3월 | Super Circuit | 글로벌 확장 콘텐츠 |
-| 4월 | WSOP Europe | 유럽 시장 타겟 |
-| 10월 | Super Circuit | 글로벌 순회 |
-| 12월 | WSOP Paradise | 연말 프리미엄 |
+| 월 | 대회 | 지역 |
+|----|------|------|
+| **3월** | WSOP Super Circuit Cyprus | Cyprus |
+| **4월** | WSOP Europe | EU |
+| **5-7월** | WSOP Las Vegas | LV |
+| **10월** | WSOP Super Circuit Canada | Circuit |
+| **12월** | WSOP Paradise | Cyprus |
 
-### 4.2 비시즌 운영
+### 4.2 미래 일정 (글로벌 확장)
 
-| 비시즌 | 콘텐츠 전략 |
-|--------|-------------|
-| **8-9월** | 4K Remaster 신규 릴리스, 시즌 하이라이트 |
-| **1-2월** | 클래식 시리즈 재조명, Best Hands 연간 베스트 |
-| **10-11월** | 다음 시즌 프리뷰, 플레이어 프로파일 |
+> 연중 빈틈 없는 콘텐츠 생산 체계
+
+| 월 | 대회 | 지역 |
+|----|------|------|
+| **1월** | WSOP Asia | APAC |
+| **2월** | WSOP Brazil | Circuit |
+| **3월** | WSOP SC Cyprus | Cyprus |
+| **4월** | WSOP Europe | EU |
+| **5월** | WSOP SC LA | Circuit |
+| **6-7월** | WSOP Las Vegas | LV |
+| **8월** | WSOP India | APAC |
+| **10월** | WSOP SC Canada | Circuit |
+| **12월** | WSOP Paradise | Cyprus |
 
 ---
 
-## 5. 차별화 기능 연동
+## 5. 차별화 기능 (상시 운영)
+
+> Hand Skip, Best Hands, 4K Remaster는 대회 일정과 무관하게 **상시 운영**.
 
 ### 5.1 Hand Skip
 
 > 핸드와 핸드 사이 대기 시간을 자동 건너뛰어 **액션만 시청**
 
 ```mermaid
-flowchart LR
-    subgraph BEFORE["Hand Skip OFF"]
-        A1["핸드 #1<br/>5분"] --> W1["대기<br/>8분"]
-        W1 --> A2["핸드 #2<br/>4분"] --> W2["대기<br/>10분"]
+flowchart TB
+    subgraph OFF["Hand Skip OFF"]
+        A["핸드 #1"] --> W["대기 8분"]
+        W --> B["핸드 #2"]
     end
 
-    subgraph AFTER["Hand Skip ON"]
-        B1["핸드 #1"] --> B2["핸드 #2"] --> B3["핸드 #3"]
+    subgraph ON["Hand Skip ON"]
+        C["핸드 #1"] --> D["핸드 #2"]
     end
 
-    BEFORE -.->|"2시간 → 45분"| AFTER
+    OFF -.->|"2시간 → 45분"| ON
 ```
 
 | 항목 | 내용 |
@@ -284,7 +334,7 @@ flowchart LR
 
 ### 5.3 4K Remaster
 
-> 2003-2015 클래식 영상을 **AI 업스케일링으로 4K 화질 복원**
+> 클래식 영상을 **AI 업스케일링으로 4K 화질 복원**
 
 | 대상 Era | 원본 화질 | 리마스터 |
 |----------|----------|----------|
@@ -304,17 +354,17 @@ flowchart LR
 timeline
     title WSOPTV 콘텐츠 진화
     section Phase 1 - MVP
-        전체 아카이브 업로드 : 기본 시청
-        이어보기 : 시청 위치 저장
+        전체 아카이브 업로드
+        이어보기
     section Phase 2 - 개인화
-        카테고리 정비 : 시리즈/이벤트별
-        검색 + 추천 : MeiliSearch 연동
+        카테고리 정비
+        검색 + 추천
     section Phase 3 - 차별화
-        Hand Skip : GGP 메타데이터 연동
-        Best Hands : 타임스탬프 점프
+        Hand Skip
+        Best Hands
     section Phase 4 - 프리미엄
-        4K Remaster 확대 : 클래식 전체
-        오리지널 다큐 : 독점 콘텐츠
+        4K Remaster 확대
+        오리지널 다큐
 ```
 
 | Phase | 콘텐츠 | 기능 | KPI |
@@ -331,8 +381,9 @@ timeline
 > Hand Skip과 Best Hands는 GGP Archive 팀의 메타데이터에 의존합니다.
 
 ```mermaid
-flowchart LR
-    GGP["GGP Archive 팀"] -->|"메타데이터"| API["WSOPTV API"]
+flowchart TB
+    GGP["GGP Archive 팀"]
+    GGP -->|"메타데이터"| API["WSOPTV API"]
 
     API --> HS["Hand Skip"]
     API --> BH["Best Hands"]
