@@ -3,7 +3,6 @@ L4 NAS Cache - Cold content 저장소 (18TB)
 """
 
 from pathlib import Path
-from typing import Optional
 
 
 class L4NASCache:
@@ -13,7 +12,7 @@ class L4NASCache:
         """초기화"""
         self.nas_path = Path(nas_mount_path)
 
-    async def get_path(self, content_id: str) -> Optional[Path]:
+    async def get_path(self, content_id: str) -> Path | None:
         """컨텐츠 파일 경로 조회"""
         # Mock: 기본 경로 반환
         file_path = self.nas_path / f"{content_id}.mp4"

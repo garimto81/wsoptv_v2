@@ -5,14 +5,13 @@ Search Block Models
 """
 
 from dataclasses import dataclass, field
-from typing import Optional, Dict, List
 
 
 @dataclass
 class SearchQuery:
     """검색 쿼리 모델"""
     keyword: str
-    filters: Dict[str, str] = field(default_factory=dict)
+    filters: dict[str, str] = field(default_factory=dict)
     page: int = 1
     size: int = 10
 
@@ -32,18 +31,18 @@ class SearchItem:
     id: str
     title: str
     score: float
-    highlights: List[str] = field(default_factory=list)
+    highlights: list[str] = field(default_factory=list)
 
     # 추가 메타데이터
-    description: Optional[str] = None
-    category: Optional[str] = None
-    tags: List[str] = field(default_factory=list)
+    description: str | None = None
+    category: str | None = None
+    tags: list[str] = field(default_factory=list)
 
 
 @dataclass
 class SearchResult:
     """검색 결과"""
-    items: List[SearchItem]
+    items: list[SearchItem]
     total: int
     took_ms: float
 

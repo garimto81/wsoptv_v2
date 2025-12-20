@@ -7,7 +7,7 @@ Task, TaskType, TaskStatus, TaskResult 정의
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict
+from typing import Any
 
 
 class TaskType(str, Enum):
@@ -30,7 +30,7 @@ class Task:
     """작업 모델"""
     id: str
     type: TaskType
-    payload: Dict[str, Any]
+    payload: dict[str, Any]
     priority: int = 0
     status: TaskStatus = TaskStatus.PENDING
     retries: int = 0
@@ -43,4 +43,4 @@ class TaskResult:
     """작업 결과"""
     success: bool
     message: str
-    data: Dict[str, Any] = field(default_factory=dict)
+    data: dict[str, Any] = field(default_factory=dict)

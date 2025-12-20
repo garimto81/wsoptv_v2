@@ -7,16 +7,16 @@ Worker Service
 - 재시도 메커니즘
 """
 
+import heapq
 import uuid
 from datetime import datetime
-from typing import Dict, Optional
-import heapq
 
-from .models import Task, TaskType, TaskStatus, TaskResult
-from .workers.thumbnail import ThumbnailWorker
+from src.orchestration.message_bus import BlockMessage, MessageBus
+
+from .models import Task, TaskResult, TaskStatus, TaskType
 from .workers.cache_warmer import CacheWarmerWorker
 from .workers.nas_scanner import NASScannerWorker
-from src.orchestration.message_bus import MessageBus, BlockMessage
+from .workers.thumbnail import ThumbnailWorker
 
 
 class WorkerService:
@@ -28,7 +28,7 @@ class WorkerService:
             cache_service: CacheService 인스턴스 (Optional, Mock 테스트 용)
         """
         self._queue: list = []  # 우선순위 큐 [(priority, task), ...]
-        self._tasks: Dict[str, Task] = {}  # task_id -> Task
+        self._tasks: dict[str, Task] = {}  # task_id -> Task
         self._cache_service = cache_service
 
         # Worker 인스턴스
@@ -44,7 +44,7 @@ class WorkerService:
     async def enqueue(
         self,
         task_type: TaskType | str,
-        payload: Dict,
+        payload: dict,
         priority: int = 0
     ) -> Task:
         """
@@ -76,7 +76,7 @@ class WorkerService:
 
         return task
 
-    async def process_next(self) -> Optional[TaskResult]:
+    async def process_next(self) -> TaskResult | None:
         """
         큐에서 다음 작업 처리 (우선순위 높은 순)
 
@@ -152,7 +152,7 @@ class WorkerService:
                 data={"task_id": task.id}
             )
 
-    async def get_queue_status(self) -> Dict:
+    async def get_queue_status(self) -> dict:
         """
         큐 상태 조회
 

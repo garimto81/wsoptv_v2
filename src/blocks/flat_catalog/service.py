@@ -7,8 +7,7 @@ NAS 파일을 단일 계층 카탈로그로 변환하는 핵심 서비스.
 from __future__ import annotations
 
 import time
-from datetime import datetime, UTC
-from typing import Callable
+from collections.abc import Callable
 from uuid import UUID
 
 from src.blocks.flat_catalog.models import (
@@ -311,10 +310,7 @@ class FlatCatalogService:
         result = CatalogSyncResult()
         total = len(nas_files)
 
-        # 기존 NAS 파일 ID 집합
-        existing_nas_ids = {
-            item.nas_file_id for item in self._items.values() if item.nas_file_id
-        }
+        # NAS 파일 ID 집합
         new_nas_ids = {f.id for f in nas_files}
 
         for idx, nas_file in enumerate(nas_files):

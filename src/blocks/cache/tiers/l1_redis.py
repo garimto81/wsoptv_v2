@@ -3,7 +3,8 @@ L1 Redis Cache - 메모리 캐시 (TTL 관리)
 """
 
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any
+
 from ..models import CacheEntry, CacheTier
 
 
@@ -12,7 +13,7 @@ class L1RedisCache:
 
     def __init__(self):
         """초기화"""
-        self._storage: Dict[str, CacheEntry] = {}
+        self._storage: dict[str, CacheEntry] = {}
 
     async def get(self, key: str) -> Any | None:
         """캐시 조회"""

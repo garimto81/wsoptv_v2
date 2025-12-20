@@ -5,11 +5,12 @@ Search Block Service
 """
 
 import time
-from typing import Optional, Dict, Any, List
 from datetime import datetime
+from typing import Any
 
-from .models import SearchQuery, SearchResult, SearchItem
-from src.orchestration.message_bus import MessageBus, BlockMessage
+from src.orchestration.message_bus import BlockMessage, MessageBus
+
+from .models import SearchItem, SearchQuery, SearchResult
 
 
 class SearchService:
@@ -31,7 +32,7 @@ class SearchService:
             use_fallback: Fallback 모드 사용 여부
         """
         # 인메모리 인덱스: {content_id: content_data}
-        self._index: Dict[str, Dict[str, Any]] = {}
+        self._index: dict[str, dict[str, Any]] = {}
         self._auth_service = auth_service
         self._use_fallback = use_fallback
         self._bus = MessageBus.get_instance()
@@ -100,7 +101,7 @@ class SearchService:
             size=query.size
         )
 
-    def _search_in_memory(self, query: SearchQuery) -> List[SearchItem]:
+    def _search_in_memory(self, query: SearchQuery) -> list[SearchItem]:
         """
         인메모리 검색
 

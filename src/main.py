@@ -6,22 +6,22 @@ FastAPI 메인 애플리케이션
 """
 
 from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.orchestration.registry import BlockRegistry, BlockInfo, BlockStatus
-from src.orchestration.message_bus import MessageBus
+from src.blocks.admin.router import router as admin_router
 
 # Block Routers
 from src.blocks.auth.router import router as auth_router
+from src.blocks.content.progress_router import router as progress_router
 from src.blocks.content.router import router as content_router
+from src.blocks.flat_catalog.router import router as catalog_router
 from src.blocks.search.router import router as search_router
 from src.blocks.stream.router import router as stream_router
-from src.blocks.admin.router import router as admin_router
-from src.blocks.flat_catalog.router import router as catalog_router
 from src.blocks.title_generator.router import router as title_router
-from src.blocks.content.progress_router import router as progress_router
-
+from src.orchestration.message_bus import MessageBus
+from src.orchestration.registry import BlockInfo, BlockRegistry, BlockStatus
 
 # Block Registry 초기화
 registry = BlockRegistry()
@@ -123,7 +123,7 @@ async def lifespan(app: FastAPI):
     register_blocks()
 
     # MessageBus 초기화
-    bus = MessageBus.get_instance()
+    MessageBus.get_instance()
 
     # StreamService 초기화
     from src.blocks.stream.service import StreamService

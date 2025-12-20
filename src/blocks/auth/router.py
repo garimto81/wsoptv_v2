@@ -5,12 +5,12 @@ FastAPI 라우터 정의
 """
 
 from typing import Annotated
-from fastapi import APIRouter, HTTPException, Header
+
+from fastapi import APIRouter, Header, HTTPException
 from pydantic import BaseModel
 
-from .service import AuthService
 from .models import UserStatus
-
+from .service import AuthService
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 

@@ -7,7 +7,6 @@ Auth Block Models
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Optional
 
 
 class UserStatus(Enum):
@@ -45,5 +44,5 @@ class Session:
 class TokenResult:
     """토큰 검증 결과"""
     valid: bool
-    user_id: Optional[str] = None
-    error: Optional[str] = None
+    user_id: str | None = None
+    error: str | None = None

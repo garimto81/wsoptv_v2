@@ -8,12 +8,12 @@ Admin Block
 """
 
 from .models import (
-    DashboardData,
-    UserStats,
-    ContentStats,
-    StreamStats,
     CacheStats,
+    ContentStats,
+    DashboardData,
+    StreamStats,
     SystemHealth,
+    UserStats,
 )
 from .service import AdminService
 

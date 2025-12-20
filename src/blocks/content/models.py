@@ -5,8 +5,7 @@ Content Block Models
 """
 
 from dataclasses import dataclass
-from datetime import datetime, UTC
-from typing import Optional
+from datetime import UTC, datetime
 
 
 @dataclass

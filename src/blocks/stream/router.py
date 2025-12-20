@@ -8,7 +8,6 @@ HTTP Range Streaming 엔드포인트:
 - POST /stream/{content_id}/end: 스트리밍 종료
 """
 
-from typing import Dict
 
 from fastapi import APIRouter, Header, HTTPException, Request, Response
 from fastapi.responses import StreamingResponse
@@ -25,10 +24,10 @@ from .service import StreamService
 router = APIRouter(prefix="/stream", tags=["stream"])
 
 
-@router.get("/{content_id}", response_model=Dict)
+@router.get("/{content_id}", response_model=dict)
 async def get_stream_url(
     content_id: str, request: Request, authorization: str = Header(None)
-) -> Dict:
+) -> dict:
     """
     스트리밍 URL 획득
 
@@ -134,8 +133,8 @@ async def stream_video(
         )
 
 
-@router.post("/{content_id}/start", response_model=Dict)
-async def start_stream(content_id: str, request: Request) -> Dict:
+@router.post("/{content_id}/start", response_model=dict)
+async def start_stream(content_id: str, request: Request) -> dict:
     """
     스트리밍 시작
 
@@ -162,7 +161,7 @@ async def start_stream(content_id: str, request: Request) -> Dict:
 
 
 @router.post("/{content_id}/end")
-async def end_stream(content_id: str, request: Request) -> Dict:
+async def end_stream(content_id: str, request: Request) -> dict:
     """
     스트리밍 종료
 
@@ -182,8 +181,8 @@ async def end_stream(content_id: str, request: Request) -> Dict:
     return {"status": "ended"}
 
 
-@router.get("/{content_id}/bandwidth", response_model=Dict)
-async def get_bandwidth(content_id: str, request: Request) -> Dict:
+@router.get("/{content_id}/bandwidth", response_model=dict)
+async def get_bandwidth(content_id: str, request: Request) -> dict:
     """
     사용자 대역폭 조회
 

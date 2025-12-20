@@ -8,9 +8,10 @@ from __future__ import annotations
 
 import asyncio
 import uuid
+from collections.abc import Awaitable, Callable
 from dataclasses import dataclass, field
-from datetime import datetime, UTC
-from typing import Any, Callable, Awaitable
+from datetime import UTC, datetime
+from typing import Any
 
 
 @dataclass
@@ -139,7 +140,7 @@ class MessageBus:
 
         try:
             await asyncio.wait_for(response_event.wait(), timeout=timeout)
-        except asyncio.TimeoutError:
+        except TimeoutError:
             pass
         finally:
             await self.unsubscribe(response_channel, response_handler)

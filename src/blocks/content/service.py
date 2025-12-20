@@ -4,11 +4,10 @@ Content Service - 콘텐츠 관리 비즈니스 로직
 Auth, Cache 블럭에 의존 (의존성 주입)
 """
 
-from typing import Optional
-from datetime import datetime, UTC
 
-from .models import Content, ContentMeta, Catalog, WatchProgress
-from src.orchestration.message_bus import MessageBus, BlockMessage
+from src.orchestration.message_bus import BlockMessage, MessageBus
+
+from .models import Catalog, Content, ContentMeta, WatchProgress
 
 
 class AuthenticationError(Exception):
@@ -54,7 +53,7 @@ class ContentService:
         self._progress: dict[str, WatchProgress] = {}
 
     async def get_content(
-        self, content_id: str, token: Optional[str] = "default_token"
+        self, content_id: str, token: str | None = "default_token"
     ) -> Content:
         """
         콘텐츠 조회

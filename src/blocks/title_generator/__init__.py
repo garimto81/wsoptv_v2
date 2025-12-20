@@ -9,8 +9,8 @@ from src.blocks.title_generator.models import (
     ParsedMetadata,
     ProjectCode,
 )
-from src.blocks.title_generator.service import TitleGeneratorService
 from src.blocks.title_generator.patterns import PatternRegistry
+from src.blocks.title_generator.service import TitleGeneratorService
 
 __all__ = [
     "GeneratedTitle",

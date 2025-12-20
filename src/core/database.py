@@ -5,11 +5,10 @@ PostgreSQL 비동기 연결 관리
 """
 
 import os
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from typing import AsyncGenerator
 
 import asyncpg
-
 
 # 환경변수에서 DATABASE_URL 가져오기
 DATABASE_URL = os.getenv(

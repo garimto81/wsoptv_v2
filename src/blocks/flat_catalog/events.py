@@ -9,10 +9,9 @@ from __future__ import annotations
 import logging
 from uuid import UUID
 
-from src.orchestration.message_bus import BlockMessage, MessageBus
 from src.blocks.flat_catalog.models import NASFileInfo
 from src.blocks.flat_catalog.service import get_flat_catalog_service
-
+from src.orchestration.message_bus import BlockMessage, MessageBus
 
 logger = logging.getLogger(__name__)
 

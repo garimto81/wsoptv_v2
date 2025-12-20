@@ -3,7 +3,6 @@ L2 SSD Cache - Hot content 캐시 (500GB)
 """
 
 from pathlib import Path
-from typing import Dict, Optional
 
 
 class L2SSDCache:
@@ -12,10 +11,10 @@ class L2SSDCache:
     def __init__(self, cache_dir: str = "/cache/ssd"):
         """초기화"""
         self.cache_dir = Path(cache_dir)
-        self._content_paths: Dict[str, Path] = {}
+        self._content_paths: dict[str, Path] = {}
         self._max_size_gb = 500
 
-    async def get_path(self, content_id: str) -> Optional[Path]:
+    async def get_path(self, content_id: str) -> Path | None:
         """컨텐츠 파일 경로 조회"""
         return self._content_paths.get(content_id)
 

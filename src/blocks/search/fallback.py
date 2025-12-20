@@ -4,8 +4,7 @@ Search Block Fallback
 MeiliSearch 장애 시 PostgreSQL LIKE 검색 (Circuit Breaker 패턴)
 """
 
-from typing import List
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from .models import SearchItem
 
@@ -86,7 +85,7 @@ class FallbackSearch:
             }
         ]
 
-    async def search(self, keyword: str) -> List[SearchItem]:
+    async def search(self, keyword: str) -> list[SearchItem]:
         """
         PostgreSQL LIKE 검색
 
@@ -138,7 +137,7 @@ class SearchWithFallback:
         self.fallback_search = fallback_search
         self.circuit_breaker = CircuitBreaker()
 
-    async def search(self, keyword: str) -> List[SearchItem]:
+    async def search(self, keyword: str) -> list[SearchItem]:
         """
         Circuit Breaker 패턴 적용 검색
 
@@ -158,7 +157,7 @@ class SearchWithFallback:
             self.circuit_breaker.record_success()
             return results
 
-        except Exception as e:
+        except Exception:
             # 실패 시 Circuit Breaker 기록
             self.circuit_breaker.record_failure()
 

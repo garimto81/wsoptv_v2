@@ -3,8 +3,8 @@ L3 Rate Limiter - 동시 스트리밍 제한 및 대역폭 관리
 """
 
 from datetime import datetime
-from typing import Dict, List, Optional
-from ..models import StreamSlot, BandwidthInfo
+
+from ..models import BandwidthInfo, StreamSlot
 
 
 class L3Limiter:
@@ -14,10 +14,10 @@ class L3Limiter:
         """초기화"""
         self.max_streams = max_streams_per_user
         self.bandwidth_limit = bandwidth_limit_mbps
-        self._user_slots: Dict[str, List[StreamSlot]] = {}
-        self._user_bandwidth: Dict[str, float] = {}
+        self._user_slots: dict[str, list[StreamSlot]] = {}
+        self._user_bandwidth: dict[str, float] = {}
 
-    async def acquire_slot(self, user_id: str, content_id: str) -> tuple[bool, Optional[str]]:
+    async def acquire_slot(self, user_id: str, content_id: str) -> tuple[bool, str | None]:
         """
         스트리밍 슬롯 획득
 

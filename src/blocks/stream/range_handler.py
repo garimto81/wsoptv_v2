@@ -5,13 +5,13 @@ HTTP Range 헤더 파싱 및 응답 생성 유틸리티
 """
 
 import re
+from collections.abc import AsyncGenerator
 from pathlib import Path
-from typing import AsyncGenerator, Dict, Optional, Tuple
 
 from .models import RangeRequest
 
 
-def parse_range_header(header: str, total_size: int = 0) -> Optional[RangeRequest]:
+def parse_range_header(header: str, total_size: int = 0) -> RangeRequest | None:
     """
     HTTP Range 헤더 파싱
 
@@ -54,7 +54,7 @@ def parse_range_header(header: str, total_size: int = 0) -> Optional[RangeReques
 
 def build_range_response(
     total_size: int, start_byte: int, end_byte: int
-) -> Dict[str, str]:
+) -> dict[str, str]:
     """
     HTTP 206 Partial Content 응답 헤더 생성
 
@@ -156,7 +156,7 @@ def calculate_optimal_chunk_size(
 
 def validate_range(
     start_byte: int, end_byte: int, total_size: int
-) -> Tuple[bool, Optional[str]]:
+) -> tuple[bool, str | None]:
     """
     Range Request 유효성 검증
 

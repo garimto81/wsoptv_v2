@@ -2,11 +2,11 @@
 Cache Service - 4-Tier Cache 통합 서비스
 """
 
-from pathlib import Path
-from typing import Any, Optional
 from datetime import datetime
+from pathlib import Path
+from typing import Any
 
-from .models import CacheTier, HotContent, BandwidthInfo
+from .models import BandwidthInfo, CacheTier, HotContent
 from .tiers import L1RedisCache, L2SSDCache, L3Limiter, L4NASCache
 
 
@@ -63,7 +63,9 @@ class CacheService:
 
         return None
 
-    async def set(self, key: str, value: Any, ttl: int = 600, tier: Optional[CacheTier] = None) -> None:
+    async def set(
+        self, key: str, value: Any, ttl: int = 600, tier: CacheTier | None = None
+    ) -> None:
         """
         캐시 저장
 
@@ -142,7 +144,8 @@ class CacheService:
         if content_id not in self._hot_content:
             self._hot_content[content_id] = HotContent(content_id=content_id, view_count=5)
         else:
-            self._hot_content[content_id].view_count = max(5, self._hot_content[content_id].view_count)
+            current = self._hot_content[content_id].view_count
+            self._hot_content[content_id].view_count = max(5, current)
 
         # SSD 승격 이벤트 발행
         bus = self._get_bus()
@@ -162,7 +165,7 @@ class CacheService:
         # L4 NAS (기본)
         return CacheTier.L4
 
-    async def get_stream_path(self, content_id: str) -> Optional[Path]:
+    async def get_stream_path(self, content_id: str) -> Path | None:
         """
         스트리밍용 파일 경로 조회 (L2 → L4)
 
@@ -178,7 +181,7 @@ class CacheService:
         path = await self.l4.get_path(content_id)
         return path
 
-    async def acquire_stream_slot(self, user_id: str) -> tuple[bool, Optional[str]]:
+    async def acquire_stream_slot(self, user_id: str) -> tuple[bool, str | None]:
         """
         스트리밍 슬롯 획득 (L3 Limiter)
 

@@ -11,7 +11,7 @@ Stream Service - HTTP Range Streaming 비즈니스 로직
 
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from ..cache.models import CacheTier
 from .models import (
@@ -19,7 +19,6 @@ from .models import (
     RangeResponse,
     StreamInfo,
     StreamResult,
-    StreamSession,
     StreamSource,
 )
 
@@ -33,9 +32,9 @@ class StreamService:
 
     def __init__(
         self,
-        auth_service: Optional[Any] = None,
-        cache_service: Optional[Any] = None,
-        content_service: Optional[Any] = None,
+        auth_service: Any | None = None,
+        cache_service: Any | None = None,
+        content_service: Any | None = None,
     ):
         """
         Args:
@@ -48,10 +47,10 @@ class StreamService:
         self._content_service = content_service
 
         # 활성 스트리밍 세션 (user_id -> [content_ids])
-        self._active_streams: Dict[str, List[str]] = {}
+        self._active_streams: dict[str, list[str]] = {}
 
         # 사용자별 대역폭 사용량 (user_id -> current_mbps)
-        self._bandwidth_usage: Dict[str, float] = {}
+        self._bandwidth_usage: dict[str, float] = {}
 
     async def get_stream_url(self, content_id: str, token: str) -> StreamInfo:
         """
@@ -189,6 +188,7 @@ class StreamService:
         # Flat Catalog에서 file_path 조회
         try:
             from uuid import UUID
+
             from src.blocks.flat_catalog.service import get_flat_catalog_service
 
             catalog_service = get_flat_catalog_service()

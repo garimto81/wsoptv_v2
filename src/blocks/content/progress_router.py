@@ -7,9 +7,9 @@ Progress Router - 시청 진행률 API (Frontend 호환)
 - POST /api/v1/progress/{content_id}/complete?token=... : 시청 완료
 """
 
-from fastapi import APIRouter, HTTPException, Query
+
+from fastapi import APIRouter, Query
 from pydantic import BaseModel
-from typing import Optional
 
 from .service import ContentService
 
@@ -34,7 +34,7 @@ class ProgressResponse(BaseModel):
     progress_percent: float
 
 
-def _get_user_id_from_token(token: Optional[str]) -> str:
+def _get_user_id_from_token(token: str | None) -> str:
     """토큰에서 user_id 추출 (Mock: 토큰 그대로 사용)"""
     if not token:
         return "anonymous"
@@ -45,7 +45,7 @@ def _get_user_id_from_token(token: Optional[str]) -> str:
 @router.get("/{content_id}")
 async def get_progress(
     content_id: str,
-    token: Optional[str] = Query(None)
+    token: str | None = Query(None)
 ) -> dict:
     """
     시청 진행률 조회
@@ -81,7 +81,7 @@ async def get_progress(
 @router.post("")
 async def save_progress(
     data: ProgressUpdate,
-    token: Optional[str] = Query(None)
+    token: str | None = Query(None)
 ) -> dict:
     """
     시청 진행률 저장
@@ -108,7 +108,7 @@ async def save_progress(
 @router.post("/{content_id}/complete")
 async def mark_complete(
     content_id: str,
-    token: Optional[str] = Query(None)
+    token: str | None = Query(None)
 ) -> dict:
     """
     시청 완료 표시

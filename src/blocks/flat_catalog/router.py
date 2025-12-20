@@ -12,9 +12,8 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from pydantic import BaseModel, Field
 
-from src.blocks.flat_catalog.models import CatalogItem, CatalogSyncResult, NASFileInfo
+from src.blocks.flat_catalog.models import CatalogItem, NASFileInfo
 from src.blocks.flat_catalog.service import FlatCatalogService, get_flat_catalog_service
-
 
 router = APIRouter(prefix="/catalog", tags=["catalog"])
 

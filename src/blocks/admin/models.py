@@ -5,7 +5,6 @@ Admin Block Models
 """
 
 from dataclasses import dataclass
-from typing import Dict
 
 
 @dataclass
@@ -22,7 +21,7 @@ class ContentStats:
     """콘텐츠 통계"""
     total: int                      # 전체 콘텐츠 수
     storage_used_gb: float          # 사용 중인 스토리지 (GB)
-    by_category: Dict[str, int]     # 카테고리별 콘텐츠 수
+    by_category: dict[str, int]     # 카테고리별 콘텐츠 수
 
 
 @dataclass

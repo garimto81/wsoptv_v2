@@ -4,14 +4,14 @@ Admin Block Dashboard
 실시간 통계 집계 및 대시보드 데이터 생성
 """
 
-from typing import Dict
+
 from .models import (
-    DashboardData,
-    UserStats,
-    ContentStats,
-    StreamStats,
     CacheStats,
+    ContentStats,
+    DashboardData,
+    StreamStats,
     SystemHealth,
+    UserStats,
 )
 
 
@@ -22,7 +22,7 @@ class DashboardAggregator:
     실시간 통계를 집계하여 대시보드 데이터 생성
     """
 
-    def __init__(self, stats_store: Dict):
+    def __init__(self, stats_store: dict):
         """
         초기화
 

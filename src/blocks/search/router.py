@@ -4,13 +4,13 @@ Search Block Router
 FastAPI 라우터 정의
 """
 
-from typing import Annotated, Optional, Dict
-from fastapi import APIRouter, HTTPException, Header, Query
+from typing import Annotated
+
+from fastapi import APIRouter, Header, HTTPException, Query
 from pydantic import BaseModel
 
+from .models import SearchQuery
 from .service import SearchService
-from .models import SearchQuery, SearchItem
-
 
 router = APIRouter(prefix="/search", tags=["search"])
 
@@ -18,7 +18,7 @@ router = APIRouter(prefix="/search", tags=["search"])
 # Request/Response Models
 class SearchRequest(BaseModel):
     keyword: str
-    filters: Optional[Dict[str, str]] = None
+    filters: dict[str, str] | None = None
     page: int = 1
     size: int = 10
 
@@ -28,8 +28,8 @@ class SearchItemResponse(BaseModel):
     title: str
     score: float
     highlights: list[str]
-    description: Optional[str] = None
-    category: Optional[str] = None
+    description: str | None = None
+    category: str | None = None
     tags: list[str] = []
 
 
@@ -47,14 +47,14 @@ class SearchResponse(BaseModel):
 class IndexContentRequest(BaseModel):
     content_id: str
     title: str
-    description: Optional[str] = None
-    category: Optional[str] = None
+    description: str | None = None
+    category: str | None = None
     tags: list[str] = []
 
 
 class MessageResponse(BaseModel):
     message: str
-    count: Optional[int] = None
+    count: int | None = None
 
 
 # Dependency
@@ -70,7 +70,7 @@ async def search(
     q: Annotated[str, Query(description="검색 키워드")],
     page: Annotated[int, Query(ge=1)] = 1,
     size: Annotated[int, Query(ge=1, le=100)] = 10,
-    category: Optional[str] = None,
+    category: str | None = None,
     authorization: Annotated[str, Header()] = None
 ):
     """
@@ -210,8 +210,8 @@ async def index_content(
     """
     service = get_search_service()
 
-    # 토큰 추출 및 검증
-    token = authorization.replace("Bearer ", "")
+    # 토큰 검증은 service 내부에서 수행
+    _ = authorization.replace("Bearer ", "")
 
     try:
         # 토큰 검증은 service 내부에서 수행
@@ -243,8 +243,8 @@ async def remove_from_index(
     """
     service = get_search_service()
 
-    # 토큰 추출
-    token = authorization.replace("Bearer ", "")
+    # 토큰 검증은 service 내부에서 수행
+    _ = authorization.replace("Bearer ", "")
 
     try:
         await service.remove_from_index(content_id)
@@ -264,8 +264,8 @@ async def reindex_all(authorization: Annotated[str, Header()]):
     """
     service = get_search_service()
 
-    # 토큰 추출 및 관리자 권한 확인 필요
-    token = authorization.replace("Bearer ", "")
+    # 토큰 검증은 service 내부에서 수행
+    _ = authorization.replace("Bearer ", "")
 
     try:
         count = await service.reindex_all()

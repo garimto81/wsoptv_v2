@@ -4,7 +4,6 @@ CacheWarmerWorker
 NAS → SSD 캐시 워밍 작업 처리
 """
 
-from typing import Optional
 from ..models import Task, TaskResult
 
 

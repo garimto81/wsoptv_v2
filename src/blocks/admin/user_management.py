@@ -7,7 +7,6 @@ Admin Block User Management
 - 사용자 정지
 """
 
-from typing import Dict, List
 
 
 class UserManager:
@@ -17,7 +16,7 @@ class UserManager:
     사용자 목록 조회, 승인, 정지 등의 기능 제공
     """
 
-    def __init__(self, user_store: Dict):
+    def __init__(self, user_store: dict):
         """
         초기화
 
@@ -26,7 +25,7 @@ class UserManager:
         """
         self._users = user_store
 
-    def list_users(self, page: int = 1, size: int = 20) -> Dict:
+    def list_users(self, page: int = 1, size: int = 20) -> dict:
         """
         사용자 목록 조회
 
@@ -52,7 +51,7 @@ class UserManager:
             "size": size,
         }
 
-    def approve_user(self, user_id: str) -> Dict:
+    def approve_user(self, user_id: str) -> dict:
         """
         사용자 승인
 
@@ -74,7 +73,7 @@ class UserManager:
 
         return {"status": "success", "user_id": user_id, "new_status": "active"}
 
-    def suspend_user(self, user_id: str) -> Dict:
+    def suspend_user(self, user_id: str) -> dict:
         """
         사용자 정지
 
@@ -96,7 +95,7 @@ class UserManager:
 
         return {"status": "success", "user_id": user_id, "new_status": "suspended"}
 
-    def get_user(self, user_id: str) -> Dict:
+    def get_user(self, user_id: str) -> dict:
         """
         사용자 정보 조회
 
@@ -115,7 +114,7 @@ class UserManager:
 
         return user
 
-    def filter_users_by_status(self, status: str) -> List[Dict]:
+    def filter_users_by_status(self, status: str) -> list[dict]:
         """
         상태별 사용자 필터링
 

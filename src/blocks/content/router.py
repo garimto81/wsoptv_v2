@@ -4,11 +4,10 @@ Content Router - FastAPI 엔드포인트
 콘텐츠 조회, 카탈로그, 시청 진행률 API
 """
 
-from fastapi import APIRouter, Header, HTTPException
-from typing import Optional
 
-from .service import ContentService, AuthenticationError
-from .models import Content, Catalog, WatchProgress
+from fastapi import APIRouter, Header, HTTPException
+
+from .service import AuthenticationError, ContentService
 
 router = APIRouter(prefix="/content", tags=["content"])
 
@@ -18,7 +17,7 @@ _service = ContentService()
 
 @router.get("/{content_id}", response_model=dict)
 async def get_content(
-    content_id: str, authorization: Optional[str] = Header(None)
+    content_id: str, authorization: str | None = Header(None)
 ) -> dict:
     """
     콘텐츠 조회

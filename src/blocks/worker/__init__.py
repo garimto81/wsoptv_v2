@@ -7,7 +7,7 @@ Worker Block
 - NAS 스캔
 """
 
-from .models import Task, TaskType, TaskStatus, TaskResult
+from .models import Task, TaskResult, TaskStatus, TaskType
 from .service import WorkerService
 
 __all__ = [

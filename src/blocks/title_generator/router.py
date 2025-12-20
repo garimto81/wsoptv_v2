@@ -11,12 +11,11 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel, Field
 
-from src.blocks.title_generator.models import GeneratedTitle, ParsedMetadata
+from src.blocks.title_generator.models import GeneratedTitle
 from src.blocks.title_generator.service import (
     TitleGeneratorService,
     get_title_generator_service,
 )
-
 
 router = APIRouter(prefix="/title", tags=["title"])
 

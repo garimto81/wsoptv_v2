@@ -7,7 +7,6 @@ HTTP Range Streaming을 위한 데이터 모델 정의
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
 
 from ..cache.models import CacheTier
 
@@ -121,7 +120,7 @@ class StreamResult:
     """스트리밍 시작 결과"""
 
     allowed: bool
-    error: Optional[str] = None
+    error: str | None = None
 
     def __post_init__(self):
         if not self.allowed and not self.error:

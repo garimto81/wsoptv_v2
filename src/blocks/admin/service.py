@@ -8,18 +8,18 @@ Admin Block Service
 - 활성 스트림 조회
 """
 
-from typing import Optional, List, Dict
 from datetime import datetime
 
+from src.orchestration.message_bus import BlockMessage, MessageBus
+
 from .models import (
-    DashboardData,
-    UserStats,
-    ContentStats,
-    StreamStats,
     CacheStats,
+    ContentStats,
+    DashboardData,
+    StreamStats,
     SystemHealth,
+    UserStats,
 )
-from src.orchestration.message_bus import MessageBus, BlockMessage
 
 
 class AdminService:
@@ -71,7 +71,7 @@ class AdminService:
         }
 
         # 활성 스트림 목록
-        self._active_streams: List[Dict] = []
+        self._active_streams: list[dict] = []
 
         # 사용자 목록 (Mock 데이터)
         self._users = {
@@ -274,7 +274,7 @@ class AdminService:
 
     async def get_user_list(
         self, token: str, page: int = 1, size: int = 20
-    ) -> Dict:
+    ) -> dict:
         """
         사용자 목록 조회
 
@@ -308,7 +308,7 @@ class AdminService:
             "size": size,
         }
 
-    async def approve_user(self, token: str, user_id: str) -> Dict:
+    async def approve_user(self, token: str, user_id: str) -> dict:
         """
         사용자 승인
 
@@ -344,7 +344,7 @@ class AdminService:
 
         return {"status": "success", "user_id": user_id, "new_status": "active"}
 
-    async def suspend_user(self, token: str, user_id: str) -> Dict:
+    async def suspend_user(self, token: str, user_id: str) -> dict:
         """
         사용자 정지
 
@@ -403,7 +403,7 @@ class AdminService:
             meilisearch=self._stats["system_meilisearch"],
         )
 
-    async def get_active_streams(self, token: str) -> List[Dict]:
+    async def get_active_streams(self, token: str) -> list[dict]:
         """
         활성 스트림 목록 조회
 

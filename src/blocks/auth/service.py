@@ -6,13 +6,13 @@ Auth Block Service
 
 import uuid
 from datetime import datetime, timedelta
-from typing import Optional
 
 import bcrypt
 
-from .models import User, UserStatus, Session, TokenResult
-from src.orchestration.message_bus import MessageBus, BlockMessage
 from src.core.database import Database
+from src.orchestration.message_bus import BlockMessage, MessageBus
+
+from .models import Session, TokenResult, User, UserStatus
 
 
 class AuthService:
@@ -208,7 +208,7 @@ class AuthService:
 
         return TokenResult(valid=True, user_id=session.user_id)
 
-    async def get_user(self, user_id: str) -> Optional[User]:
+    async def get_user(self, user_id: str) -> User | None:
         """
         사용자 조회
 

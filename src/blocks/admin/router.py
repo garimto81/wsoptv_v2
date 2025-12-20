@@ -10,12 +10,11 @@ FastAPI 라우터:
 - GET /admin/streams
 """
 
+
 from fastapi import APIRouter, Depends, Header, HTTPException
-from typing import Optional, List, Dict
 
-from .service import AdminService
 from .models import DashboardData, SystemHealth
-
+from .service import AdminService
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 
@@ -152,7 +151,7 @@ async def get_system_stats(
 async def get_active_streams(
     token: str = Depends(get_token),
     service: AdminService = Depends(get_admin_service),
-) -> List[Dict]:
+) -> list[dict]:
     """
     활성 스트림 목록 조회
 

@@ -4,7 +4,6 @@ ThumbnailWorker
 비디오 썸네일 생성 작업 처리
 """
 
-from typing import Optional
 from ..models import Task, TaskResult
 
 

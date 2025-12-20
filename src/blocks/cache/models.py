@@ -2,9 +2,9 @@
 Cache Block Models - 4-Tier Cache 데이터 모델
 """
 
+from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from dataclasses import dataclass, field
 from typing import Any
 
 
