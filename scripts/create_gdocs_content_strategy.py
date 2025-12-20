@@ -19,8 +19,9 @@ SCOPES = [
 CREDENTIALS_FILE = r'D:\AI\claude01\json\desktop_credentials.json'
 TOKEN_FILE = r'D:\AI\claude01\json\token.json'
 
-# WSOPTV 공유 폴더 ID
-WSOPTV_FOLDER_ID = '1kHuCfqD7PPkybWXRL3pqeNISTPT7LUTB'
+# WSOPTV 공유 폴더 ID (새 폴더 구조)
+# 루트: https://drive.google.com/drive/folders/19Sbq1_K-fJOEN2LnMEaMTE9fYjAEFoou
+WSOPTV_FOLDER_ID = '1NqPboT9HsAfF2XPI9Xfot-nc0wcVA2uR'  # content-strategy 서브폴더
 
 
 def get_credentials():

@@ -16,8 +16,8 @@ SCOPES = ['https://www.googleapis.com/auth/documents']
 CREDENTIALS_FILE = r'D:\AI\claude01\json\desktop_credentials.json'
 TOKEN_FILE = r'D:\AI\claude01\json\token.json'
 
-# 문서 ID
-DOC_ID = '1431Dz71jRV78o6-bwgR6sVM573bnGKf9-9Ozyo6hKpg'
+# 문서 ID (콘텐츠 전략 문서)
+DOC_ID = '150uymfx3hYZaXF6yzmU6WghAXMt6RXocMCZth0R0z8k'
 
 # 원본 마크다운 파일 경로
 MD_FILE = r'D:\AI\claude01\wsoptv_v2\tasks\prds\0010-prd-wsoptv\03-content-strategy-gdocs.md'

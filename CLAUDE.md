@@ -1,5 +1,7 @@
 # CLAUDE.md
 
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 **WSOPTV** - 프라이빗 포커 VOD 스트리밍 (18TB+) | v1.6.0
 
 ## Stack
@@ -21,6 +23,7 @@ docker-compose up -d
 # Test (개별 파일 권장, 전체 120초 타임아웃)
 pytest tests/test_blocks/test_auth_block.py -v
 ruff check src/ && ruff format src/
+mypy src/
 ```
 
 ## Architecture
@@ -30,7 +33,7 @@ L0 (No deps): auth, cache, title_generator
 L1 (L0 deps): content, search, worker, flat_catalog
 L2 (Full):    stream, admin
 ```
-- 블럭 간 직접 import 금지 → MessageBus 통신만
+- 블럭 간 직접 import 금지 → MessageBus 통신만 (`{block}.{event}` 채널)
 - `src/blocks/{block}/` 구조: models, service, router
 
 ## Cache (4-Tier)
@@ -48,3 +51,30 @@ NAS_MOUNT_PATH=Z:\ARCHIVE
 - Unit: `tests/test_blocks/`
 - Integration: `tests/test_integration/`
 - E2E: `frontend/e2e/`
+
+## Google Drive 문서 관리
+
+### 폴더 구조
+- **루트**: https://drive.google.com/drive/folders/19Sbq1_K-fJOEN2LnMEaMTE9fYjAEFoou
+  - 최종 버전 문서만 배치
+- **_archive/**: 이전 버전 문서 보관 (`12k3ho-PxWJ00mvKIowD_O1HCjmSkUIoV`)
+- **content-strategy/**: 콘텐츠 전략 이미지 (`1NqPboT9HsAfF2XPI9Xfot-nc0wcVA2uR`)
+- **wireframes/**: 와이어프레임 (`1Y1b0l4g_vLeGMm6OVqKkaZcgNvYIjnTG`)
+- **architecture/**: 아키텍처 다이어그램 (`1PtlNDoJwy8CCOPr7N5QSmr1pr5NONN5W`)
+
+### 문서 관리 원칙
+| 원칙 | 설명 |
+|------|------|
+| **기존 문서 수정** | 신규 버전 제작 금지, 기존 문서 직접 수정 |
+| **최종 버전만 루트** | 이전 버전은 `_archive/`로 이동 |
+| **버전 관리 금지** | v1, v2 등 버전 번호 붙이지 않음 |
+
+## Reference
+- Orchestration: `docs/blocks/00-orchestration.md`
+- Auth: `docs/blocks/01-auth.md`
+- Content: `docs/blocks/02-content.md`
+- Stream: `docs/blocks/03-stream.md`
+- Cache: `docs/blocks/04-cache.md`
+- Admin: `docs/blocks/05-admin.md`
+- Search: `docs/blocks/06-search.md`
+- Worker: `docs/blocks/07-worker.md`

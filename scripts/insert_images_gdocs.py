@@ -16,7 +16,8 @@ SCOPES = [
 CREDENTIALS_FILE = r'D:\AI\claude01\json\desktop_credentials.json'
 TOKEN_FILE = r'D:\AI\claude01\json\token.json'
 DOC_ID = '1431Dz71jRV78o6-bwgR6sVM573bnGKf9-9Ozyo6hKpg'
-FOLDER_ID = '1kHuCfqD7PPkybWXRL3pqeNISTPT7LUTB'
+# content-strategy 서브폴더
+FOLDER_ID = '1NqPboT9HsAfF2XPI9Xfot-nc0wcVA2uR'
 
 IMAGE_DIR = r'D:\AI\claude01\wsoptv_v2\docs\wireframes\v2'
 
