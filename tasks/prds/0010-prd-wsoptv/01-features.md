@@ -1,6 +1,6 @@
 # WSOPTV - 핵심 기능 명세
 
-**Version**: 1.0.0 | **Parent**: [README.md](./README.md)
+**Version**: 1.1.0 | **Parent**: [00-master.md](./00-master.md)
 
 ---
 

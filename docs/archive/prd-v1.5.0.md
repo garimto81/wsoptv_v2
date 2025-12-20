@@ -1,9 +1,13 @@
-# PRD: WSOPTV - Private Poker VOD Streaming Platform
+# PRD: WSOPTV - Private Poker VOD Streaming Platform (Archived)
+
+> **Archived**: 2025-12-20
+> **Reason**: NAS 기반 프라이빗 모델에서 AWS Freemium 모델로 전환
+> **Replaced by**: [tasks/prds/0010-prd-wsoptv/00-master.md](../../tasks/prds/0010-prd-wsoptv/00-master.md)
 
 **Version**: 1.5.0
 **Date**: 2025-12-11
 **Author**: Claude Code
-**Status**: In Development
+**Status**: Archived (was: In Development)
 
 ---
 

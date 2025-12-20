@@ -102,10 +102,22 @@ pytest tests/ -v --cov=src
 
 ## Documentation
 
+### PRD (Product Requirements)
+
 | 문서 | 설명 |
 |------|------|
-| [Backend Blocks](docs/blocks/) | 9개 블록 기술 설계 |
-| [PRD](tasks/prds/0010-prd-wsoptv/) | 제품 요구사항 문서 |
+| [00-master.md](tasks/prds/0010-prd-wsoptv/00-master.md) | 마스터 PRD (전체 개요) |
+| [01-features.md](tasks/prds/0010-prd-wsoptv/01-features.md) | 핵심 기능 명세 |
+| [02-user-experience.md](tasks/prds/0010-prd-wsoptv/02-user-experience.md) | UX 설계 |
+| [03-content-strategy.md](tasks/prds/0010-prd-wsoptv/03-content-strategy.md) | 콘텐츠 전략 |
+| [03-screen-design.md](tasks/prds/0010-prd-wsoptv/03-screen-design.md) | 화면 설계 |
+| [04-technical.md](tasks/prds/0010-prd-wsoptv/04-technical.md) | 기술 아키텍처 |
+| [05-blocks/](tasks/prds/0010-prd-wsoptv/05-blocks/) | 블록별 상세 PRD |
+
+### Other Docs
+
+| 문서 | 설명 |
+|------|------|
 | [CLAUDE.md](CLAUDE.md) | Claude Code 가이드 |
 | [CHANGELOG](CHANGELOG.md) | 변경 이력 |
 

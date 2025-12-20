@@ -1,6 +1,6 @@
 # WSOPTV - 사용자 경험 설계
 
-**Version**: 1.5.1 | **Parent**: [README.md](./README.md)
+**Version**: 1.6.0 | **Parent**: [00-master.md](./00-master.md)
 
 **📄 Google Docs**: [온라인 문서 보기](https://docs.google.com/document/d/1tghlhpQiWttpB-0CP5c1DiL5BJa4ttWj-2R77xaoVI8/edit)
 
@@ -356,7 +356,7 @@ Netflix 스타일의 다크 테마 기반으로 설계된 WSOPTV 홈페이지 �
 
 | 혜택 | 설명 |
 |------|------|
-| 전체 아카이브 | 18TB+ WSOP/HCL/GGPoker 콘텐츠 |
+| 전체 아카이브 | 17.96TB (1,056개) WSOP 콘텐츠 |
 | Hand Skip | 액션 구간만 빠르게 시청 |
 | Best Hands | 에피소드별 하이라이트 점프 |
 | 이어보기 동기화 | 모든 기기에서 시청 위치 유지 |

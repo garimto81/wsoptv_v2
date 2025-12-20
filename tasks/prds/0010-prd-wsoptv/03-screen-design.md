@@ -1,6 +1,6 @@
 # WSOPTV - 화면 설계
 
-**Version**: 1.1.0 | **Parent**: [02-user-experience.md](./02-user-experience.md)
+**Version**: 1.2.0 | **Parent**: [02-user-experience.md](./02-user-experience.md) | [00-master.md](./00-master.md)
 
 ---
 

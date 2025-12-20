@@ -70,11 +70,20 @@ NAS_MOUNT_PATH=Z:\ARCHIVE
 | **버전 관리 금지** | v1, v2 등 버전 번호 붙이지 않음 |
 
 ## Reference
-- Orchestration: `docs/blocks/00-orchestration.md`
-- Auth: `docs/blocks/01-auth.md`
-- Content: `docs/blocks/02-content.md`
-- Stream: `docs/blocks/03-stream.md`
-- Cache: `docs/blocks/04-cache.md`
-- Admin: `docs/blocks/05-admin.md`
-- Search: `docs/blocks/06-search.md`
-- Worker: `docs/blocks/07-worker.md`
+
+### PRD (Product Requirements)
+- Master: `tasks/prds/0010-prd-wsoptv/00-master.md`
+- Features: `tasks/prds/0010-prd-wsoptv/01-features.md`
+- UX: `tasks/prds/0010-prd-wsoptv/02-user-experience.md`
+- Content: `tasks/prds/0010-prd-wsoptv/03-content-strategy.md`
+- Screen: `tasks/prds/0010-prd-wsoptv/03-screen-design.md`
+- Technical: `tasks/prds/0010-prd-wsoptv/04-technical.md`
+
+### Block PRDs
+- Auth: `tasks/prds/0010-prd-wsoptv/05-blocks/auth.md`
+- Content: `tasks/prds/0010-prd-wsoptv/05-blocks/content.md`
+- Stream: `tasks/prds/0010-prd-wsoptv/05-blocks/stream.md`
+- Cache: `tasks/prds/0010-prd-wsoptv/05-blocks/cache.md`
+- Search: `tasks/prds/0010-prd-wsoptv/05-blocks/search.md`
+- Admin: `tasks/prds/0010-prd-wsoptv/05-blocks/admin.md`
+- Worker: `tasks/prds/0010-prd-wsoptv/05-blocks/worker.md`
