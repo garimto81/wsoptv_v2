@@ -1,12 +1,12 @@
 # WSOPTV 콘텐츠 전략
 
-**Version**: 4.1.0 | **Parent**: [00-master.md](./00-master.md)
+**Version**: 5.0.0 | **Parent**: [00-master.md](./00-master.md)
 
 ---
 
 ## Executive Summary
 
-WSOPTV는 **WSOP 아카이브** (현재 17.96TB, 1,056개 파일 → 향후 1PB+ 확장)를 기반으로 포커 팬 대상 OTT 서비스를 제공합니다.
+WSOPTV는 **1973년부터 현재까지의 WSOP 아카이브**를 기반으로 포커 팬 대상 OTT 서비스를 제공합니다.
 
 **투트랙 전략**으로 수익을 극대화합니다:
 - **YouTube**: 무료 콘텐츠로 신규 팬 유입
@@ -46,27 +46,6 @@ flowchart LR
 
 ### 1.2 콘텐츠 배분 원칙
 
-```mermaid
-flowchart TB
-    subgraph CONTENT["콘텐츠 배분"]
-        direction LR
-
-        subgraph YT["YouTube"]
-            Y1["쇼츠 (60초)"]
-            Y2["하이라이트 (5-10분)"]
-            Y3["생방송"]
-            Y4["Best Hands 티저"]
-        end
-
-        subgraph WS["WSOPTV"]
-            W1["풀 에피소드"]
-            W2["Best Hands 전체"]
-            W3["4K Remaster"]
-            W4["생방송 + VOD"]
-        end
-    end
-```
-
 | 콘텐츠 유형 | YouTube | WSOPTV | 배분 의도 |
 |-------------|:-------:|:------:|-----------|
 | **풀 에피소드** | X | O | 유료 전환 핵심 콘텐츠 |
@@ -96,70 +75,89 @@ flowchart LR
 
 ---
 
-## 2. 콘텐츠 분류 체계
+## 2. Era별 콘텐츠 구성
+
+> WSOP 아카이브는 **3개의 Era**로 구분되며, 각 시대별 특징과 대표 콘텐츠가 다릅니다.
+
+### 2.1 CLASSIC Era (1973-2002)
+
+| 구분 | 내용 |
+|------|------|
+| **특징** | WSOP 초창기, SD 화질, 희귀 영상 |
+| **화질** | 480p SD → 4K Remaster 우선 대상 |
+
+**시대별 대표 콘텐츠**
+
+| 기간 | 주요 우승자 | 특징 |
+|------|------------|------|
+| **1973-1982** | Doyle Brunson (76-77 연속 우승), Stu Ungar (80-81) | 전설의 시작, 텍사스 로드갬블러 시대 |
+| **1983-1995** | Johnny Chan (87-88 연속 우승), Phil Hellmuth (89) | 아시아계 선수 부상, 최연소 챔피언 |
+| **1996-2002** | Scotty Nguyen (98), Chris Ferguson (00), Carlos Mortensen (01) | TV 중계 시작, 인터넷 포커 태동 |
+
+### 2.2 BOOM Era (2003-2010)
+
+| 구분 | 내용 |
+|------|------|
+| **특징** | Moneymaker 효과, 포커 황금기, 참가자 폭증 |
+| **화질** | 720p HD |
+
+**시대별 대표 콘텐츠**
+
+| 연도 | 우승자 | 의의 |
+|------|--------|------|
+| **2003** | Chris Moneymaker | **역사적 전환점** - 온라인 새틀라이트로 $2.5M 우승, 포커 붐 촉발 |
+| **2004** | Greg Raymer | Moneymaker 효과로 참가자 3배 증가 |
+| **2005** | Joe Hachem | 호주 출신, 글로벌 확장 |
+| **2006** | Jamie Gold | 역대 최다 참가자 (8,773명), $12M 상금 |
+| **2007** | Jerry Yang | 아메리칸 드림 스토리 |
+| **2008** | Peter Eastgate | 최연소 챔피언 (22세) |
+| **2009** | Joe Cada | Eastgate 기록 경신 (21세) |
+| **2010** | Jonathan Duhamel | 캐나다 첫 챔피언 |
+
+### 2.3 HD Era (2011-2025)
+
+| 구분 | 내용 |
+|------|------|
+| **특징** | HD/4K 화질, 현대 포커, 글로벌 이벤트 확장 |
+| **화질** | 1080p FHD → 4K UHD |
+
+**시대별 대표 콘텐츠**
+
+| 기간 | 주요 우승자 | 특징 |
+|------|------------|------|
+| **2011-2015** | Pius Heinz, Greg Merson, Ryan Riess, Martin Jacobson, Joe McKeehen | 유럽/미국 경쟁, 전략적 플레이 고도화 |
+| **2016-2020** | Qui Nguyen, Scott Blumstein, John Cynn, Hossein Ensan, Damian Salas | 아마추어 챔피언 부활, 코로나 온라인 전환 |
+| **2021-2025** | Koray Aldemir, Espen Jorstad, Daniel Weinman, Jonathan Tamayo | 포스트 코로나, 라이브 이벤트 복귀 |
+
+---
+
+## 3. 콘텐츠 분류 체계
 
 > **Data Source**: [NAS Asset Management (Google Sheets)](https://docs.google.com/spreadsheets/d/1h27Ha7pR-iYK_Gik8F4FfSvsk4s89sxk49CsU3XP_m4)
 
-### 2.1 현재 보유량
+### 3.1 Event Type
 
-| 구분 | 수치 |
+| 코드 | 설명 |
 |------|------|
-| **총 파일 수** | 1,056개 |
-| **총 용량** | 17.96 TB |
-| **연도 범위** | 1973-2025 |
-| **PRIMARY** | 872개 (82.6%) |
-| **BACKUP** | 184개 (17.4%) |
+| **ME** | Main Event - WSOP 메인 토너먼트 ($10,000 바이인) |
+| **BR** | Bracelet Events - 브레이슬릿 이벤트 (다양한 바이인) |
+| **GOG** | Game of Gold - GGPoker 협업 리얼리티 시리즈 |
+| **TOC** | Tournament of Champions - 챔피언스 토너먼트 |
+| **MXF** | Masters - 마스터즈 시리즈 |
+| **COVERAGE** | 방송 커버리지 - 라이브 중계 편집본 |
+| **BEST** | Best Hands - 베스트 핸드 모음 |
 
-### 2.2 Era (시대별 분류)
+### 3.2 Region
 
-```mermaid
-pie showData
-    title Era별 용량 분포 (TB)
-    "CLASSIC (1973-2002)" : 1.13
-    "BOOM (2003-2010)" : 10.14
-    "HD (2011-2025)" : 6.69
-```
+| 코드 | 설명 |
+|------|------|
+| **LV** | Las Vegas - 본고장 라스베가스 (연중 5-7월) |
+| **EU** | Europe - 유럽 투어 (로젠탈, 프라하 등) |
+| **APAC** | Asia Pacific - 아시아 투어 |
+| **CYPRUS** | Cyprus - 사이프러스 파라다이스 (연말) |
+| **CIRCUIT** | Super Circuit - 글로벌 순회 투어 |
 
-| Era | 연도 | 파일 수 | 용량 | 특징 |
-|-----|------|---------|------|------|
-| **CLASSIC** | 1973-2002 | 42 | 1.13 TB | SD, 희귀 영상, 4K Remaster 대상 |
-| **BOOM** | 2003-2010 | 341 | 10.14 TB | Moneymaker 이후 황금기 |
-| **HD** | 2011-2025 | 673 | 6.69 TB | HD/4K 현대 영상 |
-
-### 2.3 Event Type (이벤트 유형)
-
-```mermaid
-pie showData
-    title Event Type 분포
-    "ME (Main Event)" : 505
-    "BR (Bracelet)" : 308
-    "OTHER" : 91
-    "기타" : 152
-```
-
-| 코드 | 설명 | 파일 수 | 비중 |
-|------|------|---------|------|
-| **ME** | Main Event | 505 | 47.8% |
-| **BR** | Bracelet Events | 308 | 29.2% |
-| **OTHER** | 기타 | 91 | 8.6% |
-| **COVERAGE** | 방송 커버리지 | 34 | 3.2% |
-| **MXF** | Masters | 26 | 2.5% |
-| **GOG** | Game of Gold | 24 | 2.3% |
-| **TOC** | Tournament of Champions | 14 | 1.3% |
-| **BEST** | Best Hands | 8 | 0.8% |
-| 기타 | EU, APAC, CIRCUIT 등 | 46 | 4.3% |
-
-### 2.4 Region (지역)
-
-| 코드 | 지역 | 파일 수 | 비중 |
-|------|------|---------|------|
-| **LV** | Las Vegas | 933 | 88.4% |
-| **EU** | Europe | 100 | 9.5% |
-| **CYPRUS** | Cyprus | 11 | 1.0% |
-| **APAC** | Asia Pacific | 6 | 0.6% |
-| **CIRCUIT** | Super Circuit | 6 | 0.6% |
-
-### 2.5 메타데이터 스키마
+### 3.3 메타데이터 스키마
 
 **Master_Catalog 컬럼**
 
@@ -172,7 +170,6 @@ pie showData
 | `Region` | 지역 | `LV`, `EU`, `APAC` |
 | `Day` | 방송일차 | `D1`, `D2`, `FT` |
 | `Part` | 파트 | `P1`, `P2` |
-| `Size (GB)` | 파일 크기 | `15.3` |
 
 **Category 명명 규칙**
 
@@ -199,9 +196,9 @@ Game of Gold {YEAR}
 
 ---
 
-## 3. 콘텐츠 캘린더
+## 4. 콘텐츠 캘린더
 
-### 3.1 연간 흐름
+### 4.1 연간 흐름
 
 ```mermaid
 gantt
@@ -210,7 +207,7 @@ gantt
     axisFormat %b
 
     section 메인 시즌
-    WSOP Las Vegas (80%)   :crit, 2025-05, 3M
+    WSOP Las Vegas   :crit, 2025-05, 3M
 
     section 서브 시즌
     WSOP Europe            :2025-04, 1M
@@ -222,15 +219,15 @@ gantt
     Best Hands 큐레이션    :2025-01, 2M
 ```
 
-| 시기 | 이벤트 | 콘텐츠 집중도 | 운영 전략 |
-|------|--------|:------------:|-----------|
-| **5-7월** | WSOP Las Vegas | 80% | 신규 에피소드 집중 업로드 |
-| 3월 | Super Circuit | 5% | 글로벌 확장 콘텐츠 |
-| 4월 | WSOP Europe | 5% | 유럽 시장 타겟 |
-| 10월 | Super Circuit | 5% | 글로벌 순회 |
-| 12월 | WSOP Paradise | 5% | 연말 프리미엄 |
+| 시기 | 이벤트 | 운영 전략 |
+|------|--------|-----------|
+| **5-7월** | WSOP Las Vegas | 신규 에피소드 집중 업로드 |
+| 3월 | Super Circuit | 글로벌 확장 콘텐츠 |
+| 4월 | WSOP Europe | 유럽 시장 타겟 |
+| 10월 | Super Circuit | 글로벌 순회 |
+| 12월 | WSOP Paradise | 연말 프리미엄 |
 
-### 3.2 비시즌 운영
+### 4.2 비시즌 운영
 
 | 비시즌 | 콘텐츠 전략 |
 |--------|-------------|
@@ -240,9 +237,9 @@ gantt
 
 ---
 
-## 4. 차별화 기능 연동
+## 5. 차별화 기능 연동
 
-### 4.1 Hand Skip
+### 5.1 Hand Skip
 
 > 핸드와 핸드 사이 대기 시간을 자동 건너뛰어 **액션만 시청**
 
@@ -266,7 +263,7 @@ flowchart LR
 | 의존성 | GGP Archive 핸드 타임스탬프 |
 | 효과 | 평균 63% 시청 시간 단축 |
 
-### 4.2 Best Hands
+### 5.2 Best Hands
 
 > 풀 에피소드 내에서 **베스트 핸드 구간만 점프 재생**
 
@@ -285,15 +282,15 @@ flowchart LR
 | 의존성 | GGP Archive 베스트 핸드 선정 |
 | 효과 | 10시간 → 45분 (Best만 시청) |
 
-### 4.3 4K Remaster
+### 5.3 4K Remaster
 
 > 2003-2015 클래식 영상을 **AI 업스케일링으로 4K 화질 복원**
 
-| 대상 연도 | 원본 화질 | 리마스터 |
-|-----------|----------|----------|
-| 2003-2005 | 480p SD | 4K UHD |
-| 2006-2010 | 720p HD | 4K UHD |
-| 2011-2015 | 1080p FHD | 4K UHD |
+| 대상 Era | 원본 화질 | 리마스터 |
+|----------|----------|----------|
+| CLASSIC (1973-2002) | 480p SD | 4K UHD |
+| BOOM (2003-2010) | 720p HD | 4K UHD |
+| HD 초기 (2011-2015) | 1080p FHD | 4K UHD |
 
 **마케팅 활용**
 - Before/After 프로모션: YouTube 티저 → WSOPTV 전환
@@ -301,7 +298,7 @@ flowchart LR
 
 ---
 
-## 5. 진화 로드맵
+## 6. 진화 로드맵
 
 ```mermaid
 timeline
