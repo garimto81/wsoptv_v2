@@ -223,11 +223,10 @@ WSOP Europe {YEAR} - Bracelet Events
 
 **상반기 (1-6월)**
 
-<img src="https://lh3.googleusercontent.com/d/1fWawC1lJGZKSbCyQ4Mb5vNWXGZtnIO0Y" width="400">
+<img src="https://lh3.googleusercontent.com/d/1a-bEqROjpecp_yQeVjFmkTtrzGjCuQSq" width="400">
 
 | 월 | 대회 | 지역 |
 |----|------|------|
-| **3월** | WSOP Super Circuit Cyprus | Cyprus |
 | **5월** | MPP Cyprus | Cyprus |
 | **6-7월** | WSOP Las Vegas | LV |
 
