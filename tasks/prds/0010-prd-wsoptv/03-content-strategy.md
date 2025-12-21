@@ -1,6 +1,6 @@
 # WSOPTV 콘텐츠 전략
 
-**Version**: 5.2.0 | **Parent**: [00-master.md](./00-master.md)
+**Version**: 5.3.0 | **Parent**: [00-master.md](./00-master.md)
 
 ---
 
@@ -12,20 +12,7 @@ WSOPTV는 **1973년부터 현재까지의 WSOP 아카이브**를 기반으로 �
 - **YouTube**: 무료 콘텐츠로 신규 팬 유입
 - **WSOPTV**: 유료 구독으로 열성 팬 전환
 
-```mermaid
-flowchart TB
-    subgraph FREE["YouTube (무료)"]
-        Y1["쇼츠/클립"]
-        Y2["하이라이트"]
-    end
-
-    subgraph PAID["WSOPTV ($9.99/월)"]
-        W1["풀 에피소드"]
-        W2["Hand Skip / Best Hands"]
-    end
-
-    FREE -->|"전환"| PAID
-```
+![01-two-track-strategy](https://drive.google.com/uc?export=view&id=1KUMG5OJ4ESQh0FuMcVVlB0JlpzfsKDDE)
 
 ---
 
@@ -56,13 +43,7 @@ flowchart TB
 | **생방송** | 실시간 중계, 다중 테이블 커버리지 | 4-10시간 | 코어 팬, 현장감 |
 | **에피소드** | 생방송을 편집한 하이라이트 버전 | 1시간 | 캐주얼 시청, 신규 유입 |
 
-```mermaid
-flowchart TB
-    LIVE["생방송 (4-10시간)"]
-    LIVE --> EDIT["편집"]
-    EDIT --> EP["에피소드 (1시간)"]
-    EP --> SHORTS["쇼츠/클립 (60초)"]
-```
+![02-content-pipeline](https://drive.google.com/uc?export=view&id=1fydu7l5W13I_phr12ZvYv8N8udJzHzZf)
 
 **콘텐츠 파이프라인**
 1. **생방송**: 대회 진행 실시간 중계 (YouTube/WSOPTV 동시 송출)
@@ -71,13 +52,7 @@ flowchart TB
 
 ### 1.4 전환 퍼널
 
-```mermaid
-flowchart TB
-    A["YouTube 시청자"] --> B["쇼츠/클립"]
-    B --> C["WSOPTV 랜딩"]
-    C --> D["미리보기"]
-    D --> E["구독 전환"]
-```
+![03-conversion-funnel](https://drive.google.com/uc?export=view&id=1ys0Dbg5DC_Q4C4cxJMG1nCWGaDyUlokS)
 
 | 단계 | 트리거 | 액션 | KPI |
 |------|--------|------|-----|
@@ -246,18 +221,7 @@ WSOP Europe {YEAR} - Bracelet Events
 
 ### 4.1 현재 일정 (2025)
 
-```mermaid
-gantt
-    title 2025 WSOP 대회 캘린더
-    dateFormat YYYY-MM
-    axisFormat %b
-
-    SC Cyprus    :2025-03, 1M
-    WSOP Europe  :2025-04, 1M
-    WSOP Vegas   :2025-05, 3M
-    SC Canada    :2025-10, 1M
-    Paradise     :2025-12, 1M
-```
+![04-calendar-2025](https://drive.google.com/uc?export=view&id=1rXy4kU1a-RYTETrlYhS1FiyLHaKSF5sW)
 
 | 월 | 대회 | 지역 |
 |----|------|------|
@@ -293,19 +257,7 @@ gantt
 
 > 핸드와 핸드 사이 대기 시간을 자동 건너뛰어 **액션만 시청**
 
-```mermaid
-flowchart TB
-    subgraph OFF["Hand Skip OFF"]
-        A["핸드 #1"] --> W["대기 8분"]
-        W --> B["핸드 #2"]
-    end
-
-    subgraph ON["Hand Skip ON"]
-        C["핸드 #1"] --> D["핸드 #2"]
-    end
-
-    OFF -.->|"2시간 → 45분"| ON
-```
+![05-hand-skip](https://drive.google.com/uc?export=view&id=1Nlh6zi7KMY0qtFi67E8e5KH4_dGFVs8N)
 
 | 항목 | 내용 |
 |------|------|
@@ -350,22 +302,7 @@ flowchart TB
 
 ## 6. 진화 로드맵
 
-```mermaid
-timeline
-    title WSOPTV 콘텐츠 진화
-    section Phase 1 - MVP
-        전체 아카이브 업로드
-        이어보기
-    section Phase 2 - 개인화
-        카테고리 정비
-        검색 + 추천
-    section Phase 3 - 차별화
-        Hand Skip
-        Best Hands
-    section Phase 4 - 프리미엄
-        4K Remaster 확대
-        오리지널 다큐
-```
+![06-roadmap](https://drive.google.com/uc?export=view&id=1k1ztBA2ZjbojAp3dbEqc23tkKddOn7pB)
 
 | Phase | 콘텐츠 | 기능 | KPI |
 |:-----:|--------|------|-----|
@@ -380,15 +317,7 @@ timeline
 
 > Hand Skip과 Best Hands는 GGP Archive 팀의 메타데이터에 의존합니다.
 
-```mermaid
-flowchart TB
-    GGP["GGP Archive 팀"]
-    GGP -->|"메타데이터"| API["WSOPTV API"]
-
-    API --> HS["Hand Skip"]
-    API --> BH["Best Hands"]
-    API --> SEARCH["검색 필터"]
-```
+![07-ggp-dependency](https://drive.google.com/uc?export=view&id=1VBCgrB-uAoW9NYmtddgUXM3m4WS_WsMM)
 
 | 의존 항목 | 제공 팀 | WSOPTV 활용 |
 |----------|---------|-------------|
