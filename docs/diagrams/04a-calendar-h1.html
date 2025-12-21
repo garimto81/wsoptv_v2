@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: white;
+            display: flex;
+            justify-content: center;
+        }
+        .mermaid {
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="mermaid">
+gantt
+    title 2025 WSOP 캘린더 (상반기: 1-6월)
+    dateFormat YYYY-MM
+    tickInterval 1month
+    axisFormat %b
+
+    section 대회
+    SC Cyprus    :2025-03, 1M
+    WSOP Europe  :2025-04, 1M
+    WSOP Vegas   :2025-05, 3M
+    </div>
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    </script>
+</body>
+</html>

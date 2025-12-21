@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: white;
+            display: flex;
+            justify-content: center;
+        }
+        .mermaid {
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="mermaid">
+gantt
+    title 2025 WSOP 캘린더 (하반기: 7-12월)
+    dateFormat YYYY-MM
+    tickInterval 1month
+    axisFormat %b
+
+    section 대회
+    SC Canada    :2025-10, 1M
+    Paradise     :2025-12, 1M
+    </div>
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    </script>
+</body>
+</html>

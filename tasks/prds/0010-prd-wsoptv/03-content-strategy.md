@@ -12,7 +12,7 @@ WSOPTV는 **1973년부터 현재까지의 WSOP 아카이브**를 기반으로 �
 - **YouTube**: 무료 콘텐츠로 신규 팬 유입
 - **WSOPTV**: 유료 구독으로 열성 팬 전환
 
-![01-two-track-strategy](https://drive.google.com/uc?export=view&id=1KUMG5OJ4ESQh0FuMcVVlB0JlpzfsKDDE)
+<img src="https://lh3.googleusercontent.com/d/1KUMG5OJ4ESQh0FuMcVVlB0JlpzfsKDDE" width="400">
 
 ---
 
@@ -43,7 +43,7 @@ WSOPTV는 **1973년부터 현재까지의 WSOP 아카이브**를 기반으로 �
 | **생방송** | 실시간 중계, 다중 테이블 커버리지 | 4-10시간 | 코어 팬, 현장감 |
 | **에피소드** | 생방송을 편집한 하이라이트 버전 | 1시간 | 캐주얼 시청, 신규 유입 |
 
-![02-content-pipeline](https://drive.google.com/uc?export=view&id=1fydu7l5W13I_phr12ZvYv8N8udJzHzZf)
+<img src="https://lh3.googleusercontent.com/d/1fydu7l5W13I_phr12ZvYv8N8udJzHzZf" width="400">
 
 **콘텐츠 파이프라인**
 1. **생방송**: 대회 진행 실시간 중계 (YouTube/WSOPTV 동시 송출)
@@ -52,7 +52,7 @@ WSOPTV는 **1973년부터 현재까지의 WSOP 아카이브**를 기반으로 �
 
 ### 1.4 전환 퍼널
 
-![03-conversion-funnel](https://drive.google.com/uc?export=view&id=1ys0Dbg5DC_Q4C4cxJMG1nCWGaDyUlokS)
+<img src="https://lh3.googleusercontent.com/d/1ys0Dbg5DC_Q4C4cxJMG1nCWGaDyUlokS" width="400">
 
 | 단계 | 트리거 | 액션 | KPI |
 |------|--------|------|-----|
@@ -221,13 +221,22 @@ WSOP Europe {YEAR} - Bracelet Events
 
 ### 4.1 현재 일정 (2025)
 
-![04-calendar-2025](https://drive.google.com/uc?export=view&id=1rXy4kU1a-RYTETrlYhS1FiyLHaKSF5sW)
+**상반기 (1-6월)**
+
+<img src="https://lh3.googleusercontent.com/d/1IIIQ5v-BpjZiTJhGI5XtE_cRn9z2BlOD" width="400">
 
 | 월 | 대회 | 지역 |
 |----|------|------|
 | **3월** | WSOP Super Circuit Cyprus | Cyprus |
 | **4월** | WSOP Europe | EU |
 | **5-7월** | WSOP Las Vegas | LV |
+
+**하반기 (7-12월)**
+
+<img src="https://lh3.googleusercontent.com/d/11-pxzO3zbBs7FDTyvGIYLcHol0O-Y__8" width="400">
+
+| 월 | 대회 | 지역 |
+|----|------|------|
 | **10월** | WSOP Super Circuit Canada | Circuit |
 | **12월** | WSOP Paradise | Cyprus |
 
@@ -257,7 +266,7 @@ WSOP Europe {YEAR} - Bracelet Events
 
 > 핸드와 핸드 사이 대기 시간을 자동 건너뛰어 **액션만 시청**
 
-![05-hand-skip](https://drive.google.com/uc?export=view&id=1Nlh6zi7KMY0qtFi67E8e5KH4_dGFVs8N)
+<img src="https://lh3.googleusercontent.com/d/1Nlh6zi7KMY0qtFi67E8e5KH4_dGFVs8N" width="400">
 
 | 항목 | 내용 |
 |------|------|
@@ -302,12 +311,21 @@ WSOP Europe {YEAR} - Bracelet Events
 
 ## 6. 진화 로드맵
 
-![06-roadmap](https://drive.google.com/uc?export=view&id=1k1ztBA2ZjbojAp3dbEqc23tkKddOn7pB)
+**상반기 (Phase 1-2)**
+
+<img src="https://lh3.googleusercontent.com/d/1SnbRHatXVrwKORomH5pnjHHz0QQrLelb" width="400">
 
 | Phase | 콘텐츠 | 기능 | KPI |
 |:-----:|--------|------|-----|
 | **P1** | 전체 아카이브 | 이어보기 | MAU, 시청 시간 |
 | **P2** | 카테고리 정비 | 검색, 추천 | 검색 사용률, CTR |
+
+**하반기 (Phase 3-4)**
+
+<img src="https://lh3.googleusercontent.com/d/168XtdwxcKrfvocwn7oIDAcav0PZ6h9cl" width="400">
+
+| Phase | 콘텐츠 | 기능 | KPI |
+|:-----:|--------|------|-----|
 | **P3** | GGP 메타데이터 연동 | Hand Skip, Best Hands | 기능 사용률, 리텐션 |
 | **P4** | 4K Remaster 확대 | 프리미엄 티어 | ARPU, LTV |
 
@@ -317,7 +335,7 @@ WSOP Europe {YEAR} - Bracelet Events
 
 > Hand Skip과 Best Hands는 GGP Archive 팀의 메타데이터에 의존합니다.
 
-![07-ggp-dependency](https://drive.google.com/uc?export=view&id=1VBCgrB-uAoW9NYmtddgUXM3m4WS_WsMM)
+<img src="https://lh3.googleusercontent.com/d/1VBCgrB-uAoW9NYmtddgUXM3m4WS_WsMM" width="400">
 
 | 의존 항목 | 제공 팀 | WSOPTV 활용 |
 |----------|---------|-------------|

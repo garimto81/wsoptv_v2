@@ -54,6 +54,12 @@ NAS_MOUNT_PATH=Z:\ARCHIVE
 
 ## Google Drive 문서 관리
 
+### 문서 형식
+| 채널 | 형식 | 이미지 크기 |
+|------|------|-------------|
+| **GitHub/로컬** | 마크다운 (.md) | `<img width="400">` |
+| **Google Drive** | md → Google Docs 변환 | 17cm |
+
 ### 폴더 구조
 - **루트**: https://drive.google.com/drive/folders/19Sbq1_K-fJOEN2LnMEaMTE9fYjAEFoou
   - 최종 버전 문서만 배치
