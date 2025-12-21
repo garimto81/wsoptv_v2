@@ -223,22 +223,23 @@ WSOP Europe {YEAR} - Bracelet Events
 
 **상반기 (1-6월)**
 
-<img src="https://lh3.googleusercontent.com/d/1lJrewAM9qUhB75ogWEKgZ23GY3nLmUWR" width="400">
+<img src="https://lh3.googleusercontent.com/d/1fWawC1lJGZKSbCyQ4Mb5vNWXGZtnIO0Y" width="400">
 
 | 월 | 대회 | 지역 |
 |----|------|------|
 | **3월** | WSOP Super Circuit Cyprus | Cyprus |
-| **4월** | WSOP Europe | EU |
-| **5-7월** | WSOP Las Vegas | LV |
+| **5월** | MPP Cyprus | Cyprus |
+| **6-7월** | WSOP Las Vegas | LV |
 
 **하반기 (7-12월)**
 
-<img src="https://lh3.googleusercontent.com/d/10NrgoJ1x8V2oW_vo1ujM2sGNN3f4vVQN" width="400">
+<img src="https://lh3.googleusercontent.com/d/1wgsjfg1RFp7vbwFB7ZBshIbOlF5k5-BK" width="400">
 
 | 월 | 대회 | 지역 |
 |----|------|------|
-| **10월** | WSOP Super Circuit Canada | Circuit |
-| **12월** | WSOP Paradise | Cyprus |
+| **9월** | WSOP Europe | EU |
+| **10월** | WSOP Super Circuit Cyprus | Cyprus |
+| **12월** | WSOP Paradise | Bahama |
 
 ### 4.2 미래 일정 (글로벌 확장)
 
