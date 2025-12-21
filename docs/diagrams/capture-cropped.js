@@ -22,8 +22,12 @@ const DIAGRAMS = [
     { file: '02-content-pipeline.html', output: '02-content-pipeline.png' },
     { file: '03-conversion-funnel.html', output: '03-conversion-funnel.png' },
     { file: '04-calendar-2025.html', output: '04-calendar-2025.png' },
+    { file: '04a-calendar-h1.html', output: '04a-calendar-h1.png' },
+    { file: '04b-calendar-h2.html', output: '04b-calendar-h2.png' },
     { file: '05-hand-skip.html', output: '05-hand-skip.png' },
     { file: '06-roadmap.html', output: '06-roadmap.png' },
+    { file: '06a-roadmap-h1.html', output: '06a-roadmap-h1.png' },
+    { file: '06b-roadmap-h2.html', output: '06b-roadmap-h2.png' },
     { file: '07-ggp-dependency.html', output: '07-ggp-dependency.png' },
 ];
 

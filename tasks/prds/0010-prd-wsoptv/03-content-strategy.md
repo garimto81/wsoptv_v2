@@ -223,7 +223,7 @@ WSOP Europe {YEAR} - Bracelet Events
 
 **상반기 (1-6월)**
 
-<img src="https://lh3.googleusercontent.com/d/1IIIQ5v-BpjZiTJhGI5XtE_cRn9z2BlOD" width="400">
+<img src="https://lh3.googleusercontent.com/d/1lJrewAM9qUhB75ogWEKgZ23GY3nLmUWR" width="400">
 
 | 월 | 대회 | 지역 |
 |----|------|------|
@@ -233,7 +233,7 @@ WSOP Europe {YEAR} - Bracelet Events
 
 **하반기 (7-12월)**
 
-<img src="https://lh3.googleusercontent.com/d/11-pxzO3zbBs7FDTyvGIYLcHol0O-Y__8" width="400">
+<img src="https://lh3.googleusercontent.com/d/10NrgoJ1x8V2oW_vo1ujM2sGNN3f4vVQN" width="400">
 
 | 월 | 대회 | 지역 |
 |----|------|------|
@@ -313,7 +313,7 @@ WSOP Europe {YEAR} - Bracelet Events
 
 **상반기 (Phase 1-2)**
 
-<img src="https://lh3.googleusercontent.com/d/1SnbRHatXVrwKORomH5pnjHHz0QQrLelb" width="400">
+<img src="https://lh3.googleusercontent.com/d/1mdXC8KDc5pldFEQMyqn2UxpME1rciIoy" width="400">
 
 | Phase | 콘텐츠 | 기능 | KPI |
 |:-----:|--------|------|-----|
@@ -322,7 +322,7 @@ WSOP Europe {YEAR} - Bracelet Events
 
 **하반기 (Phase 3-4)**
 
-<img src="https://lh3.googleusercontent.com/d/168XtdwxcKrfvocwn7oIDAcav0PZ6h9cl" width="400">
+<img src="https://lh3.googleusercontent.com/d/1geTyzJKroOH3lPU-Ywk28KFg3qKOeCXT" width="400">
 
 | Phase | 콘텐츠 | 기능 | KPI |
 |:-----:|--------|------|-----|
